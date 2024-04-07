@@ -1,17 +1,15 @@
 ---
 sidebar_position: 2
-title: Retrieval augmented generation (RAG)
+title: RAG（检索增强生成）
 hide_table_of_contents: true
 ---
+# RAG（检索增强生成）
 
-# RAG
-
-Let's now look at adding in a retrieval step to a prompt and an LLM, which adds up to a "retrieval-augmented generation" chain:
+现在让我们看看如何将检索步骤添加到一个提示和一个LLM中，这样就构成了一个“检索增强生成”链：
 
 <details>
-  <summary>Interactive tutorial</summary>
-  The screencast below interactively walks through an example. You can update and
-  run the code as it's being written in the video!
+  <summary>交互式教程</summary>
+  下面的屏幕录制视频将交互式地引导您完成一个示例。您可以在视频播放时更新和运行代码！
   <iframe
     src="https://scrimba.com/scrim/co0e040d09941b4000244db46?embed=langchain,mini-header"
     width="100%"
@@ -32,15 +30,13 @@ npm install @langchain/openai @langchain/community hnswlib-node
 
 <CodeBlock language="typescript">{RetrieverExample}</CodeBlock>
 
-## Conversational Retrieval Chain
+## 会话检索链
 
-Because `RunnableSequence.from` and `runnable.pipe` both accept runnable-like objects, including single-argument functions, we can add in conversation history via a formatting function.
-This allows us to recreate the popular `ConversationalRetrievalQAChain` to "chat with data":
+由于 `RunnableSequence.from` 和 `runnable.pipe` 都接受类似 runnable 的对象，包括单参数函数，因此我们可以通过格式化函数添加对话历史。这样我们就可以重新创建流行的 `ConversationalRetrievalQAChain` 来“与数据聊天”：
 
 <details>
-  <summary>Interactive tutorial</summary>
-  The screencast below interactively walks through an example. You can update and
-  run the code as it's being written in the video!
+  <summary>交互式教程</summary>
+  下面的屏幕录制视频将交互式地引导您完成一个示例。您可以在视频播放时更新和运行代码！
   <iframe
     src="https://scrimba.com/scrim/co3ed4a9eb4c6c6d0361a507c?embed=langchain,mini-header"
     width="100%"
@@ -52,4 +48,6 @@ import ConversationalRetrievalExample from "@examples/guides/expression_language
 
 <CodeBlock language="typescript">{ConversationalRetrievalExample}</CodeBlock>
 
-Note that the individual chains we created are themselves `Runnables` and can therefore be piped into each other.
+请注意，我们创建的单个链本身就是 `Runnables`,因此可以将它们彼此管道化。
+
+

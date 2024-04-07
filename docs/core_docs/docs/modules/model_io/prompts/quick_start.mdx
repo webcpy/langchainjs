@@ -1,29 +1,26 @@
 ---
 sidebar_position: 0
 ---
+# 快速入门
 
-# Quick Start
+语言模型以文本作为输入，这个文本通常被称为提示。通常情况下，这不仅仅是一个硬编码的字符串，而是一个模板、一些示例和用户输入的组合。LangChain提供了几个类和函数，使得构建和处理提示变得容易。
 
-Language models take text as input - that text is commonly referred to as a prompt.
-Typically this is not simply a hardcoded string but rather a combination of a template, some examples, and user input.
-LangChain provides several classes and functions to make constructing and working with prompts easy.
+## 什么是提示模板？
 
-## What is a prompt template?
+提示模板指的是一种可重复生成提示的方法。它包含一个文本字符串（“模板”），可以接收来自最终用户的一组参数，并生成一个提示。
 
-A prompt template refers to a reproducible way to generate a prompt. It contains a text string ("the template"), that can take in a set of parameters from the end user and generates a prompt.
+提示模板可以包含：
 
-A prompt template can contain:
+- 对语言模型的指示
+- 一组少量示例以帮助语言模型生成更好的响应
+- 向语言模型提出的问题
 
-- instructions to the language model,
-- a set of few shot examples to help the language model generate a better response,
-- a question to the language model.
-
-Here's a simple example:
+这里有一个简单的例子：
 
 ```typescript
 import { PromptTemplate } from "@langchain/core/prompts";
 
-// If a template is passed in, the input variables are inferred automatically from the template.
+// 如果传入一个模板，则输入变量将从模板中自动推断。
 const prompt = PromptTemplate.fromTemplate(
   `You are a naming consultant for new companies.
 What is a good name for a company that makes {product}?`
@@ -39,14 +36,15 @@ const formattedPrompt = await prompt.format({
 */
 ```
 
-## Create a prompt template
+## 创建提示模板
 
-You can create simple hardcoded prompts using the `PromptTemplate` class. Prompt templates can take any number of input variables, and can be formatted to generate a prompt.
+您可以使用`PromptTemplate`类创建简单的硬编码提示。`PromptTemplate`可以接受任意数量的输入变量，并可以格式化以生成提示。
+
 
 ```typescript
 import { PromptTemplate } from "@langchain/core/prompts";
 
-// An example prompt with no input variables
+// 一个没有输入变量的示例提示
 const noInputPrompt = new PromptTemplate({
   inputVariables: [],
   template: "Tell me a joke.",
@@ -56,7 +54,7 @@ const formattedNoInputPrompt = await noInputPrompt.format();
 console.log(formattedNoInputPrompt);
 // "Tell me a joke."
 
-// An example prompt with one input variable
+// 一个带有一个输入变量的示例提示
 const oneInputPrompt = new PromptTemplate({
   inputVariables: ["adjective"],
   template: "Tell me a {adjective} joke.",
@@ -68,7 +66,7 @@ const formattedOneInputPrompt = await oneInputPrompt.format({
 console.log(formattedOneInputPrompt);
 // "Tell me a funny joke."
 
-// An example prompt with multiple input variables
+// 一个带有多个输入变量的示例提示
 const multipleInputPrompt = new PromptTemplate({
   inputVariables: ["adjective", "content"],
   template: "Tell me a {adjective} joke about {content}.",
@@ -82,7 +80,7 @@ console.log(formattedMultipleInputPrompt);
 // "Tell me a funny joke about chickens."
 ```
 
-If you do not wish to specify `inputVariables` manually, you can also create a `PromptTemplate` using the `fromTemplate` class method. LangChain will automatically infer the `inputVariables` based on the `template` passed.
+如果您不想手动指定`inputVariables`，您也可以使用`fromTemplate`类方法创建`PromptTemplate`。LangChain将根据传递的`template`自动推断`inputVariables`。
 
 ```typescript
 import { PromptTemplate } from "@langchain/core/prompts";
@@ -100,16 +98,16 @@ console.log(formattedPromptTemplate);
 // "Tell me a funny joke about chickens."
 ```
 
-You can create custom prompt templates that format the prompt in any way you want.
+您可以创建自定义的提示模板，以任何您想要的方式格式化提示。
 
-## Chat prompt template
+## 聊天提示模板
 
-[Chat Models](/docs/modules/model_io/chat) take a list of chat messages as input - this list is commonly referred to as a `prompt`.
-These chat messages differ from raw string (which you would pass into a [LLM](/docs/modules/model_io/llms)) in that every message is associated with a `role`.
+[聊天模型](/docs/modules/model_io/chat)将聊天消息列表作为输入 - 这个列表通常被称为`prompt`。
+这些聊天消息与原始字符串不同（您会将其传递给[LLM](/docs/modules/model_io/llms)），因为每条消息都与一个`角色`相关联。
 
-For example, in OpenAI [Chat Completion API](https://platform.openai.com/docs/guides/chat/introduction), a chat message can be associated with an AI, human or system role. The model is supposed to follow instruction from system chat message more closely.
+例如，在OpenAI的[Chat Completion API](https://platform.openai.com/docs/guides/chat/introduction)中，一个聊天消息可以与AI、人类或系统角色相关联。模型应该更密切地遵循系统聊天消息的指示。
 
-LangChain provides several prompt templates to make constructing and working with prompts easily. You are encouraged to use these chat related prompt templates instead of `PromptTemplate` when invoking chat models to fully explore the model's potential.
+LangChain提供了几个提示模板，以便轻松构建和处理提示。在调用聊天模型时，建议您使用这些与聊天相关的提示模板，而不是`PromptTemplate`，以充分发掘模型的潜力。
 
 ```typescript
 import {
@@ -126,9 +124,10 @@ import {
 } from "@langchain/core/messages";
 ```
 
-To create a message template associated with a role, you would use the corresponding `<ROLE>MessagePromptTemplate`.
+要创建与角色相关联的消息模板，您可以使用相应的`<ROLE>MessagePromptTemplate`。
 
-For convenience, you can also declare message prompt templates as tuples. These will be coerced to the proper prompt template types:
+为了方便起见，您还可以将消息提示模板声明为元组。这些将被强制转换为正确的提示模板类型：
+
 
 ```typescript
 const systemTemplate =
@@ -140,7 +139,7 @@ const chatPrompt = ChatPromptTemplate.fromMessages([
   ["human", humanTemplate],
 ]);
 
-// Format the messages
+// 格式化消息
 const formattedChatPrompt = await chatPrompt.formatMessages({
   input_language: "English",
   output_language: "French",
@@ -161,11 +160,11 @@ console.log(formattedChatPrompt);
 */
 ```
 
-You can also use `ChatPromptTemplate`'s `.formatPromptValue()` method -- this returns a `PromptValue`, which you can convert to a string or Message object,
-depending on whether you want to use the formatted value as input to an LLM or chat model.
+您还可以使用`ChatPromptTemplate`的`.formatPromptValue()`方法 - 这将返回一个`PromptValue`，您可以将其转换为字符串或Message对象
+,取决于您是否希望将格式化的值用作LLM或聊天模型的输入。
 
-If you prefer to use the message classes, there is a `fromTemplate` method exposed on these classes.
-This is what it would look like:
+如果您更喜欢使用消息类，这些类上暴露了一个`fromTemplate`方法。
+它看起来是这样的：
 
 ```typescript
 const template =
@@ -176,7 +175,7 @@ const humanMessagePrompt =
   HumanMessagePromptTemplate.fromTemplate(humanTemplate);
 ```
 
-If you wanted to construct the `MessagePromptTemplate` more directly, you could create a PromptTemplate externally and then pass it in, e.g.:
+如果您想更直接地构建`MessagePromptTemplate`，您可以在外部创建一个PromptTemplate，然后传递进去，例如：
 
 ```typescript
 const prompt = new PromptTemplate({
@@ -189,7 +188,7 @@ const systemMessagePrompt2 = new SystemMessagePromptTemplate({
 });
 ```
 
-**Note:** If using TypeScript, you can add typing to prompts created with `.fromMessages` by passing a type parameter like this:
+**注意：** 如果使用TypeScript，您可以通过传递一个类型参数来为使用`.fromMessages`创建的提示添加类型，像这样：
 
 ```typescript
 const chatPrompt = ChatPromptTemplate.fromMessages<{
@@ -199,25 +198,26 @@ const chatPrompt = ChatPromptTemplate.fromMessages<{
 }>([systemMessagePrompt, humanMessagePrompt]);
 ```
 
-## Multi-modal prompts
+## 多模态提示
 
 import CodeBlock from "@theme/CodeBlock";
-import MultiModalPromptExample from "@examples/prompts/multi_modal.ts";
+import MultiModalPromptExample from "@examples/prompts/multi\_modal.ts";
 
 <CodeBlock language="typescript">{MultiModalPromptExample}</CodeBlock>
 
 :::tip
-LangSmith will render your images inside traces!
+LangSmith将在追踪内呈现您的图像！
 
-See the LangSmith trace [here](https://smith.langchain.com/public/15f4b4e4-2b2f-476a-952c-b9abcb9ac278/r)
+查看LangSmith追踪[此处](https://smith.langchain.com/public/15f4b4e4-2b2f-476a-952c-b9abcb9ac278/r)
 :::
 
-You can also pass multi-modal prompt templates inline:
+您还可以内联传递多模态提示模板：
 
-import MultiModalInlinePromptExample from "@examples/prompts/multi_modal_inline.ts";
+import MultiModalInlinePromptExample from "@examples/prompts/multi\_modal\_inline.ts";
 
 <CodeBlock language="typescript">{MultiModalInlinePromptExample}</CodeBlock>
 
 :::tip
-See the LangSmith trace [here](https://smith.langchain.com/public/66bf8258-fa1c-42a3-9e14-9b3eb5902435/r)
+查看LangSmith追踪[此处](https://smith.langchain.com/public/66bf8258-fa1c-42a3-9e14-9b3eb5902435/r)
 :::
+

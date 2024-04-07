@@ -1,17 +1,17 @@
 ---
 sidebar_position: 0
 ---
+# 快速入门
 
-# Quick Start
+大型语言模型（LLMs）是LangChain的核心组件。LangChain不提供自己的LLMs，
+而是提供了一个标准接口，用于与许多不同的LLMs进行交互。
 
-Large Language Models (LLMs) are a core component of LangChain.
-LangChain does not serve its own LLMs, but rather provides a standard interface for interacting with many different LLMs.
 
-There are lots of LLM providers (OpenAI, Cohere, Hugging Face, etc) - the `LLM` class is designed to provide a standard interface for all of them.
+有许多LLM提供商（如OpenAI、Cohere、Hugging Face等），-`LLM`类的设计旨在为所有这些提供商提供一个标准接口。
 
-In this walkthrough we'll work with an OpenAI LLM wrapper, although the functionalities highlighted are generic for all LLM types.
+在本教程中，我们将使用OpenAI LLM包装器，尽管突出显示的功能对所有LLM类型都是通用的。
 
-## Setup
+## 设置
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -19,10 +19,10 @@ import CodeBlock from "@theme/CodeBlock";
 
 <Tabs>
   <TabItem value="openai" label="OpenAI" default>
-  
-First we'll need to install the LangChain OpenAI integration package:
 
-import IntegrationInstallTooltip from "@mdx_components/integration_install_tooltip.mdx";
+首先，我们需要安装LangChain OpenAI集成包：
+
+import IntegrationInstallTooltip from "@mdx\_components/integration\_install\_tooltip.mdx";
 
 <IntegrationInstallTooltip></IntegrationInstallTooltip>
 
@@ -30,13 +30,13 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
 npm install @langchain/openai
 ```
 
-Accessing the API requires an API key, which you can get by creating an account and heading [here](https://platform.openai.com/account/api-keys). Once we have a key we'll want to set it as an environment variable by running:
+访问API需要一个API密钥，您可以通过创建帐户并转到[此处](https://platform.openai.com/account/api-keys)来获取密钥。一旦我们有了密钥，我们将希望通过运行以下命令将其设置为环境变量：
 
 ```bash
 export OPENAI_API_KEY="..."
 ```
 
-If you'd prefer not to set an environment variable you can pass the key in directly via the `openAIApiKey` named parameter when initiating the OpenAI Chat Model class:
+如果您不想设置环境变量，您可以在初始化OpenAI Chat Model类时通过`openAIApiKey`命名参数直接传递密钥：
 
 ```typescript
 import { OpenAI } from "@langchain/openai";
@@ -46,7 +46,7 @@ const llm = new OpenAI({
 });
 ```
 
-otherwise you can initialize with an empty object:
+否则，您可以用空对象初始化：
 
 ```typescript
 import { OpenAI } from "@langchain/openai";
@@ -55,16 +55,16 @@ const llm = new OpenAI({});
 ```
 
   </TabItem>
-  <TabItem value="local" label="Local (using Ollama)">
+  <TabItem value="local" label="本地（使用Ollama）">
 
-[Ollama](https://ollama.ai/) allows you to run open-source large language models, such as Llama 2 and Mistral, locally.
+[Ollama](https://ollama.ai/)允许您在本地运行开源大型语言模型，例如Llama 2和Mistral。
 
-First, follow [these instructions](https://github.com/jmorganca/ollama) to set up and run a local Ollama instance:
+首先，按照[这些说明](https://github.com/jmorganca/ollama)设置和运行本地Ollama实例：
 
-- [Download](https://ollama.ai/download)
-- Fetch a model via e.g. `ollama pull mistral`
+- [下载](https://ollama.ai/download)
+- 通过例如 `ollama pull mistral` 获取一个模型
 
-Then, make sure the Ollama server is running. Next, you'll need to install the LangChain community package:
+然后，确保Ollama服务器正在运行。接下来，您需要安装LangChain社区包：
 
 <IntegrationInstallTooltip></IntegrationInstallTooltip>
 
@@ -72,13 +72,13 @@ Then, make sure the Ollama server is running. Next, you'll need to install the L
 npm install @langchain/community
 ```
 
-And then you can do:
+然后您可以执行：
 
 ```typescript
 import { Ollama } from "@langchain/community/llms/ollama";
 
 const llm = new Ollama({
-  baseUrl: "http://localhost:11434", // Default value
+  baseUrl: "http://localhost:11434", // 默认值
   model: "mistral",
 });
 ```
@@ -88,30 +88,30 @@ const llm = new Ollama({
 
 ## LCEL
 
-LLMs implement the [Runnable interface](/docs/expression_language/interface), the basic building block of the [LangChain Expression Language (LCEL)](/docs/expression_language/). This means they support `invoke`, `stream`, `batch`, and `streamLog` calls.
+LLMs实现了[Runnable接口](/docs/expression_language/interface)，这是[LangChain表达语言（LCEL）](/docs/expression_language/)的基本构建块。这意味着它们支持`invoke`、`stream`、`batch`和`streamLog`调用。
 
-LLMs accept **strings** as inputs, or objects which can be coerced to string prompts, including `BaseMessage[]` and `PromptValue`.
+LLMs接受**字符串**作为输入，或者可以被强制转换为字符串提示的对象，包括`BaseMessage[]`和`PromptValue`。
 
 ```typescript
 await llm.invoke(
-  "What are some theories about the relationship between unemployment and inflation?"
+  "关于失业和通货膨胀之间关系的一些理论是什么？"
 );
 ```
 
 ```
-'\n\n1. The Phillips Curve Theory: This suggests that there is an inverse relationship between unemployment and inflation, meaning that when unemployment is low, inflation will be higher, and when unemployment is high, inflation will be lower.\n\n2. The Monetarist Theory: This theory suggests that the relationship between unemployment and inflation is weak, and that changes in the money supply are more important in determining inflation.\n\n3. The Resource Utilization Theory: This suggests that when unemployment is low, firms are able to raise wages and prices in order to take advantage of the increased demand for their products and services. This leads to higher inflation.'
+'\n\n1. 菲利普斯曲线理论：这表明失业和通货膨胀之间存在反向关系，这意味着当失业率较低时，通货膨胀率会较高，而当失业率较高时，通货膨胀率会较低。\n\n2. 货币主义理论：这一理论表明失业和通货膨胀之间的关系较弱，货币供应的变化更重要。\n\n3. 资源利用理论：这表明当失业率较低时，企业能够提高工资和价格以利用对其产品和服务的需求增加。这导致通货膨胀率上升。'
 ```
 
-See the [Runnable interface](/docs/expression_language/interface) for more details on the available methods.
+请参阅[Runnable接口](/docs/expression_language/interface)，以获取有关可用方法的更多详细信息。
 
-## [Legacy] `generate`: batch calls, richer outputs
+## \[旧版] `generate`: 批量调用，更丰富的输出
 
-`generate` lets you can call the model with a list of strings, getting back a more complete response than just the text. This complete response can include things like multiple top responses and other LLM provider-specific information:
+`generate`方法允许您使用字符串列表调用模型，获取比仅文本更完整的响应。这个完整的响应可以包括多个顶级响应和其他LLM提供商特定的信息。
 
 ```typescript
 const llmResult = await llm.generate(
-  ["Tell me a joke", "Tell me a poem"],
-  ["Tell me a joke", "Tell me a poem"]
+  ["给我讲个笑话", "给我念首诗"],
+  ["给我讲个笑话", "给我念首诗"]
 );
 
 console.log(llmResult.generations.length);
@@ -123,7 +123,7 @@ console.log(llmResult.generations[0]);
 /*
   [
     {
-      text: "\n\nQ: What did the fish say when it hit the wall?\nA: Dam!",
+      text: "\n\n问：鱼撞墙时说了什么？\n答：坝！",
       generationInfo: { finishReason: "stop", logprobs: null }
     }
   ]
@@ -134,14 +134,14 @@ console.log(llmResult.generations[1]);
 /*
   [
     {
-      text: "\n\nRoses are red,\nViolets are blue,\nSugar is sweet,\nAnd so are you.",
+      text: "\n\n玫瑰是红色的，\n紫罗兰是蓝色的，\n糖是甜的，\n你也是。",
       generationInfo: { finishReason: "stop", logprobs: null }
     }
   ]
 */
 ```
 
-You can also access provider specific information that is returned. This information is NOT standardized across providers.
+您还可以访问返回的特定于提供商的信息。这些信息在提供商之间并未标准化。
 
 ```typescript
 console.log(llmResult.llmOutput);
@@ -153,8 +153,9 @@ console.log(llmResult.llmOutput);
 */
 ```
 
-import AdvancedExample from "@examples/models/llm/llm_advanced.ts";
+import AdvancedExample from "@examples/models/llm/llm\_advanced.ts";
 
-Here's an example with additional parameters, which sets `-1` for `max_tokens` to turn on token size calculations:
+这是一个带有额外参数的示例，它将`max_tokens`设置为`-1`以打开令牌标记大小计算：
 
 <CodeBlock language="typescript">{AdvancedExample}</CodeBlock>
+

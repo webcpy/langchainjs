@@ -1,18 +1,18 @@
-# Agents
+# 代理
 
-You can pass a Runnable into an agent.
+您可以将一个Runnable传递给代理。
 
-Building an agent from a runnable usually involves a few things:
+从Runnable构建代理通常涉及以下几个方面：
 
-1. Data processing for the intermediate steps (`agent_scratchpad`). These need to represented in a way that the language model can recognize them. This should be pretty tightly coupled to the instructions in the prompt. For this reason, in the below example with an XML agent, we use the built in util `formatXml` to format the steps as XML.
+1. 数据处理中间步骤（`agent_scratchpad`）。这些数据需要以语言模型能够识别的方式表示出来。这应该与提示中的指令密切相关。因此，在下面的XML代理示例中，我们使用内置的util `formatXml` 将步骤格式化为XML。
 
-2. The prompt itself. Below, this is the default XML agent prompt, which includes variables for the tool list and user question. It also contains examples of inputs and outputs for the agent to learn from.
+2. 提示本身。下面是默认的XML代理提示，其中包括工具列表和用户问题的变量。它还包含代理需要学习的输入和输出的示例。
 
-3. The model, complete with stop tokens if needed (in our case, needed).
+3. 模型，如果需要的话，包括停止令牌（在我们的案例中是需要的）。
 
-4. The output parser - should be in sync with how the prompt specifies things to be formatted. In our case, we'll continue with the theme of XML and use the default `XMLAgentOutputParser`
+4. 输出解析器 - 应该与提示指定的格式一致。在我们的案例中，我们将继续使用XML主题并使用默认的`XMLAgentOutputParser`。
 
-import IntegrationInstallTooltip from "@mdx_components/integration_install_tooltip.mdx";
+import IntegrationInstallTooltip from "@mdx\_components/integration\_install\_tooltip.mdx";
 
 <IntegrationInstallTooltip></IntegrationInstallTooltip>
 
@@ -33,13 +33,13 @@ import { renderTextDescription } from "langchain/tools/render";
 ```
 
 ```typescript
-// Define the model with stop tokens.
+// 定义带有停止令牌的模型。
 const model = new ChatAnthropic({ temperature: 0 }).bind({
   stop: ["</tool_input>", "</final_answer>"],
 });
 ```
 
-For this example we'll define a custom tool for simplicity. You may use our built in tools, or define tools yourself, following the format you see below.
+为了简单起见，我们将为这个示例定义一个自定义工具。您可以使用我们的内置工具，或者按照您下面看到的格式自行定义工具。
 
 ```typescript
 class SearchTool extends Tool {
@@ -121,7 +121,7 @@ const executor = AgentExecutor.fromAgentAndTools({
 ```
 
 ```typescript
-console.log("Loaded executor");
+console.log("Executor loaded");
 
 const input = "What is the weather in SF?";
 console.log(`Calling executor with input: ${input}`);
@@ -130,7 +130,9 @@ console.log(response);
 ```
 
 ```txt
-Loaded executor
+Executor loaded
 Calling executor with input: What is the weather in SF?
 { output: 'The weather in SF is 32 degrees' }
 ```
+
+

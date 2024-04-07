@@ -3,12 +3,13 @@ import { HNSWLib } from "@langchain/community/vectorstores/hnswlib";
 import { PromptTemplate, FewShotPromptTemplate } from "@langchain/core/prompts";
 import { SemanticSimilarityExampleSelector } from "@langchain/core/example_selectors";
 
-// Create a prompt template that will be used to format the examples.
+// 创建一个用于格式化示例的提示模板。
+
 const examplePrompt = PromptTemplate.fromTemplate(
   "Input: {input}\nOutput: {output}"
 );
 
-// Create a SemanticSimilarityExampleSelector that will be used to select the examples.
+// 创建一个SemanticSimilarityExampleSelector，用于选择示例。.
 const exampleSelector = await SemanticSimilarityExampleSelector.fromExamples(
   [
     { input: "happy", output: "sad" },
@@ -22,9 +23,9 @@ const exampleSelector = await SemanticSimilarityExampleSelector.fromExamples(
   { k: 1 }
 );
 
-// Create a FewShotPromptTemplate that will use the example selector.
+// 创建一个FewShotPromptTemplate，它将使用示例选择器。
 const dynamicPrompt = new FewShotPromptTemplate({
-  // We provide an ExampleSelector instead of examples.
+  // 我们提供一个ExampleSelector而不是示例。
   exampleSelector,
   examplePrompt,
   prefix: "Give the antonym of every input",
@@ -32,7 +33,7 @@ const dynamicPrompt = new FewShotPromptTemplate({
   inputVariables: ["adjective"],
 });
 
-// Input is about the weather, so should select eg. the sunny/gloomy example
+// 输入是关于天气的，因此应选择晴朗/阴沉的示例。
 console.log(await dynamicPrompt.format({ adjective: "rainy" }));
 /*
   Give the antonym of every input
@@ -44,7 +45,7 @@ console.log(await dynamicPrompt.format({ adjective: "rainy" }));
   Output:
 */
 
-// Input is a measurement, so should select the tall/short example
+// 输入是一个测量，因此应选择高/矮的示例。
 console.log(await dynamicPrompt.format({ adjective: "large" }));
 /*
   Give the antonym of every input

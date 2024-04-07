@@ -2,7 +2,7 @@ import { OpenAI } from "@langchain/openai";
 import { PromptTemplate } from "@langchain/core/prompts";
 import { CustomListOutputParser } from "@langchain/core/output_parsers";
 
-// With a `CustomListOutputParser`, we can parse a list with a specific length and separator.
+// 使用 `CustomListOutputParser`，我们可以解析具有特定长度和分隔符的列表。
 const parser = new CustomListOutputParser({ length: 3, separator: "\n" });
 
 const formatInstructions = parser.getFormatInstructions();
@@ -23,8 +23,8 @@ const response = await model.invoke(input);
 
 console.log(input);
 /*
-Provide a list of great fiction books (book, author).
-Your response should be a list of 3 items separated by "\n" (eg: `foo\n bar\n baz`)
+请提供一份优秀的小说书籍列表（书名，作者）。
+您的回复应该是由"\n"分隔的 3 个项目列表（例如：`foo\n bar\n baz`）。
 */
 
 console.log(response);

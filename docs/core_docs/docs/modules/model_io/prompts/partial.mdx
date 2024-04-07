@@ -1,17 +1,21 @@
-# Partial prompt templates
+# 部分提示模板
 
-Like other methods, it can make sense to "partial" a prompt template - eg pass in a subset of the required values, as to create a new prompt template which expects only the remaining subset of values.
+与其他方法一样，对提示模板进行“部分”处理是有意义的 - 例如，传入所需值的一个子集，以创建一个只期望剩余子集值的新提示模板。
 
-LangChain supports this in two ways:
+LangChain 以两种方式支持这一点：
 
-1. Partial formatting with string values.
-2. Partial formatting with functions that return string values.
+1. 使用字符串值的部分格式化。
+2. 使用返回字符串值的函数的部分格式化。
 
-These two different ways support different use cases. In the examples below, we go over the motivations for both use cases as well as how to do it in LangChain.
 
-## Partial With Strings
+这两种不同的方式支持不同的用例。在下面的示例中，我们将讨论这两种用例的动机以及如何在LangChain中实现它们。
 
-One common use case for wanting to partial a prompt template is if you get some of the variables before others. For example, suppose you have a prompt template that requires two variables, `foo` and `baz`. If you get the `foo` value early on in the chain, but the `baz` value later, it can be annoying to wait until you have both variables in the same place to pass them to the prompt template. Instead, you can partial the prompt template with the `foo` value, and then pass the partialed prompt template along and just use that. Below is an example of doing this:
+## 使用字符串的部分
+
+一个常见的需要部分化提示模板的用例是，如果您先获得一些变量，然后再获得其他变量。
+例如，假设您有一个需要两个变量 `foo` 和`baz` 的提示模板。如果您在链中的早期获取了 `foo` 值，
+但稍后获取了 `baz` 值，那么等待直到在同一位置拥有两个变量再将它们传递给提示模板可能会很麻烦。
+相反，您可以部分化提示模板与 `foo` 值，然后传递部分化的提示模板，并只使用它。下面是一个这样做的例子：
 
 ```typescript
 import { PromptTemplate } from "langchain/prompts";
@@ -34,7 +38,7 @@ console.log(formattedPrompt);
 // foobaz
 ```
 
-You can also just initialize the prompt with the partialed variables.
+您还可以直接使用部分化的变量初始化提示。
 
 ```typescript
 const prompt = new PromptTemplate({
@@ -54,9 +58,12 @@ console.log(formattedPrompt);
 // foobaz
 ```
 
-## Partial With Functions
+## 使用函数的部分
 
-You can also partial with a function. The use case for this is when you have a variable you know that you always want to fetch in a common way. A prime example of this is with date or time. Imagine you have a prompt which you always want to have the current date. You can't hard code it in the prompt, and passing it along with the other input variables can be tedious. In this case, it's very handy to be able to partial the prompt with a function that always returns the current date.
+您还可以使用函数来部分化。这种情况的用例是当您知道您总是希望以常见的方式获取一个变量时。
+其中一个典型例子是日期或时间。想象一下，您有一个始终希望包含当前日期的提示。
+您不能在提示中硬编码它，并且将其与其他输入变量一起传递可能很麻烦。在这种情况下，
+能够使用一个始终返回当前日期的函数来部分化提示非常方便。
 
 ```typescript
 const getCurrentDate = () => {
@@ -64,7 +71,7 @@ const getCurrentDate = () => {
 };
 
 const prompt = new PromptTemplate({
-  template: "Tell me a {adjective} joke about the day {date}",
+  template: "告诉我一个关于{date}的{adjective}笑话",
   inputVariables: ["adjective", "date"],
 });
 
@@ -78,14 +85,14 @@ const formattedPrompt = await partialPrompt.format({
 
 console.log(formattedPrompt);
 
-// Tell me a funny joke about the day 2023-07-13T00:54:59.287Z
+// 告诉我一个关于2023-07-13T00:54:59.287Z的funny笑话
 ```
 
-You can also just initialize the prompt with the partialed variables:
+你也可以使用部分变量初始化提示：
 
 ```typescript
 const prompt = new PromptTemplate({
-  template: "Tell me a {adjective} joke about the day {date}",
+  template: "告诉我一个关于{date}的{adjective}笑话",
   inputVariables: ["adjective"],
   partialVariables: {
     date: getCurrentDate,
@@ -98,5 +105,7 @@ const formattedPrompt = await prompt.format({
 
 console.log(formattedPrompt);
 
-// Tell me a funny joke about the day 2023-07-13T00:54:59.287Z
+// 告诉我一个关于2023-07-13T00:54:59.287Z的funny笑话
 ```
+
+

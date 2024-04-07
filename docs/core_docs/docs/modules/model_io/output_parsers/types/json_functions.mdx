@@ -1,26 +1,25 @@
 ---
 sidebar_position: 2
 ---
-
-# JSON Output Functions Parser
+# JSON 输出函数解析器
 
 import CodeBlock from "@theme/CodeBlock";
 import JSONFunctions from "@examples/prompts/json_structured_output_parser.ts";
 import StreamingJSONFunctions from "@examples/prompts/json_structured_output_parser_streaming.ts";
 
-The JSON Output Functions Parser is a useful tool for parsing structured JSON function responses, such as those from [OpenAI functions](/docs/modules/model_io/chat/function_calling). This parser is particularly useful when you need to extract specific information from complex JSON responses.
+JSON 输出函数解析器是一种用于解析结构化 JSON 函数响应的实用工具，例如来自 [OpenAI 函数](/docs/modules/model_io/chat/function_calling)的响应。当您需要从复杂的 JSON 响应中提取特定信息时，该解析器特别有用。
 
-Here's how it works:
+它的工作原理如下：
 
-1. **Output Parser**: You can either pass in a predefined `outputParser`, or the parser will use the default `OutputFunctionsParser`.
+1. **输出解析器**：你可以传入一个预定义的 `outputParser` 或者解析器将使用默认的 `OutputFunctionsParser`。
 
-2. **Default Behavior**: If the default `OutputFunctionsParser` is used, it extracts the function call from the response generation and applies `JSON.stringify` to it.
+2. **默认行为**：如果使用默认的 `OutputFunctionsParser`，它将从响应生成中提取函数调用并对其应用 `JSON.stringify`。
 
-3. **argsOnly Parameter**: If the `argsOnly` parameter is set to true, the parser will only return the arguments of the function call, without applying `JSON.stringify` to the response.
+3. **argsOnly 参数**：如果 `argsOnly` 参数设置为 true，解析器将只返回函数调用的参数，不对响应应用 `JSON.stringify`。
 
-4. **Response Parsing**: The response from the output parser is then parsed again, and the result is returned.
+4. **响应解析**：然后再次解析输出解析器的响应，并返回结果。
 
-Let's look at an example:
+让我们看一个例子：
 
 import IntegrationInstallTooltip from "@mdx_components/integration_install_tooltip.mdx";
 
@@ -32,12 +31,17 @@ npm install @langchain/openai
 
 <CodeBlock language="typescript">{JSONFunctions}</CodeBlock>
 
-In this example, we first define a function schema and instantiate the `ChatOpenAI` class. We then create a runnable by binding the function to the model and piping the output through the `JsonOutputFunctionsParser`. When we invoke the runnable with an input, the response is already parsed thanks to the output parser.
+在这个例子中，我们首先定义了一个函数模式并实例化了 `ChatOpenAI` 类。
+然后，我们通过将函数绑定到模型并将输出通过 `JsonOutputFunctionsParser` 进行管道传输来创建一个可运行实例。
+当我们使用输入调用可运行实例时，由于输出解析器的存在，响应已经被解析了。
 
-The result will be a JSON object that contains the parsed response from the function call.
 
-## Streaming
+结果将是一个包含来自函数调用的解析响应的 JSON 对象。
 
-This parser is also convenient for parsing functions responses in a streaming fashion. It supports either the aggregated functions response or a [JSON patch](https://jsonpatch.com/) diff:
+## 流式处理
+
+此解析器还适用于以流式方式解析函数响应。它支持聚合函数响应或 [JSON 补丁](https://jsonpatch.com/)差异：
+
 
 <CodeBlock language="typescript">{StreamingJSONFunctions}</CodeBlock>
+

@@ -3,23 +3,22 @@ hide_table_of_contents: true
 sidebar_position: 4
 ---
 
-# Tabular Question Answering
+# 表格问答
 
-Lots of data and information is stored in tabular data, whether it be csvs, excel sheets, or SQL tables.
-This page covers all resources available in LangChain for working with data in this format.
+大量的数据和信息存储在表格数据中，无论是 csv 文件、Excel 表格还是 SQL 数据库表。
+本页面涵盖了 LangChain 中用于处理此类数据格式的所有可用资源。
 
-## Chains
+## 链（Chains）
 
-If you are just getting started, and you have relatively small/simple tabular data, you should get started with chains.
-Chains are a sequence of predetermined steps, so they are good to get started with as they give you more control and let you
-understand what is happening better.
+如果您刚开始接触，并且有相对较小/简单的表格数据，您应该从链开始。
+链是一系列预定义的步骤，因此它们非常适合初学者，因为它们可以为您提供更多的控制权，并让您更好地理解正在发生的事情。
 
-- [SQL Database Chain](../modules/chains/popular/sqlite)
+- [SQL 数据库链](../modules/chains/popular/sqlite)
 
-## Agents
+## 代理（Agents）
 
-Agents are more complex, and involve multiple queries to the LLM to understand what to do.
-The downside of agents are that you have less control. The upside is that they are more powerful,
-which allows you to use them on larger databases and more complex schemas.
+代理更为复杂，涉及对 LLM 进行多次查询以了解要做什么。
+代理的缺点是您的控制权较少。优点是它们更加强大，
+这允许您在更大的数据库和更复杂的模式上使用它们。
 
-- [SQL Agent](/docs/integrations/toolkits/sql)
+- [SQL 代理](/docs/integrations/toolkits/sql)

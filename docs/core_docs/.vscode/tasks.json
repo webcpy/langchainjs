@@ -1,0 +1,12 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "npm",
+			"script": "broken-links",
+			"problemMatcher": [],
+			"label": "npm: broken-links",
+			"detail": "node ./scripts/check-broken-links.js"
+		}
+	]
+}

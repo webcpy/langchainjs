@@ -1,23 +1,22 @@
 ---
 sidebar_position: 0
 ---
+# 快速开始
 
-# Quick Start
+Chat models是语言模型的一种变体。
+虽然chat models在内部使用语言模型，但它们使用的接口有些不同。
+与使用“文本输入，文本输出”的API不同，它们使用的接口是以“聊天消息”作为输入和输出。
 
-Chat models are a variation on language models.
-While chat models use language models under the hood, the interface they use is a bit different.
-Rather than using a "text in, text out" API, they use an interface where "chat messages" are the inputs and outputs.
-
-## Setup
+## 设置
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
-import IntegrationInstallTooltip from "@mdx_components/integration_install_tooltip.mdx";
+import IntegrationInstallTooltip from "@mdx\_components/integration\_install\_tooltip.mdx";
 
 <Tabs groupId="preferredModel">
   <TabItem value="openai" label="OpenAI" default>
 
-First we'll need to install the LangChain OpenAI integration package:
+首先，我们需要安装LangChain OpenAI集成包：
 
 <IntegrationInstallTooltip></IntegrationInstallTooltip>
 
@@ -25,13 +24,13 @@ First we'll need to install the LangChain OpenAI integration package:
 npm install @langchain/openai
 ```
 
-Accessing the API requires an API key, which you can get by creating an account and heading [here](https://platform.openai.com/account/api-keys). Once we have a key we'll want to set it as an environment variable:
+访问API需要API密钥，您可以通过创建帐户并访问[这里](https://platform.openai.com/account/api-keys)来获取。一旦我们有了密钥，我们希望将其设置为环境变量：
 
 ```bash
 OPENAI_API_KEY="..."
 ```
 
-If you'd prefer not to set an environment variable you can pass the key in directly via the `openAIApiKey` named parameter when initiating the OpenAI Chat Model class:
+如果您不愿意设置环境变量，您可以在初始化OpenAI聊天模型类时通过`openAIApiKey`命名参数直接传递密钥：
 
 ```typescript
 import { ChatOpenAI } from "@langchain/openai";
@@ -41,7 +40,7 @@ const chatModel = new ChatOpenAI({
 });
 ```
 
-Otherwise you can initialize without any params:
+否则，您可以在不传递任何参数的情况下初始化：
 
 ```typescript
 import { ChatOpenAI } from "@langchain/openai";
@@ -50,16 +49,16 @@ const chatModel = new ChatOpenAI();
 ```
 
   </TabItem>
-  <TabItem value="local" label="Local (using Ollama)">
+  <TabItem value="local" label="本地（使用Ollama）">
 
-[Ollama](https://ollama.ai/) allows you to run open-source large language models, such as Llama 2 and Mistral, locally.
+[Ollama](https://ollama.ai/) 允许您在本地运行开源大型语言模型，如Llama 2和Mistral。
 
-First, follow [these instructions](https://github.com/jmorganca/ollama) to set up and run a local Ollama instance:
+首先，按照[这些说明](https://github.com/jmorganca/ollama)设置并运行本地Ollama实例：
 
-- [Download](https://ollama.ai/download)
-- Fetch a model via e.g. `ollama pull mistral`
+- [下载](https://ollama.ai/download)
+- 通过例如 `ollama pull mistral` 获取模型
 
-Then, make sure the Ollama server is running. Next, you'll need to install the LangChain community package:
+然后，确保Ollama服务器正在运行。接下来，您需要安装LangChain社区包：
 
 <IntegrationInstallTooltip></IntegrationInstallTooltip>
 
@@ -67,13 +66,13 @@ Then, make sure the Ollama server is running. Next, you'll need to install the L
 npm install @langchain/community
 ```
 
-And then you can do:
+然后您可以执行：
 
 ```typescript
 import { ChatOllama } from "@langchain/community/chat_models/ollama";
 
 const chatModel = new ChatOllama({
-  baseUrl: "http://localhost:11434", // Default value
+  baseUrl: "http://localhost:11434", // 默认值
   model: "mistral",
 });
 ```
@@ -81,7 +80,7 @@ const chatModel = new ChatOllama({
   </TabItem>
   <TabItem value="anthropic" label="Anthropic" default>
 
-First we'll need to install the LangChain Anthropic integration package:
+首先，我们需要安装LangChain Anthropic集成包：
 
 <IntegrationInstallTooltip></IntegrationInstallTooltip>
 
@@ -89,13 +88,15 @@ First we'll need to install the LangChain Anthropic integration package:
 npm install @langchain/anthropic
 ```
 
-Accessing the API requires an API key, which you can get by creating an account [here](https://console.anthropic.com/). Once we have a key we'll want to set it as an environment variable:
+访问API需要API密钥，您可以通过在[这里](https://platform.openai.com/account/api-keys)创建一个帐户来获取。
+
+一旦我们有了一个密钥，我们就希望将其设置为环境变量：
 
 ```bash
 ANTHROPIC_API_KEY="..."
 ```
 
-If you'd prefer not to set an environment variable you can pass the key in directly via the `anthropicApiKey` named parameter when initiating the `ChatAnthropic` class:
+如果您不愿意设置环境变量，您可以在初始化`ChatAnthropic`类时通过`anthropicApiKey`命名参数直接传递密钥：
 
 ```typescript
 import { ChatAnthropic } from "@langchain/anthropic";
@@ -105,7 +106,7 @@ const chatModel = new ChatAnthropic({
 });
 ```
 
-Otherwise you can initialize without any params:
+否则，您可以在不带任何参数的情况下初始化：
 
 ```typescript
 import { ChatAnthropic } from "@langchain/anthropic";
@@ -116,21 +117,21 @@ const chatModel = new ChatAnthropic();
   </TabItem>
   <TabItem value="google" label="Google GenAI" default>
 
-First we'll need to install the LangChain Google GenAI integration package:
+首先，我们需要安装LangChain Google GenAI集成包：
 
 <IntegrationInstallTooltip></IntegrationInstallTooltip>
 
 ```bash npm2yarn
 npm install @langchain/google-genai
 ```
-
-Accessing the API requires an API key, which you can get by creating an account [here](https://ai.google.dev/tutorials/setup). Once we have a key we'll want to set it as an environment variable:
+访问API需要API密钥，您可以通过在[这里](https://ai.google.dev/tutorials/setup)创建一个帐户来获取。
+一旦我们有了密钥，我们希望将其设置为环境变量：
 
 ```bash
 GOOGLE_API_KEY="..."
 ```
 
-If you'd prefer not to set an environment variable you can pass the key in directly via the `apiKey` named parameter when initiating the `ChatGoogleGenerativeAI` class:
+如果您不愿意设置环境变量，您可以在初始化`ChatGoogleGenerativeAI`类时通过`apiKey`命名参数直接传递密钥：
 
 ```typescript
 import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
@@ -140,7 +141,7 @@ const chatModel = new ChatGoogleGenerativeAI({
 });
 ```
 
-Otherwise you can initialize without any params:
+否则，您可以在不传递任何参数的情况下初始化：
 
 ```typescript
 import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
@@ -151,16 +152,19 @@ const chatModel = new ChatGoogleGenerativeAI();
   </TabItem>
 </Tabs>
 
-## Messages
+## 消息
 
-The chat model interface is based around messages rather than raw text.
-The types of messages currently supported in LangChain are `AIMessage`, `HumanMessage`, `SystemMessage`, `FunctionMessage`, and `ChatMessage` -- `ChatMessage` takes in an arbitrary role parameter. Most of the time, you'll just be dealing with `HumanMessage`, `AIMessage`, and `SystemMessage`
+
+聊天模型接口是基于消息而不是原始文本的。
+目前在LangChain中支持的消息类型有`AIMessage`、`HumanMessage`、`SystemMessage`、`FunctionMessage和ChatMessage `
+-- ChatMessage接受一个任意的role参数。大多数情况下，您只需要处理`HumanMessage`、`AIMessage和SystemMessage`。
 
 ## LCEL
 
-Chat models implement the [Runnable interface](/docs/expression_language/interface), the basic building block of the [LangChain Expression Language (LCEL)](/docs/expression_language/). This means they support `invoke`, `stream`, `batch`, and `streamLog` calls.
+聊天模型实现了[Runnable 接口](/docs/expression_language/interface)，
+这是[LangChain表达语言 (LCEL)](/docs/expression_language/)的基本构建块。这意味着它们支持invoke、stream、batch和streamLog调用。
 
-Chat models accept `BaseMessage[]` as inputs, or objects which can be coerced to messages, including `string` (converted to `HumanMessage`) and `PromptValue`.
+聊天模型接受 `BaseMessage[]` 作为输入，或者可以转换为消息的对象，包括 `字符串`（转换为 `HumanMessage` ）和 `PromptValue`。
 
 ```typescript
 import { HumanMessage, SystemMessage } from "@langchain/core/messages";
@@ -179,26 +183,29 @@ await chatModel.invoke(messages);
 AIMessage { content: 'The purpose of model regularization is to prevent overfitting in machine learning models. Overfitting occurs when a model becomes too complex and starts to fit the noise in the training data, leading to poor generalization on unseen data. Regularization techniques introduce additional constraints or penalties to the model's objective function, discouraging it from becoming overly complex and promoting simpler and more generalizable models. Regularization helps to strike a balance between fitting the training data well and avoiding overfitting, leading to better performance on new, unseen data.' }
 ```
 
-See the [Runnable interface](/docs/expression_language/interface) for more details on the available methods.
+查看[Runnable 接口](/docs/expression_language/interface)提供了更多关于可用方法的详细信息。
 
 ## [LangSmith](https://docs.smith.langchain.com/)
 
-All `ChatModel`s come with built-in LangSmith tracing. Just set the following environment variables:
+LangSmith跟踪是指LangChain为`ChatModel`提供的内置跟踪功能。只需设置以下环境变量即可启用：
+
 
 ```bash
 export LANGCHAIN_TRACING_V2="true"
 export LANGCHAIN_API_KEY=<your-api-key>
 ```
 
-and any `ChatModel` invocation (whether it's nested in a chain or not) will automatically be traced. A trace will include inputs, outputs, latency, token usage, invocation params, environment params, and more. See an example here: https://smith.langchain.com/public/a54192ae-dd5c-4f7a-88d1-daa1eaba1af7/r.
 
-In LangSmith you can then provide feedback for any trace, compile annotated datasets for evals, debug performance in the playground, and more.
+并且任何`ChatModel`的调用（无论是否嵌套在链中）都将自动被追踪。追踪结果将包括输入、输出、延迟、token使用情况、调用参数、环境参数等。您可以在此处查看一个示例: https://smith.langchain.com/public/a54192ae-dd5c-4f7a-88d1-daa1eaba1af7/r
 
-## [Legacy] `generate`
+在LangSmith中，您可以为任何追踪结果提供反馈，编译带有注释的数据集用于评估，在Playground中调试性能等。
 
-### Batch calls, richer outputs
+## [旧版] `generate`
 
-You can go one step further and generate completions for multiple sets of messages using `generate`. This returns an `LLMResult` with an additional `message` parameter.
+### 批量调用，更丰富的输出
+
+您可以进一步使用`generate`为多组消息生成完成结果。这将返回一个LLMResult，并带有一个额外的消息参数。
+
 
 ```typescript
 const response3 = await chatModel.generate([

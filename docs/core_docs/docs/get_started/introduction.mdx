@@ -1,101 +1,102 @@
 ---
-title: Introduction
+title: 介绍
 sidebar_position: 0
 ---
 
-# Introduction
+# 介绍
 
-**LangChain** is a framework for developing applications powered by language models. It enables applications that:
+**LangChain** 是一个基于语言模型开发应用程序的框架。它使得应用程序能够：
 
-- **Are context-aware**: connect a language model to sources of context (prompt instructions, few shot examples, content to ground its response in, etc.)
-- **Reason**: rely on a language model to reason (about how to answer based on provided context, what actions to take, etc.)
+- **具有上下文感知能力** 将语言模型连接到上下文来源（提示说明、少量示例、内容以确定其响应等）。
+- **推理能力**：依赖语言模型进行推理（根据提供的上下文如何回答、采取什么行动等）。
 
-This framework consists of several parts.
+这个框架包括几个部分。
 
-- **LangChain Libraries**: The Python and JavaScript libraries. Contains interfaces and integrations for a myriad of components, a basic run time for combining these components into chains and agents, and off-the-shelf implementations of chains and agents.
-- **[LangChain Templates](https://python.langchain.com/docs/templates)**: A collection of easily deployable reference architectures for a wide variety of tasks. (_Python only_)
-- **[LangServe](https://python.langchain.com/docs/langserve)**: A library for deploying LangChain chains as a REST API. (_Python only_)
-- **[LangSmith](https://smith.langchain.com/)**: A developer platform that lets you debug, test, evaluate, and monitor chains built on any LLM framework and seamlessly integrates with LangChain.
+- **LangChain 库**： Python 和 JavaScript 库。包含各种组件的接口和集成，用于将这些组件组合成链和代理的基本运行时，以及链和代理的现成实现。
+- **[LangChain 模板](https://python.langchain.com/docs/templates)**：一组易于部署的参考架构，适用于各种任务。 (仅限 Python)
+- **[LangServe](https://python.langchain.com/docs/langserve)**：用于将 LangChain 链部署为 REST API 的库。 (仅限 Python)
+- **[LangSmith](https://smith.langchain.com/)**：一个开发者平台，让您可以在任何 LLM 框架上调试、测试、评估和监控构建的链，并与 LangChain 实现无缝集成。
+
 
 ![LangChain Diagram](/img/langchain_stack_feb_2024.webp)
 
-Together, these products simplify the entire application lifecycle:
+这些产品共同简化了整个应用程序的生命周期：
+- **开发**：使用 LangChain/LangChain.js 编写您的应用程序。使用模板作为参考，立即上手。
+- **生产**：使用 LangSmith 来检查、测试和监控您的链，以便您不断改进并放心地部署
+- **部署**：使用 LangServe 将任何链转换为 API。
 
-- **Develop**: Write your applications in LangChain/LangChain.js. Hit the ground running using Templates for reference.
-- **Productionize**: Use LangSmith to inspect, test and monitor your chains, so that you can constantly improve and deploy with confidence.
-- **Deploy**: Turn any chain into an API with LangServe.
+## LangChain 库
 
-## LangChain Libraries
+LangChain 包的主要价值主张包括：
 
-The main value props of the LangChain packages are:
+1. **组件**：可组合的工具和集成，用于处理语言模型。组件是模块化的，无论您是否使用 LangChain 框架的其他部分，都很容易使用
+2. **现成的链**：内置的组件集合，用于完成更高级别的任务。
 
-1. **Components**: composable tools and integrations for working with language models. Components are modular and easy-to-use, whether you are using the rest of the LangChain framework or not
-2. **Off-the-shelf chains**: built-in assemblages of components for accomplishing higher-level tasks
+现成的链使得快速入门变得容易。组件使得定制现有链和构建新链变得容易。
 
-Off-the-shelf chains make it easy to get started. Components make it easy to customize existing chains and build new ones.
+## 开始使用
 
-## Get started
+[这里](/docs/get_started/installation)介绍了如何安装 LangChain，设置您的环境并开始构建的方法。
 
-[Here's](/docs/get_started/installation) how to install LangChain, set up your environment, and start building.
+我们建议您按照我们的快速入门指南(/docs/get_started/quickstart)指南，通过构建您的第一个 LangChain 应用程序来熟悉框架。
 
-We recommend following our [Quickstart](/docs/get_started/quickstart) guide to familiarize yourself with the framework by building your first LangChain application.
-
-Read up on our [Security](/docs/security) best practices to make sure you're developing safely with LangChain.
+阅读我们的[安全](/docs/security)最佳实践，以确保您在使用 LangChain 进行安全开发。
 
 :::note
 
-These docs focus on the JS/TS LangChain library. [Head here](https://python.langchain.com) for docs on the Python LangChain library.
+这些文档重点介绍了 JS/TS LangChain 库。请[前往此处](https://python.langchain.com)查看 Python LangChain 库的文档。
 
 :::
 
-## LangChain Expression Language (LCEL)
+## LangChain 表达式语言 (LCEL)
 
-LCEL is a declarative way to compose chains. LCEL was designed from day 1 to support putting prototypes in production, with no code changes, from the simplest “prompt + LLM” chain to the most complex chains.
+LCEL 是一种声明式的链式组合方式。从一开始，LCEL 就被设计成支持将原型投入生产使用，无需进行代码更改，从最简单的“提示 + LLM”链到最复杂的链。
 
-- **[Overview](/docs/expression_language/)**: LCEL and its benefits
-- **[Interface](/docs/expression_language/interface)**: The standard interface for LCEL objects
-- **[How-to](/docs/expression_language/how_to/routing)**: Key features of LCEL
-- **[Cookbook](/docs/expression_language/cookbook)**: Example code for accomplishing common tasks
+- **[概览](/docs/expression_language/)**：LCEL 及其优势
+- **[接口](/docs/expression_language/interface)**：LCEL 对象的标准接口
+- **[操作指南](/docs/expression_language/how_to/routing)**：LCEL 的关键功能
+- **[示例集](/docs/expression_language/cookbook)**：完成常见任务的示例代码
 
-## Modules
+## 模块
 
-LangChain provides standard, extendable interfaces and integrations for the following modules:
+LangChain 为以下模块提供了标准的可扩展接口和集成：
 
-#### [Model I/O](/docs/modules/model_io/)
+#### [模型 I/O](/docs/modules/model_io/)
 
-Interface with language models
+与语言模型进行接口交互
 
-#### [Retrieval](/docs/modules/data_connection/)
+#### [检索](/docs/modules/data_connection/)
 
-Interface with application-specific data
+与特定应用数据进行接口交互
 
-#### [Agents](/docs/modules/agents/)
+#### [代理](/docs/modules/agents/)
 
-Let models choose which tools to use given high-level directives
+让模型根据高层指令选择要使用的工具
 
-## Examples, ecosystem, and resources
 
-### [Use cases](/docs/use_cases/)
+## 示例、生态系统和资源
 
-Walkthroughs and techniques for common end-to-end use cases, like:
+### [用例](/docs/use_cases/)
 
-- [Document question answering](/docs/use_cases/question_answering/)
+常见端到端使用案例的操作指南和技巧，比如：
+
+- [文档问答](/docs/use_cases/question_answering/)
 - [RAG](/docs/use_cases/question_answering/)
-- [Agents](/docs/use_cases/autonomous_agents/)
-- and much more...
+- [代理](/docs/use_cases/autonomous_agents/)
+- 等等...
 
-### [Integrations](/docs/integrations/platforms/)
+### [集成](/docs/integrations/platforms/)
 
-LangChain is part of a rich ecosystem of tools that integrate with our framework and build on top of it. Check out our growing list of [integrations](/docs/integrations/platforms/).
+LangChain是一个丰富生态系统中的一部分，它与我们的框架集成并构建在其之上。请查看我们不断增长的[集成](/docs/integrations/platforms/)列表。
 
-### [API reference](https://api.js.langchain.com)
+### [API 参考](https://api.js.langchain.com)
 
-Head to the reference section for full documentation of all classes and methods in the LangChain and LangChain Experimental packages.
+前往参考部分，查看 LangChain 和 LangChain Experimental 包中所有类和方法的完整文档。
 
-### [Developer's guide](/docs/contributing)
+### [开发者指南](/docs/contributing)
 
-Check out the developer's guide for guidelines on contributing and help getting your dev environment set up.
+查看开发者指南，了解贡献指南和帮助设置开发环境。
 
-### [Community](/docs/community)
+### [社区](/docs/community)
 
-Head to the [Community navigator](/docs/community) to find places to ask questions, share feedback, meet other developers, and dream about the future of LLM's.
+前往[社区导航](/docs/community)，找到可以提问、分享反馈、与其他开发人员会面以及以及畅想 LLM 未来的地方。

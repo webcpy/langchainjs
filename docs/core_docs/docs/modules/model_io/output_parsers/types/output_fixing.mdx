@@ -1,10 +1,10 @@
-# Auto-fixing parser
+# 自动修复解析器
 
-This output parser wraps another output parser, and in the event that the first one fails it calls out to another LLM to fix any errors.
+这个输出解析器包装了另一个输出解析器，当第一个解析器失败时，它会调用另一个LLM来修复任何错误。
 
-But we can do other things besides throw errors. Specifically, we can pass the misformatted output, along with the formatted instructions, to the model and ask it to fix it.
+但我们不仅仅可以抛出错误。具体来说，我们可以将格式错误的输出以及格式化指令传递给模型，并要求其修复它。
 
-For this example, we'll use the structured output parser. Here's what happens if we pass it a result that does not comply with the schema:
+对于这个例子，我们将使用结构化输出解析器。如果我们向它传递不符合模式的结果，会发生什么呢：
 
 import CodeBlock from "@theme/CodeBlock";
 import Fix from "@examples/prompts/fix_parser.ts";
@@ -18,3 +18,5 @@ npm install @langchain/openai
 ```
 
 <CodeBlock language="typescript">{Fix}</CodeBlock>
+
+

@@ -3,7 +3,9 @@
 // @ts-check
 // Note: type annotations allow type checking and IDEs autocompletion
 // eslint-disable-next-line import/no-extraneous-dependencies
-const { ProvidePlugin } = require("webpack");
+const {
+  ProvidePlugin
+} = require("webpack");
 const path = require("path");
 require("dotenv").config();
 
@@ -48,8 +50,7 @@ const config = {
           },
         },
         module: {
-          rules: [
-            {
+          rules: [{
               test: examplesPath,
               use: ["json-loader", "./code-block-loader.js"],
             },
@@ -77,7 +78,9 @@ const config = {
         docs: {
           sidebarPath: require.resolve("./sidebars.js"),
           remarkPlugins: [
-            [require("@docusaurus/remark-plugin-npm2yarn"), { sync: true }],
+            [require("@docusaurus/remark-plugin-npm2yarn"), {
+              sync: true
+            }],
           ],
           async sidebarItemsGenerator({
             defaultSidebarItemsGenerator,
@@ -152,100 +155,98 @@ const config = {
           src: "img/brand/wordmark.png",
           srcDark: "img/brand/wordmark-dark.png",
         },
-        items: [
-          {
-            to: "/docs/get_started/introduction",
-            label: "Docs",
-            position: "left",
-          },
-          {
-            type: "docSidebar",
-            position: "left",
-            sidebarId: "use_cases",
-            label: "Use cases",
-          },
-          {
-            type: "docSidebar",
-            position: "left",
-            sidebarId: "integrations",
-            label: "Integrations",
-          },
-          {
-            href: "https://api.js.langchain.com",
-            label: "API Reference",
-            position: "left",
-          },
-          {
-            type: "dropdown",
-            label: "More",
-            position: "left",
-            items: [
-              {
-                to: "/docs/people/",
-                label: "People",
-              },
-              {
-                to: "/docs/community",
-                label: "Community",
-              },
-              {
-                to: "/docs/additional_resources/tutorials",
-                label: "Tutorials",
-              },
-              {
-                to: "/docs/contributing",
-                label: "Contributing",
-              },
-            ],
-          },
-          {
-            type: "dropdown",
-            label: "🦜🔗",
-            position: "right",
-            items: [
-              {
-                href: "https://smith.langchain.com",
-                label: "LangSmith",
-              },
-              {
-                href: "https://docs.smith.langchain.com",
-                label: "LangSmith Docs",
-              },
-              {
-                href: "https://smith.langchain.com/hub",
-                label: "LangChain Hub",
-              },
-              {
-                href: "https://github.com/langchain-ai/langserve",
-                label: "LangServe",
-              },
-              {
-                href: "https://python.langchain.com/en/latest/",
-                label: "Python Docs",
-              },
-            ],
-          },
-          {
-            href: "https://chatjs.langchain.com",
-            label: "Chat",
-            position: "right",
-          },
-          // Please keep GitHub link to the right for consistency.
-          {
-            href: "https://github.com/langchain-ai/langchainjs",
-            className: "header-github-link",
-            position: "right",
-            "aria-label": "GitHub repository",
-          },
-        ],
+        items: [{
+          "to": "/docs/get_started/introduction",
+          "label": "文档",
+          "position": "left"
+        },
+        {
+          "type": "docSidebar",
+          "position": "left",
+          "sidebarId": "use_cases",
+          "label": "用例"
+        },
+        {
+          "type": "docSidebar",
+          "position": "left",
+          "sidebarId": "integrations",
+          "label": "集成"
+        },
+        {
+          "href": "https://api.js.langchain.com",
+          "label": "API 参考",
+          "position": "left"
+        },
+        {
+          "type": "dropdown",
+          "label": "更多",
+          "position": "left",
+          "items": [{
+              "to": "/docs/people/",
+              "label": "人员"
+            },
+            {
+              "to": "/docs/community",
+              "label": "社区"
+            },
+            {
+              "to": "/docs/additional_resources/tutorials",
+              "label": "教程"
+            },
+            {
+              "to": "/docs/contributing",
+              "label": "贡献"
+            }
+          ]
+        },
+        {
+          "type": "dropdown",
+          "label": "🦜🔗",
+          "position": "right",
+          "items": [{
+              "href": "https://smith.langchain.com",
+              "label": "LangSmith"
+            },
+            {
+              "href": "https://docs.smith.langchain.com",
+              "label": "LangSmith 文档"
+            },
+            {
+              "href": "https://smith.langchain.com/hub",
+              "label": "LangChain Hub"
+            },
+            {
+              "href": "https://github.com/langchain-ai/langserve",
+              "label": "LangServe"
+            },
+            {
+              "href": "https://python.langchain.com/en/latest/",
+              "label": "Python 文档"
+            }
+          ]
+        },
+        {
+          "href": "https://chatjs.langchain.com",
+          "label": "聊天",
+          "position": "right"
+        },
+        {
+          "type": "localeDropdown",
+          "position": "left"
+        },
+        {
+          "href": "https://github.com/langchain-ai/langchainjs",
+          "className": "header-github-link",
+          "position": "right",
+          "aria-label": "GitHub 代码库"
+        }
+      ],
       },
       footer: {
         style: "light",
-        links: [
-          {
-            title: "Community",
-            items: [
-              {
+        links: [{
+            title: "社区",
+            items: [{
                 label: "Discord",
                 href: "https://discord.gg/cU2adEyC7w",
               },
@@ -257,8 +258,7 @@ const config = {
           },
           {
             title: "GitHub",
-            items: [
-              {
+            items: [{
                 label: "Python",
                 href: "https://github.com/langchain-ai/langchain",
               },
@@ -269,9 +269,8 @@ const config = {
             ],
           },
           {
-            title: "More",
-            items: [
-              {
+            title: "更多",
+            items: [{
                 label: "Homepage",
                 href: "https://langchain.com",
               },

@@ -1,4 +1,4 @@
-# Use RunnableMaps
+# 使用 RunnableMaps
 
 import IntegrationInstallTooltip from "@mdx_components/integration_install_tooltip.mdx";
 
@@ -8,23 +8,24 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
 npm install @langchain/anthropic @langchain/community
 ```
 
-RunnableMaps allow you to execute multiple Runnables in parallel, and to return the output of these Runnables as a map.
+RunnableMaps 允许您并行执行多个 Runnables，并以映射的形式返回这些 Runnables 的输出。
 
 import CodeBlock from "@theme/CodeBlock";
 import BasicExample from "@examples/guides/expression_language/runnable_maps_basic.ts";
 
 <CodeBlock language="typescript">{BasicExample}</CodeBlock>
 
-## Manipulating outputs/inputs
+## 操作输出/输入
 
-Maps can be useful for manipulating the output of one Runnable to match the input format of the next Runnable in a sequence.
+映射在将一个 Runnable 的输出转换为序列中下一个 Runnable 的输入格式时非常有用。
 
-Note below that the object within the `RunnableSequence.from()` call is automatically coerced into a runnable map. All keys of the object must
-have values that are runnables or can be themselves coerced to runnables (functions to `RunnableLambda`s or objects to `RunnableMap`s).
-This coercion will also occur when composing chains via the `.pipe()` method.
+注意，在 `RunnableSequence.from()` 调用中的对象会自动被强制转换为 runnable 映射。对象的所有键
+必须有值是 runnables 或者可以被强制转换为 runnables（函数到 `RunnableLambda` 或者对象到 `RunnableMap`）。
+这种强制转换也会在通过 `.pipe()` 方法组合链时发生。
 
 import SequenceExample from "@examples/guides/expression_language/runnable_maps_sequence.ts";
 
 <CodeBlock language="typescript">{SequenceExample}</CodeBlock>
 
-Here the input to prompt is expected to be a map with keys "context" and "question". The user input is just the question. So we need to get the context using our retriever and passthrough the user input under the "question" key.
+在这里，提示的输入预期是一个带有 "context" 和 "question" 键的映射。用户输入只是问题。因此，我们需要使用我们的检索器获取上下文，并将用户输入传递到 "question" 键下。
+

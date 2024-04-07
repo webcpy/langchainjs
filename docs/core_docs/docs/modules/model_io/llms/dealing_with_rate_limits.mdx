@@ -1,14 +1,10 @@
-# Dealing with Rate Limits
+# 处理速率限制
 
-Some LLM providers have rate limits. If you exceed the rate limit, you'll get an error. To help you deal with this, LangChain provides a `maxConcurrency` option when instantiating an LLM. This option allows you to specify the maximum number of concurrent requests you want to make to the LLM provider. If you exceed this number, LangChain will automatically queue up your requests to be sent as previous requests complete.
+某些语言模型（LLM）提供商设置了速率限制。如果您超过了这个限制，将会收到一个错误。为了帮助您处理这个问题，LangChain 在实例化 LLM 时提供了一个 `maxConcurrency` 选项。这个选项允许您指定想要向 LLM 提供商发起的最大并发请求数。如果您超过了这个数字，LangChain 将会自动将您的请求排队，等到之前的请求完成后发送。
 
-For example, if you set `maxConcurrency: 5`, then LangChain will only send 5 requests to the LLM provider at a time. If you send 10 requests, the first 5 will be sent immediately, and the next 5 will be queued up. Once one of the first 5 requests completes, the next request in the queue will be sent.
+例如，如果您设置了 `maxConcurrency: 5`，那么 LangChain 一次只会向 LLM 提供商发送 5 个请求。如果您发送了 10 个请求，前 5 个将会立即发送，接下来的 5 个将会被排队。一旦前 5 个请求中的一个完成了，队列中的下一个请求将会被发送。
 
-To use this feature, simply pass `maxConcurrency: <number>` when you instantiate the LLM. For example:
-
-import IntegrationInstallTooltip from "@mdx_components/integration_install_tooltip.mdx";
-
-<IntegrationInstallTooltip></IntegrationInstallTooltip>
+要使用这个特性，您在实例化 LLM 时简单传递 `maxConcurrency: <number>` 即可。例如：
 
 ```bash npm2yarn
 npm install @langchain/openai
@@ -19,3 +15,4 @@ import { OpenAI } from "@langchain/openai";
 
 const model = new OpenAI({ maxConcurrency: 5 });
 ```
+

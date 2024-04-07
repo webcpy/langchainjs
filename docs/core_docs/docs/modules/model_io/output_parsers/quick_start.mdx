@@ -1,48 +1,48 @@
 ---
 sidebar_position: 0
 ---
+# 快速入门
 
-# Quick Start
+语言模型输出文本。但您可能经常希望获得比纯文本更结构化的信息。这时就需要输出解析器。
 
-import CodeBlock from "@theme/CodeBlock";
+输出解析器是帮助结构化语言模型响应的类。输出解析器必须实现的两个主要方法是：
 
-Language models output text. But you may often want to get more structured information than just text back. This is where output parsers come in.
+- `getFormatInstructions()`: 返回一个字符串，其中包含语言模型输出应如何格式化的指令。如有必要，您可以将其注入到您的提示中。
+- `parse()`: 接收一个字符串（假设这是来自语言模型的响应）并将其解析为某种结构。
 
-Output parsers are classes that help structure language model responses. There are two main methods an output parser must implement:
+还有一个可选的方法：
 
-- `getFormatInstructions()`: A method which returns a string containing instructions for how the output of a language model should be formatted. You can inject this into your prompt if necessary.
-- `parse()`: A method which takes in a string (assumed to be the response from a language model) and parses it into some structure.
+`parseWithPrompt()`: 接受一个字符串（假设为语言模型的响应）和一个提示（假设为生成该响应的提示），并将其解析为某种结构。在大多数情况下，提供提示是为了在输出解析器需要重试或以某种方式修复输出时，从提示中获取信息。
 
-And then one optional one:
+## 开始使用
 
-`parseWithPrompt()`: A method which takes in a string (assumed to be the response from a language model) and a prompt (assumed to be the prompt that generated such a response) and parses it into some structure. The prompt is largely provided in the event the OutputParser wants to retry or fix the output in some way, and needs information from the prompt to do so.
+下面我们介绍一种有用的输出解析器类型，`StructuredOutputParser`。
 
-## Get started
+当您希望返回多个字段时，可以使用此输出解析器。
 
-Below we go over one useful type of output parser, the `StructuredOutputParser`.
-
-This output parser can be used when you want to return multiple fields.
-
-**Note:** If you want complex schema returned (i.e. a JSON object with arrays of strings), you can use [Zod Schema](https://zod.dev/) as [detailed here](/docs/modules/model_io/output_parsers/types/structured#structured-output-parser-with-zod-schema).
-
-import Structured from "@examples/prompts/structured_parser_sequence.ts";
-
-import IntegrationInstallTooltip from "@mdx_components/integration_install_tooltip.mdx";
-
-<IntegrationInstallTooltip></IntegrationInstallTooltip>
+**Note:**
+如果您希望返回复杂的模式（即带有字符串数组的 JSON 对象），
+您可以使用 [Zod Schema](https://zod.dev/)，
+具体细节请参考[这里](/docs/modules/model_io/output_parsers/types/structured#structured-output-parser-with-zod-schema)。
+**
 
 ```bash npm2yarn
 npm install @langchain/openai
 ```
 
+import CodeBlock from "@theme/CodeBlock";
+import Structured from "@examples/prompts/structured_parser_sequence.ts";
+
+import IntegrationInstallTooltip from "@mdx_components/integration_install_tooltip.mdx";
+
 <CodeBlock language="typescript">{Structured}</CodeBlock>
 
 ## LCEL
 
-Output parsers implement the [Runnable interface](/docs/expression_language/interface), the basic building block of the LangChain Expression Language (LCEL).
-This means they support `invoke`, `stream`, `batch`, and `streamLog` calls.
+输出解析器实现了 [Runnable 接口](/docs/expression_language/interface)，这是 LangChain 表达式语言（LCEL）的基本构建块。
+这意味着它们支持 `invoke`、`stream`、`batch` 和 `streamLog` 调用。
 
-Output parsers accept model outputs (a string or `BaseMessage`) as input and can return an arbitrary type. This is convenient for chaining as shown above.
+输出解析器接受模型输出（字符串或 `BaseMessage`）作为输入，并可以返回任意类型。这便于像上面那样进行链式调用。
 
 ```ts
 await parser.invoke(`
@@ -54,5 +54,6 @@ await parser.invoke(`
 // { answer: 'Paris', sources: [ 'https://en.wikipedia.org/wiki/Paris' ] }
 ```
 
-While all parsers support the streaming interface, only certain parsers can stream through partially parsed objects as the model generates them, since this is highly dependent on the output type.
-Parsers which cannot construct partial objects will simply yield the fully parsed output.
+虽然所有解析器都支持流式接口，但只有某些解析器可以在模型生成部分解析对象时通过它们，因为这高度依赖于输出类型。
+无法构建部分对象的解析器将简单地产生完全解析的输出。
+

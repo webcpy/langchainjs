@@ -1,21 +1,19 @@
 ---
 sidebar_position: 0
-title: Prompt + LLM
+title: 提示词 + LLM
 hide_table_of_contents: true
 ---
+# 提示词 + LLM
 
-# Prompt + LLM
-
-One of the most foundational Expression Language compositions is taking:
+最基础的表达语言组合之一是：
 
 `PromptTemplate` / `ChatPromptTemplate` -> `LLM` / `ChatModel` -> `OutputParser`
 
-Almost all other chains you build will use this building block.
+几乎所有其他链都将使用这个构建块。
 
 <details>
-  <summary>Interactive tutorial</summary>
-  The screencast below interactively walks through a simple prompt template + LLM
-  chain. You can update and run the code as it's being written in the video!
+  <summary>交互式教程</summary>
+  下面的视频教程以交互方式介绍了简单的提示词模板 + LLM 链。您可以在视频播放时更新和运行代码！
   <iframe
     src="https://scrimba.com/scrim/c6rD6Nt9?embed=langchain,mini-header"
     width="100%"
@@ -23,15 +21,15 @@ Almost all other chains you build will use this building block.
   ></iframe>
 </details>
 
-## PromptTemplate + LLM
+## 提示词模板 + LLM
 
-A PromptTemplate -> LLM is a core chain that is used in most other larger chains/systems.
+PromptTemplate -> LLM 是大多数其他更大链/系统中的核心链。
 
 import CodeBlock from "@theme/CodeBlock";
 
-import BasicExample from "@examples/guides/expression_language/cookbook_basic.ts";
+import BasicExample from "@examples/guides/expression\_language/cookbook\_basic.ts";
 
-import IntegrationInstallTooltip from "@mdx_components/integration_install_tooltip.mdx";
+import IntegrationInstallTooltip from "@mdx\_components/integration\_install\_tooltip.mdx";
 
 <IntegrationInstallTooltip></IntegrationInstallTooltip>
 
@@ -41,14 +39,13 @@ npm install @langchain/openai
 
 <CodeBlock language="typescript">{BasicExample}</CodeBlock>
 
-Often times we want to attach kwargs to the model that's passed in. To do this, runnables contain a `.bind` method. Here's how you can use it:
+通常我们希望将关键字参数附加到传入的模型。为此，可运行对象包含一个 `.bind` 方法。以下是您如何使用它的示例：
 
-### Attaching stop sequences
+### 附加停止序列
 
 <details>
-  <summary>Interactive tutorial</summary>
-  The screencast below interactively walks through an example. You can update and
-  run the code as it's being written in the video!
+  <summary>交互式教程</summary>
+  下面的视频教程以交互方式介绍了示例。您可以在视频播放时更新和运行代码！
   <iframe
     src="https://scrimba.com/scrim/co9704e389428fe2193eb955c?embed=langchain,mini-header"
     width="100%"
@@ -56,16 +53,15 @@ Often times we want to attach kwargs to the model that's passed in. To do this, 
   ></iframe>
 </details>
 
-import StopSequenceExample from "@examples/guides/expression_language/cookbook_stop_sequence.ts";
+import StopSequenceExample from "@examples/guides/expression\_language/cookbook\_stop\_sequence.ts";
 
 <CodeBlock language="typescript">{StopSequenceExample}</CodeBlock>
 
-### Attaching function call information
+### 附加函数调用信息
 
 <details>
-  <summary>Interactive tutorial</summary>
-  The screencast below interactively walks through an example. You can update and
-  run the code as it's being written in the video!
+  <summary>交互式教程</summary>
+  下面的视频教程以交互方式介绍了示例。您可以在视频播放时更新和运行代码！
   <iframe
     src="https://scrimba.com/scrim/cof5449f5bc972f8c90be6a82?embed=langchain,mini-header"
     width="100%"
@@ -73,16 +69,15 @@ import StopSequenceExample from "@examples/guides/expression_language/cookbook_s
   ></iframe>
 </details>
 
-import FunctionCallExample from "@examples/guides/expression_language/cookbook_function_call.ts";
+import FunctionCallExample from "@examples/guides/expression\_language/cookbook\_function\_call.ts";
 
 <CodeBlock language="typescript">{FunctionCallExample}</CodeBlock>
 
-## PromptTemplate + LLM + OutputParser
+## 提示词模板 + LLM + 输出解析器
 
 <details>
-  <summary>Interactive tutorial</summary>
-  The screencast below interactively walks through an example. You can update and
-  run the code as it's being written in the video!
+  <summary>交互式教程</summary>
+  下面的视频教程以交互方式介绍了示例。您可以在视频播放时更新和运行代码！
   <iframe
     src="https://scrimba.com/scrim/co6ae44248eacc1abd87ae3dc?embed=langchain,mini-header"
     width="100%"
@@ -90,8 +85,10 @@ import FunctionCallExample from "@examples/guides/expression_language/cookbook_f
   ></iframe>
 </details>
 
-We can also add in an output parser to conveniently transform the raw LLM/ChatModel output into a consistent string format:
+我们还可以添加一个输出解析器，以方便地将原始LLM/ChatModel输出转换为一致的字符串格式：
 
-import OutputParserExample from "@examples/guides/expression_language/cookbook_output_parser.ts";
+import OutputParserExample from "@examples/guides/expression\_language/cookbook\_output\_parser.ts";
 
 <CodeBlock language="typescript">{OutputParserExample}</CodeBlock>
+
+

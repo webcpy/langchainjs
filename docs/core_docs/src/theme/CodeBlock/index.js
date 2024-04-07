@@ -17,7 +17,7 @@ function Imports({ imports }) {
       }}
     >
       <h4 style={{ paddingLeft: "0.65rem", marginBottom: "0.45rem" }}>
-        API Reference:
+        API 参考：
       </h4>
       <ul style={{ paddingBottom: "1rem" }}>
         {imports.map(({ imported, source, docs }) => (
@@ -25,7 +25,7 @@ function Imports({ imports }) {
             <a href={docs}>
               <span>{imported}</span>
             </a>{" "}
-            from <code>{source}</code>
+            来自 <code>{source}</code>
           </li>
         ))}
       </ul>

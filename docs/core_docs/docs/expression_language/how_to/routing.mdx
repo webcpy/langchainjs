@@ -1,28 +1,27 @@
 ---
 sidebar_position: 5
-title: Route between multiple runnables
+title: 多个Runnable之间的路由
 ---
+# 多个Runnable之间的路由
 
-# Route between multiple Runnables
+这份笔记涵盖了如何在LangChain表达式语言中进行路由。
 
-This notebook covers how to do routing in the LangChain Expression Language.
+路由允许您创建非确定性链条，其中前一步的输出定义了下一步。路由有助于在与LLMs的交互中提供结构和一致性。
 
-Routing allows you to create non-deterministic chains where the output of a previous step defines the next step. Routing helps provide structure and consistency around interactions with LLMs.
+执行路由有两种方法：
 
-There are two ways to perform routing:
+1. 使用RunnableBranch。
+2. 编写自定义工厂函数，该函数接受前一步的输入并返回一个可运行对象。重要的是，这应该返回一个可运行对象，而不是实际执行。
 
-1. Using a RunnableBranch.
-2. Writing custom factory function that takes the input of a previous step and returns a runnable. Importantly, this should return a runnable and NOT actually execute.
+我们将使用一个两步序列来说明这两种方法，其中第一步将输入问题分类为关于LangChain、Anthropic或其他，然后路由到相应的提示链。
 
-We'll illustrate both methods using a two step sequence where the first step classifies an input question as being about LangChain, Anthropic, or Other, then routes to a corresponding prompt chain.
+## 使用RunnableBranch
 
-## Using a RunnableBranch
+一个RunnableBranch被初始化为一个条件（condition）和可运行对象（runnable）的列表，以及一个默认可运行对象。它通过将每个条件传递给它调用的输入来选择哪个分支。它选择第一个评估为True的条件，并使用输入运行与该条件对应的可运行对象。
 
-A RunnableBranch is initialized with a list of (condition, runnable) pairs and a default runnable. It selects which branch by passing each condition the input it's invoked with. It selects the first condition to evaluate to True, and runs the corresponding runnable to that condition with the input.
+如果没有提供的条件匹配，则运行默认的可运行对象。
 
-If no provided conditions match, it runs the default runnable.
-
-Here's an example of what it looks like in action:
+以下是它的一个示例：
 
 import CodeBlock from "@theme/CodeBlock";
 import BranchExample from "@examples/guides/expression_language/how_to_routing_runnable_branch.ts";
@@ -37,9 +36,9 @@ npm install @langchain/anthropic
 
 <CodeBlock language="typescript">{BranchExample}</CodeBlock>
 
-## Using a custom function
+## 使用自定义函数
 
-You can also use a custom function to route between different outputs. Here's an example:
+您还可以使用自定义函数在不同的输出之间进行路由。以下是一个示例：
 
 import FactoryFunctionExample from "@examples/guides/expression_language/how_to_routing_custom_function.ts";
 

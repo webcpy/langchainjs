@@ -1,21 +1,20 @@
 ---
 sidebar_position: 3
 ---
+# 自定义LLM
 
-# Custom LLM
+本笔记介绍了如何创建自定义的LLM包装器，以便您可以使用自己的LLM或与LangChain直接支持的包装器不同的包装器。
 
-This notebook goes over how to create a custom LLM wrapper, in case you want to use your own LLM or a different wrapper than one that is directly supported in LangChain.
+在扩展[`LLM`类](https://api.js.langchain.com/classes/langchain_core_language_models_llms.LLM.html)之后，自定义LLM需要实现以下几个必需的内容：
 
-There are a few required things that a custom LLM needs to implement after extending the [`LLM` class](https://api.js.langchain.com/classes/langchain_core_language_models_llms.LLM.html):
+- 一个 `_call` 方法，接受一个字符串和调用选项（包括 `stop` 序列等），并返回一个字符串。
+- 一个 `_llmType` 方法，返回一个字符串。仅用于日志记录目的。
 
-- A `_call` method that takes in a string and call options (which includes things like `stop` sequences), and returns a string.
-- A `_llmType` method that returns a string. Used for logging purposes only.
+您还可以实现以下可选方法：
 
-You can also implement the following optional method:
+- 一个 `_streamResponseChunks` 方法，返回一个`AsyncIterator`并产生[`GenerationChunks`](https://api.js.langchain.com/classes/langchain_core_outputs.GenerationChunk.html)。这允许LLM支持流式输出。
 
-- A `_streamResponseChunks` method that returns an `AsyncIterator` and yields [`GenerationChunks`](https://api.js.langchain.com/classes/langchain_core_outputs.GenerationChunk.html). This allows the LLM to support streaming outputs.
-
-Let’s implement a very simple custom LLM that just echoes back the first `n` characters of the input.
+让我们实现一个非常简单的自定义LLM，它只是回显输入的前`n`个字符。
 
 ```typescript
 import { LLM, type BaseLLMParams } from "@langchain/core/language_models/llms";
@@ -43,7 +42,7 @@ export class CustomLLM extends LLM {
     options: this["ParsedCallOptions"],
     runManager: CallbackManagerForLLMRun
   ): Promise<string> {
-    // Pass `runManager?.getChild()` when invoking internal runnables to enable tracing
+    // 在调用内部运行时，传递`runManager?.getChild()`以启用跟踪
     // await subRunnable.invoke(params, runManager?.getChild());
     return prompt.slice(0, this.n);
   }
@@ -53,20 +52,20 @@ export class CustomLLM extends LLM {
     options: this["ParsedCallOptions"],
     runManager?: CallbackManagerForLLMRun
   ): AsyncGenerator<GenerationChunk> {
-    // Pass `runManager?.getChild()` when invoking internal runnables to enable tracing
+    // 在调用内部运行时，传递`runManager?.getChild()`以启用跟踪
     // await subRunnable.invoke(params, runManager?.getChild());
     for (const letter of prompt.slice(0, this.n)) {
       yield new GenerationChunk({
         text: letter,
       });
-      // Trigger the appropriate callback
+      // 触发适当的回调
       await runManager?.handleLLMNewToken(letter);
     }
   }
 }
 ```
 
-We can now use this as any other LLM:
+现在我们可以像使用其他LLM一样使用它：
 
 ```typescript
 const llm = new CustomLLM({ n: 4 });
@@ -78,7 +77,7 @@ await llm.invoke("I am an LLM");
 I am
 ```
 
-And support streaming:
+并支持流式处理：
 
 ```typescript
 const stream = await llm.stream("I am an LLM");
@@ -95,11 +94,9 @@ a
 m
 ```
 
-## Richer outputs
+## 更丰富的输出
 
-If you want to take advantage of LangChain's callback system for functionality like token tracking, you can extend the [`BaseLLM`](https://api.js.langchain.com/classes/langchain_core_language_models_llms.BaseLLM.html) class and implement the lower level
-`_generate` method. Rather than taking a single string as input and a single string output, it can take multiple input strings and map each to multiple string outputs.
-Additionally, it returns a `Generation` output with fields for additional metadata rather than just a string.
+如果您想利用LangChain的回调系统来实现诸如令牌跟踪之类的功能，您可以扩展[`BaseLLM`](https://api.js.langchain.com/classes/langchain_core_language_models_llms.BaseLLM.html)类并实现更低级别的 `_generate` 方法。与其接受单个字符串作为输入和单个字符串输出，不如接受多个输入字符串并将每个映射到多个字符串输出。此外，它返回一个带有额外元数据字段的 `Generation` 输出，而不仅仅是一个字符串。
 
 ```ts
 import { CallbackManagerForLLMRun } from "@langchain/core/callbacks/manager";
@@ -134,14 +131,14 @@ export class AdvancedCustomLLM extends BaseLLM<AdvancedCustomLLMCallOptions> {
     runManager?: CallbackManagerForLLMRun
   ): Promise<LLMResult> {
     const outputs = inputs.map((input) => input.slice(0, this.n));
-    // Pass `runManager?.getChild()` when invoking internal runnables to enable tracing
+    // 在调用内部可运行项时传递 `runManager?.getChild()` 以启用跟踪
     // await subRunnable.invoke(params, runManager?.getChild());
 
-    // One input could generate multiple outputs.
+    // 一个输入可能生成多个输出。
     const generations = outputs.map((output) => [
       {
         text: output,
-        // Optional additional metadata for the generation
+        // 生成的可选附加元数据
         generationInfo: { outputCount: 1 },
       },
     ]);
@@ -156,12 +153,12 @@ export class AdvancedCustomLLM extends BaseLLM<AdvancedCustomLLMCallOptions> {
 }
 ```
 
-This will pass the additional returned information in callback events and in the `streamEvents method:
+这将通过回调事件和 `streamEvents` 方法传递额外返回的信息：
 
 ```ts
 const llm = new AdvancedCustomLLM({ n: 4 });
 
-const eventStream = await llm.streamEvents("I am an LLM", {
+const eventStream = await llm.streamEvents("我是一个LLM", {
   version: "v1",
 });
 
@@ -184,7 +181,7 @@ for await (const event of eventStream) {
       "generations": [
         [
           {
-            "text": "I am",
+            "text": "我是",
             "generationInfo": {
               "outputCount": 1
             }
@@ -200,3 +197,4 @@ for await (const event of eventStream) {
   }
 }
 ```
+

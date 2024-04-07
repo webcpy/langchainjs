@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 
-// Requires a vectorstore that supports maximal marginal relevance search
+// 需要支持最大边际相关性搜索的向量存储
 import { Pinecone } from "@pinecone-database/pinecone";
 import { OpenAIEmbeddings, ChatOpenAI } from "@langchain/openai";
 import { PineconeStore } from "@langchain/pinecone";
@@ -41,16 +41,17 @@ const examples = [
 
 const exampleSelector = new SemanticSimilarityExampleSelector({
   vectorStoreRetriever: pineconeMmrRetriever,
-  // Only embed the "query" key of each example
+  // 仅嵌入每个示例的“query”键
   inputKeys: ["query"],
 });
 
 for (const example of examples) {
-  // Format and add an example to the underlying vector store
+  // 格式化并将示例添加到底层向量存储中
   await exampleSelector.addExample(example);
 }
 
-// Create a prompt template that will be used to format the examples.
+// 创建一个用于格式化示例的提示模板。
+
 const examplePrompt = PromptTemplate.fromTemplate(`<example>
   <user_input>
     {query}
@@ -60,9 +61,9 @@ const examplePrompt = PromptTemplate.fromTemplate(`<example>
   </output>
 </example>`);
 
-// Create a FewShotPromptTemplate that will use the example selector.
+// 创建一个FewShotPromptTemplate，它将使用示例选择器。
 const dynamicPrompt = new FewShotPromptTemplate({
-  // We provide an ExampleSelector instead of examples.
+  // 我们提供一个ExampleSelector而不是示例。
   exampleSelector,
   examplePrompt,
   prefix: `Answer the user's question, using the below examples as reference:`,

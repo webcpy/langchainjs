@@ -1,34 +1,33 @@
 ---
 sidebar_position: 3
 ---
+# 缓存
 
-# Caching
+LangChain为聊天模型提供了一个可选的缓存层。下面的两个原因是很有用的：
 
-LangChain provides an optional caching layer for chat models. This is useful for two reasons:
-
-It can save you money by reducing the number of API calls you make to the LLM provider, if you're often requesting the same completion multiple times.
-It can speed up your application by reducing the number of API calls you make to the LLM provider.
+- 如果您经常多次请求相同的完成结果，它可以通过减少您向LLM提供程序发出的API调用次数来节省您的费用。
+- 通过减少您向LLM提供程序发出的API调用次数，可以加快应用程序的速度。
 
 import CodeBlock from "@theme/CodeBlock";
 
 ```typescript
 import { ChatOpenAI } from "@langchain/openai";
 
-// To make the caching really obvious, lets use a slower model.
+// 为了使缓存更加明显，让我们使用一个更慢的模型。
 const model = new ChatOpenAI({
   modelName: "gpt-4",
   cache: true,
 });
 ```
 
-## In Memory Cache
+## 内存缓存
 
-The default cache is stored in-memory. This means that if you restart your application, the cache will be cleared.
+默认缓存存储在内存中。这意味着如果您重新启动应用程序，缓存将被清除。
 
 ```typescript
 console.time();
 
-// The first time, it is not yet in cache, so it should take longer
+// 第一次，它还没有在缓存中，所以应该需要更长时间
 const res = await model.invoke("Tell me a joke!");
 console.log(res);
 
@@ -53,7 +52,7 @@ console.timeEnd();
 ```typescript
 console.time();
 
-// The second time it is, so it goes faster
+// 第二次，它已经在缓存中，所以速度更快
 const res2 = await model.invoke("Tell me a joke!");
 console.log(res2);
 
@@ -74,19 +73,19 @@ console.timeEnd();
 */
 ```
 
-## Caching with Momento
+## 使用Momento进行缓存
 
-LangChain also provides a Momento-based cache. [Momento](https://gomomento.com) is a distributed, serverless cache that requires zero setup or infrastructure maintenance. To use it, you'll need to install the `@gomomento/sdk` package:
+LangChain还提供基于Momento的缓存。[Momento](https://gomomento.com)是一个分布式、无服务器缓存，无需任何设置或基础设施维护。要使用它，您需要安装`@gomomento/sdk`包：
 
 ```bash npm2yarn
 npm install @gomomento/sdk
 ```
 
-Next you'll need to sign up and create an API key. Once you've done that, pass a `cache` option when you instantiate the LLM like this:
+接下来，您需要注册并创建一个API密钥。完成后，在实例化LLM时传递一个`cache`选项，如下所示：
 
-import MomentoCacheExample from "@examples/cache/chat_models/momento.ts";
+import MomentoCacheExample from "@examples/cache/chat\_models/momento.ts";
 
-import IntegrationInstallTooltip from "@mdx_components/integration_install_tooltip.mdx";
+import IntegrationInstallTooltip from "@mdx\_components/integration\_install\_tooltip.mdx";
 
 <IntegrationInstallTooltip></IntegrationInstallTooltip>
 
@@ -96,71 +95,76 @@ npm install @langchain/openai
 
 <CodeBlock language="typescript">{MomentoCacheExample}</CodeBlock>
 
-## Caching with Redis
+## 使用Redis进行缓存
 
-LangChain also provides a Redis-based cache. This is useful if you want to share the cache across multiple processes or servers. To use it, you'll need to install the `redis` package:
+LangChain还提供基于Redis的缓存。如果您希望在多个进程或服务器之间共享缓存，这将非常有用。要使用它，您需要安装`redis`包：
 
 ```bash npm2yarn
 npm install ioredis
 ```
 
-Then, you can pass a `cache` option when you instantiate the LLM. For example:
+然后，在实例化LLM时，可以传递一个`cache`选项。例如：
 
-import RedisCacheExample from "@examples/cache/chat_models/redis.ts";
+```typescript
+import RedisCacheExample from "@examples/cache/chat\_models/redis.ts";
 
 <CodeBlock language="typescript">{RedisCacheExample}</CodeBlock>
 
-## Caching with Upstash Redis
+## 使用Upstash Redis进行缓存
 
-LangChain provides an Upstash Redis-based cache. Like the Redis-based cache, this cache is useful if you want to share the cache across multiple processes or servers. The Upstash Redis client uses HTTP and supports edge environments. To use it, you'll need to install the `@upstash/redis` package:
+LangChain提供基于Upstash Redis的缓存。与基于Redis的缓存类似，如果您希望在多个进程或服务器之间共享缓存，这将非常有用。Upstash Redis客户端使用HTTP，并支持边缘环境。要使用它，您需要安装`@upstash/redis`包：
 
 ```bash npm2yarn
 npm install @upstash/redis
 ```
 
-You'll also need an [Upstash account](https://docs.upstash.com/redis#create-account) and a [Redis database](https://docs.upstash.com/redis#create-a-database) to connect to. Once you've done that, retrieve your REST URL and REST token.
+您还需要一个[Upstash账户](https://docs.upstash.com/redis#create-account)和一个[Redis数据库](https://docs.upstash.com/redis#create-a-database)来连接。完成后，检索您的REST URL和REST token。
 
-Then, you can pass a `cache` option when you instantiate the LLM. For example:
+然后，在实例化LLM时，可以传递一个`cache`选项。例如：
 
-import UpstashRedisCacheExample from "@examples/cache/chat_models/upstash_redis.ts";
+```typescript
+import UpstashRedisCacheExample from "@examples/cache/chat\_models/upstash\_redis.ts";
 
 <CodeBlock language="typescript">{UpstashRedisCacheExample}</CodeBlock>
 
-You can also directly pass in a previously created [@upstash/redis](https://docs.upstash.com/redis/sdks/javascriptsdk/overview) client instance:
+您还可以直接传递一个之前创建的[@upstash/redis](https://docs.upstash.com/redis/sdks/javascriptsdk/overview)客户端实例：
 
-import AdvancedUpstashRedisCacheExample from "@examples/cache/chat_models/upstash_redis_advanced.ts";
+```typescript
+import AdvancedUpstashRedisCacheExample from "@examples/cache/chat\_models/upstash\_redis\_advanced.ts";
 
 <CodeBlock language="typescript">{AdvancedUpstashRedisCacheExample}</CodeBlock>
 
-## Caching with Cloudflare KV
+## 使用Cloudflare KV进行缓存
 
 :::info
-This integration is only supported in Cloudflare Workers.
+此集成仅在Cloudflare Workers中受支持。
 :::
 
-If you're deploying your project as a Cloudflare Worker, you can use LangChain's Cloudflare KV-powered LLM cache.
+如果您将项目部署为Cloudflare Worker，您可以使用LangChain的Cloudflare KV驱动的LLM缓存。
 
-For information on how to set up KV in Cloudflare, see [the official documentation](https://developers.cloudflare.com/kv/).
+有关如何在Cloudflare中设置KV的信息，请参阅[官方文档](https://developers.cloudflare.com/kv/)。
 
-**Note:** If you are using TypeScript, you may need to install types if they aren't already present:
+**注意：** 如果您使用TypeScript，如果尚未存在类型，则可能需要安装类型：
 
 ```bash npm2yarn
 npm install -S @cloudflare/workers-types
 ```
 
-import CloudflareExample from "@examples/cache/chat_models/cloudflare_kv.ts";
+```typescript
+import CloudflareExample from "@examples/cache/chat\_models/cloudflare\_kv.ts";
 
 <CodeBlock language="typescript">{CloudflareExample}</CodeBlock>
 
-## Caching on the File System
+## 文件系统缓存
 
 :::warning
-This cache is not recommended for production use. It is only intended for local development.
+不建议在生产环境中使用此缓存。它仅用于本地开发。
 :::
 
-LangChain provides a simple file system cache.
-By default the cache is stored a temporary directory, but you can specify a custom directory if you want.
+LangChain提供了一个简单的文件系统缓存。
+默认情况下，缓存存储在临时目录中，但如果需要，您可以指定一个自定义目录。
 
 ```typescript
 const cache = await LocalFileCache.create();
 ```
+

@@ -1,7 +1,7 @@
 import { OpenAI } from "@langchain/openai";
 
-// To enable streaming, we pass in `streaming: true` to the LLM constructor.
-// Additionally, we pass in a handler for the `handleLLMNewToken` event.
+// 要启用流式传输，我们将streaming: true传递给LLM构造函数.
+// 此外，我们还传递了一个handleLLMNewToken事件处理程序。
 const chat = new OpenAI({
   streaming: true,
   callbacks: [

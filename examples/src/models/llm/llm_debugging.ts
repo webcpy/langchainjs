@@ -2,7 +2,7 @@ import { OpenAI } from "@langchain/openai";
 import type { Serialized } from "@langchain/core/load/serializable";
 import { LLMResult } from "@langchain/core/outputs";
 
-// We can pass in a list of CallbackHandlers to the LLM constructor to get callbacks for various events.
+// 我们可以将一系列 CallbackHandlers 传递给 LLM 构造函数，以获取各种事件的回调。
 const model = new OpenAI({
   callbacks: [
     {

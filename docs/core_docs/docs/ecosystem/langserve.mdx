@@ -1,26 +1,26 @@
-# Integrating with LangServe
+# 与 LangServe 集成
 
-[LangServe](https://python.langchain.com/docs/langserve) is a Python framework that helps developers deploy LangChain [runnables and chains](/docs/expression_language/)
-as REST APIs.
+[LangServe](https://python.langchain.com/docs/langserve) 是一个 Python 框架，它帮助开发者将 LangChain [可运行和链](/docs/expression_language/)
+作为 REST APIs 部署。
 
-If you have a deployed LangServe route, you can use the [RemoteRunnable](https://api.js.langchain.com/classes/langchain_core_runnables_remote.RemoteRunnable.html) class to interact
-with it as if it were a local chain. This allows you to more easily call hosted LangServe instances from JavaScript environments (like in the browser on the frontend).
+如果您有一个部署的 LangServe 路由，您可以使用 [RemoteRunnable](https://api.js.langchain.com/classes/langchain_core_runnables_remote.RemoteRunnable.html) 类来与之交互，
+就像它是本地链一样。这允许您更轻松地从 JavaScript 环境中调用托管的 LangServe 实例（如在浏览器前端）。
 
-## Setup
+## 设置
 
-You'll need to install or package LangChain core into your frontend:
+您需要将 LangChain 核心安装或打包到您的前端：
 
 ```bash npm2yarn
 npm install @langchain/core
 ```
 
-If you are calling a LangServe endpoint from the browser, you'll need to make sure your server is returning CORS headers.
-You can use FastAPI's built-in middleware for that:
+如果您从浏览器调用 LangServe 端点，您需要确保您的服务器返回 CORS 头。
+您可以使用 FastAPI 的内置中间件来实现这一点：
 
 ```python
 from fastapi.middleware.cors import CORSMiddleware
 
-# Set all CORS enabled origins
+# 设置所有启用 CORS 的来源
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -31,35 +31,37 @@ app.add_middleware(
 )
 ```
 
-## Usage
+## 使用
 
-Then, you can use any of the [supported LCEL interface methods](/docs/expression_language/interface).
-Here's an example of how this looks:
+然后，您可以使用任何支持的 [LCEL 接口方法](/docs/expression_language/interface)。
+以下是示例代码：
 
 import CodeBlock from "@theme/CodeBlock";
 import Example from "@examples/ecosystem/langsmith.ts";
 
 <CodeBlock language="typescript">{Example}</CodeBlock>
 
-[`streamEvents`](/docs/expression_language/interface) allows you to stream chain intermediate steps as events such as `on_llm_start`, and `on_chain_stream`.
-See the [table here](/docs/expression_language/interface#stream-events) for a full list of events you can handle.
-This method allows for a few extra options as well to only include or exclude certain named steps:
+[`streamEvents`](/docs/expression_language/interface) 允许您将链的中间步骤作为事件流式传输，例如 `on_llm_start` 和 `on_chain_stream`。
+请参阅[这里](/docs/expression_language/interface#stream-events)的表格以获取您可以处理的事件的完整列表。
+此方法还允许一些额外的选项，以便只包括或排除某些命名的步骤：
 
-import StreamEventsExample from "@examples/ecosystem/langsmith_stream_events.ts";
+import StreamEventsExample from "@examples/ecosystem/langsmith\_stream\_events.ts";
 
 <CodeBlock language="typescript">{StreamEventsExample}</CodeBlock>
 
-[`streamLog`](/docs/expression_language/interface) is a lower level method for streaming chain intermediate steps as partial JSONPatch chunks.
-Like `streamEvents`, this method also allows for a few extra options as well to only include or exclude certain named steps:
+[`streamLog`](/docs/expression_language/interface) 是一个更底层的用于将链的中间步骤作为部分 JSONPatch 块流式传输的方法。
+与 `streamEvents` 一样，此方法还允许一些额外的选项，以便只包括或排除某些命名的步骤：
 
-import StreamLogExample from "@examples/ecosystem/langsmith_stream_log.ts";
+import StreamLogExample from "@examples/ecosystem/langsmith\_stream\_log.ts";
 
 <CodeBlock language="typescript">{StreamLogExample}</CodeBlock>
 
-### Configuration
+### 配置
 
-You can also pass in options for headers and timeouts into the constructor. These will be used when making incoming requests:
+您还可以在构造函数中传递用于头部和超时的选项。这些将在进行传入请求时使用：
 
-import OptionsExample from "@examples/ecosystem/langsmith_options.ts";
+import OptionsExample from "@examples/ecosystem/langsmith\_options.ts";
 
 <CodeBlock language="typescript">{OptionsExample}</CodeBlock>
+
+

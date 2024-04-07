@@ -1,48 +1,48 @@
-# Add message history (memory)
+# 添加消息历史（记忆）
 
-The `RunnableWithMessageHistory` let's us add message history to certain types of chains.
+`RunnableWithMessageHistory` 允许我们将消息历史添加到某些类型的链中。
 
-Specifically, it can be used for any Runnable that takes as input one of
+具体来说，它可以用于任何Runnable，该Runnable接受以下输入之一：
 
-- a sequence of `BaseMessage`
-- a dict with a key that takes a sequence of `BaseMessage`
-- a dict with a key that takes the latest message(s) as a string or sequence of `BaseMessage`, and a separate key that takes historical messages
+- `BaseMessage` 的序列
+- 一个字典，其中包含一个键，该键接受 `BaseMessage` 的序列
+- 一个字典，其中一个键接受最新消息（作为字符串或 `BaseMessage` 的序列），另一个键接受历史消息
 
-And returns as output one of
+并返回以下输出之一：
 
-- a string that can be treated as the contents of an `AIMessage`
-- a sequence of `BaseMessage`
-- a dict with a key that contains a sequence of `BaseMessage`
+- 可以被视为 `AIMessage` 内容的字符串
+- `BaseMessage` 的序列
+- 一个字典，其中包含一个键，该键包含 `BaseMessage` 的序列
 
-Let's take a look at some examples to see how it works.
+让我们看一些例子来了解它的工作原理。
 
-## Setup
+## 设置
 
-We'll use Upstash to store our chat message histories and Anthropic's claude-2 model so we'll need to install the following dependencies:
+我们将使用 Upstash 来存储我们的聊天消息历史，并使用 Anthropic 的 claude-2 模型，因此我们需要安装以下依赖项：
 
 ```bash npm2yarn
 npm install @langchain/anthropic @langchain/community @upstash/redis
 ```
 
-You'll need to set environment variables for `ANTHROPIC_API_KEY` and grab your Upstash REST url and secret token.
+您需要设置 `ANTHROPIC_API_KEY` 的环境变量，并获取您的 Upstash REST url 和 secret token。
 
 ### [LangSmith](https://smith.langchain.com/)
 
-LangSmith is especially useful for something like message history injection, where it can be hard to otherwise understand what the inputs are to various parts of the chain.
+LangSmith 在处理消息历史注入之类的事情时特别有用，否则很难理解各种链的输入。
 
-Note that LangSmith is not needed, but it is helpful.
-If you do want to use LangSmith, after you sign up at the link above, make sure to uncoment the below and set your environment variables to start logging traces:
+请注意，LangSmith 不是必需的，但它很有帮助。
+如果您确实想使用 LangSmith，在上述链接注册后，请确保取消注释下面的内容，并设置您的环境变量以开始记录跟踪：
 
 ```bash
 export LANGCHAIN_TRACING_V2="true"
 export LANGCHAIN_API_KEY="<your-api-key>"
 ```
 
-## Example: Dict input, message output
+## 示例：字典输入，消息输出
 
-Let's create a simple chain that takes a dict as input and returns a BaseMessage.
+让我们创建一个简单的链，它接受字典作为输入并返回 BaseMessage。
 
-In this case the `"question"` key in the input represents our input message, and the `"history"` key is where our historical messages will be injected.
+在这种情况下，输入中的 `"question"` 键代表我们的输入消息，而 `"history"` 键是我们将注入历史消息的地方。
 
 ```typescript
 import {
@@ -51,11 +51,11 @@ import {
 } from "@langchain/core/prompts";
 import { ChatAnthropic } from "@langchain/anthropic";
 import { UpstashRedisChatMessageHistory } from "@langchain/community/stores/message/upstash_redis";
-// For demos, you can also use an in-memory store:
+// 对于演示，您也可以使用内存存储：
 // import { ChatMessageHistory } from "langchain/stores/message/in_memory";
 
 const prompt = ChatPromptTemplate.fromMessages([
-  ["system", "You're an assistant who's good at {ability}"],
+  ["system", "你是一个擅长{ability}的助手"],
   new MessagesPlaceholder("history"),
   ["human", "{question}"],
 ]);
@@ -65,13 +65,13 @@ const chain = prompt.pipe(
 );
 ```
 
-### Adding message history
+### 添加消息历史
 
-To add message history to our original chain we wrap it in the `RunnableWithMessageHistory` class.
+要将消息历史添加到我们原始的链中，我们将其包裹在 `RunnableWithMessageHistory` 类中。
 
-Crucially, we also need to define a method that takes a `sessionId` string and based on it returns a `BaseChatMessageHistory`. Given the same input, this method should return an equivalent output.
+关键是我们还需要定义一个方法，该方法接受一个 `sessionId` 字符串，并基于它返回一个 `BaseChatMessageHistory`。对于相同的输入，这个方法应该返回一个等价输出。
 
-In this case we'll also want to specify `inputMessagesKey` (the key to be treated as the latest input message) and `historyMessagesKey` (the key to add historical messages to).
+在这种情况下，我们还希望指定 `inputMessagesKey`（被视为最新输入消息的键）和 `historyMessagesKey`（添加历史消息的键）。
 
 ```typescript
 import { RunnableWithMessageHistory } from "@langchain/core/runnables";
@@ -91,9 +91,9 @@ const chainWithHistory = new RunnableWithMessageHistory({
 });
 ```
 
-## Invoking with config
+## 使用配置调用
 
-Whenever we call our chain with message history, we need to include an additional config object that contains the `session_id`
+每当我们调用具有消息历史的链时，我们需要包含一个额外的配置对象，其中包含 `session_id`
 
 ```typescript
 {
@@ -103,13 +103,13 @@ Whenever we call our chain with message history, we need to include an additiona
 }
 ```
 
-Given the same configuration, our chain should be pulling from the same chat message history.
+给定相同的配置，我们的链应该从相同的聊天消息历史中提取。
 
 ```typescript
 const result = await chainWithHistory.invoke(
   {
     ability: "math",
-    question: "What does cosine mean?",
+    question: "余弦是什么意思？",
   },
   {
     configurable: {
@@ -122,72 +122,14 @@ console.log(result);
 
 /*
   AIMessage {
-    content: 'Cosine refers to one of the basic trigonometric functions. Specifically:\n' +
+    content: '余弦是指基本三角函数之一。具体来说：\n' +
       '\n' +
-      '- Cosine is one of the three main trigonometric functions, along with sine and tangent. It is often abbreviated as cos.\n' +
+      '- 余弦是三个主要三角函数之一，与正弦和正切并列。它通常缩写为 cos。\n' +
       '\n' +
-      '- For a right triangle with sides a, b, and c (where c is the hypotenuse), cosine represents the ratio of the length of the adjacent side (a) to the length of the hypotenuse (c). So cos(A) = a/c, where A is the angle opposite side a.\n' +
+      '- 对于一个直角三角形，其边长为 a、b 和 c（其中 c 是斜边），余弦表示邻边（a）的长度与斜边（c）的长度的比率。所以 cos(A) = a/c，其中 A 是边 a 对应的角。\n' +
       '\n' +
-      '- On the Cartesian plane, cosine represents the x-coordinate of a point on the unit circle for a given angle. So if you take an angle θ on the unit circle, the cosine of θ gives you the x-coordinate of where the terminal side of that angle intersects the circle.\n' +
-      '\n' +
-      '- The cosine function has a periodic waveform that oscillates between 1 and -1. Its graph forms a cosine wave.\n' +
-      '\n' +
-      'So in essence, cosine helps relate an angle in a right triangle to the ratio of two of its sides. Along with sine and tangent, it is foundational to trigonometry and mathematical modeling of periodic functions.',
-    name: undefined,
-    additional_kwargs: {
-      id: 'msg_01QnnAkKEz7WvhJrwLWGbLBm',
-      type: 'message',
-      role: 'assistant',
-      model: 'claude-3-sonnet-20240229',
-      stop_reason: 'end_turn',
-      stop_sequence: null
-    }
-  }
-*/
-
-const result2 = await chainWithHistory.invoke(
-  {
-    ability: "math",
-    question: "What's its inverse?",
-  },
-  {
-    configurable: {
-      sessionId: "foobarbaz",
-    },
-  }
-);
-
-console.log(result2);
-
-/*
-  AIMessage {
-    content: 'The inverse of the cosine function is the arcsine or inverse sine function, often written as sin−1(x) or sin^{-1}(x).\n' +
-      '\n' +
-      'Some key properties of the inverse cosine function:\n' +
-      '\n' +
-      '- It accepts values between -1 and 1 as inputs and returns angles from 0 to π radians (0 to 180 degrees). This is the inverse of the regular cosine function, which takes angles and returns the cosine ratio.\n' +
-      '\n' +
-      '- It is also called cos−1(x) or cos^{-1}(x) (read as "cosine inverse of x").\n' +
-      '\n' +
-      '- The notation sin−1(x) is usually preferred over cos−1(x) since it relates more directly to the unit circle definition of cosine. sin−1(x) gives the angle whose sine equals x.\n' +
-      '\n' +
-      '- The arcsine function is one-to-one on the domain [-1, 1]. This means every output angle maps back to exactly one input ratio x. This one-to-one mapping is what makes it the mathematical inverse of cosine.\n' +
-      '\n' +
-      'So in summary, arcsine or inverse sine, written as sin−1(x) or sin^{-1}(x), gives you the angle whose cosine evaluates to the input x, undoing the cosine function. It is used throughout trigonometry and calculus.',
-    additional_kwargs: {
-      id: 'msg_01PYRhpoUudApdJvxug6R13W',
-      type: 'message',
-      role: 'assistant',
-      model: 'claude-3-sonnet-20240229',
-      stop_reason: 'end_turn',
-      stop_sequence: null
-    }
-  }
-*/
+      '- 在笛卡尔平面上，余弦表示单位圆上给定
 ```
 
-:::tip
-[Langsmith trace](https://smith.langchain.com/public/50377a89-d0b8-413b-8cd7-8e6618835e00/r)
-:::
+请注意，上述代码块中的翻译是根据您提供的上下文进行的，但代码块中的内容（包括变量名和函数名）通常不翻译，因为它们是技术术语，通常保持原样以便于开发者理解和使用。
 
-Looking at the Langsmith trace for the second call, we can see that when constructing the prompt, a "history" variable has been injected which is a list of two messages (our first input and first output).

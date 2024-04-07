@@ -1,15 +1,15 @@
 ---
 sidebar_position: 1
 ---
-
-# HTTP Response Output Parser
+# HTTP 响应输出解析器
 
 import CodeBlock from "@theme/CodeBlock";
 import HttpResponse from "@examples/prompts/http_response_output_parser.ts";
 import EventStreamHttpResponse from "@examples/prompts/http_response_output_parser_event_stream.ts";
 import CustomOutputHttpResponse from "@examples/prompts/http_response_output_parser_custom.ts";
 
-The HTTP Response output parser allows you to stream LLM output properly formatted bytes a web [HTTP response](https://developer.mozilla.org/en-US/docs/Web/API/Response):
+HTTP响应输出解析器允许您将LLM输出流式传输为经过正确格式化的字节的Web [HTTP响应](https://developer.mozilla.org/zh-CN/docs/Web/API/Response):
+
 
 import IntegrationInstallTooltip from "@mdx_components/integration_install_tooltip.mdx";
 
@@ -21,10 +21,11 @@ npm install @langchain/openai
 
 <CodeBlock language="typescript">{HttpResponse}</CodeBlock>
 
-You can also stream back chunks as an [event stream](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events):
+您还可以将数据块作为 [事件流](https://developer.mozilla.org/zh-CN/docs/Web/API/Server-sent_events/Using_server-sent_events) 返回:
 
 <CodeBlock language="typescript">{EventStreamHttpResponse}</CodeBlock>
 
-Or pass a custom output parser to internally parse chunks for e.g. streaming function outputs:
+或者传递一个自定义输出解析器来内部解析数据块，例如流式传输函数输出:
 
 <CodeBlock language="typescript">{CustomOutputHttpResponse}</CodeBlock>
+

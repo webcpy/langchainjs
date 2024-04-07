@@ -1,12 +1,11 @@
 ---
 sidebar_position: 1
 ---
+# 为什么使用 LCEL？
+LangChain表达式语言从一开始就被设计用于**支持将原型投入生产**，无需进行任何代码更改，从最简单的“prompt + LLM”链到最复杂的链条（我们已经看到有人成功地在生产环境中运行了具有数百步骤的LCEL链）。以下是一些您可能希望使用LCEL的原因的几个亮点：
 
-# Why use LCEL?
+- 优化的并行执行：每当您的LCEL链具有可以并行执行的步骤（例如，如果您从多个检索器获取文档），我们会自动执行它，以实现尽可能小的延迟
+- 支持重试和后备：最近，我们增加了对配置您 LCEL 链任何部分的重试和后备的支持。这是在规模上使您的链更加可靠的好方法。我们目前正在添加对流式重试/后备的支持，这样您可以在不产生任何延迟成本的情况下获得额外的可靠性。
+- 访问中间结果：对于更复杂的链，即使在最终输出产生之前，访问中间步骤的结果通常也非常有用。这可以用来让终端用户知道正在发生的事情，或者仅仅是为了调试您的链。我们已经增加了对[流式中间结果](https://x.com/LangChainAI/status/1711806009097044193?s=20)的支持，并且它可以在每个 LangServe 服务器上使用。
+- 使用 LangSmith 进行跟踪：所有使用 LCEL 构建的链都有一流的跟踪支持，可以用于调试您的链，或者了解生产中发生的情况。要启用此功能，您只需将 [LangSmith](https://www.langchain.com/langsmith) API 密钥添加为环境变量即可。
 
-The LangChain Expression Language was designed from day 1 to **support putting prototypes in production, with no code changes**, from the simplest “prompt + LLM” chain to the most complex chains (we’ve seen folks successfully running in production LCEL chains with 100s of steps). To highlight a few of the reasons you might want to use LCEL:
-
-- optimised parallel execution: whenever your LCEL chains have steps that can be executed in parallel (eg if you fetch documents from multiple retrievers) we automatically do it, for the smallest possible latency.
-- support for retries and fallbacks: more recently we’ve added support for configuring retries and fallbacks for any part of your LCEL chain. This is a great way to make your chains more reliable at scale. We’re currently working on adding streaming support for retries/fallbacks, so you can get the added reliability without any latency cost.
-- accessing intermediate results: for more complex chains it’s often very useful to access the results of intermediate steps even before the final output is produced. This can be used let end-users know something is happening, or even just to debug your chain. We’ve added support for [streaming intermediate results](https://x.com/LangChainAI/status/1711806009097044193?s=20), and it’s available on every LangServe server.
-- tracing with LangSmith: all chains built with LCEL have first-class tracing support, which can be used to debug your chains, or to understand what’s happening in production. To enable this all you have to do is add your [LangSmith](https://www.langchain.com/langsmith) API key as an environment variable.

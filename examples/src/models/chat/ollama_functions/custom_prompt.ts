@@ -35,7 +35,7 @@ const model = new OllamaFunctions({
       },
     },
   ],
-  // You can set the `function_call` arg to force the model to use a function
+  // 你可以设置 `function_call` 参数来强制模型使用一个函数。
   function_call: {
     name: "get_current_weather",
   },

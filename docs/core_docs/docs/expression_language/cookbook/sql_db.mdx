@@ -1,34 +1,33 @@
 ---
 sidebar_position: 3
-title: Querying a SQL DB
+title: 查询 SQL 数据库
 hide_table_of_contents: true
 ---
+# 查询 SQL 数据库
 
-# Querying a SQL DB
+我们可以使用可运行对象（Runnables） 复制我们的 SQLDatabaseChain。
 
-We can replicate our SQLDatabaseChain with Runnables.
+## 设置
 
-## Setup
+这个示例需要使用 Chinook 示例数据库。
 
-We'll need the Chinook sample DB for this example.
-
-First install `typeorm`:
+首先安装 `typeorm`：
 
 ```bash npm2yarn
 npm install typeorm
 ```
 
-Then install the dependencies needed for your database. For example, for SQLite:
+然后安装所需的数据库依赖项。例如，对于 SQLite：
 
 ```bash npm2yarn
 npm install sqlite3
 ```
 
-For other databases see https://typeorm.io/#installation.
+对于其他数据库，请参阅 <https://typeorm.io/#installation>。
 
-Finally follow the instructions on https://database.guide/2-sample-databases-sqlite/ to get the sample database for this example.
+最后，按照 <https://database.guide/2-sample-databases-sqlite/> 上的说明获取此示例的示例数据库。
 
-## Composition
+## 组成
 
 import CodeBlock from "@theme/CodeBlock";
 import SQLDBExample from "@examples/guides/expression_language/cookbook_sql_db.ts";
@@ -42,3 +41,5 @@ npm install @langchain/openai
 ```
 
 <CodeBlock language="typescript">{SQLDBExample}</CodeBlock>
+
+

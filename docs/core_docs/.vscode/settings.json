@@ -1,0 +1,11 @@
+{
+    "prettier.enable": false,
+    "editor.formatOnSave": false,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": "never"
+    },
+    "auto-close-tag.activationOnLanguage": [
+        // …
+        "mdx"
+    ]
+}

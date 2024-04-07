@@ -1,11 +1,12 @@
-# Composition
+# 组合
 
-This notebook goes over how to compose multiple prompts together. This can be useful when you want to reuse parts of prompts. This can be done with a PipelinePrompt. A PipelinePrompt consists of two main parts:
+本文介绍了如何将多个提示组合在一起。当您想要重用提示的部分时，这可能会很有用。这可以通过PipelinePrompt来完成。PipelinePrompt包括两个主要部分
 
-- Final prompt: This is the final prompt that is returned
-- Pipeline prompts: This is a list of tuples, consisting of a string name and a prompt template. Each prompt template will be formatted and then passed to future prompt templates as a variable with the same name.
+- Final prompt：这是返回的最终提示
+- Pipeline prompts：这是一个由字符串名称和提示模板组成的元组列表。每个提示模板将被格式化，然后作为具有相同名称的变量传递给未来的提示模板。
 
 import CodeBlock from "@theme/CodeBlock";
-import Example from "@examples/prompts/pipeline_prompt.ts";
+import Example from "@examples/prompts/pipeline\_prompt.ts";
 
 <CodeBlock language="typescript">{Example}</CodeBlock>
+

@@ -2,10 +2,10 @@ import { ChatOpenAI } from "@langchain/openai";
 import { JsonOutputFunctionsParser } from "langchain/output_parsers";
 import { HumanMessage } from "@langchain/core/messages";
 
-// Instantiate the parser
+// 实例化解析器：
 const parser = new JsonOutputFunctionsParser();
 
-// Define the function schema
+// 定义函数架构：
 const extractionFunctionSchema = {
   name: "extractor",
   description: "Extracts fields from the input.",
@@ -30,10 +30,10 @@ const extractionFunctionSchema = {
   },
 };
 
-// Instantiate the ChatOpenAI class
+// 实例化 ChatOpenAI 类：
 const model = new ChatOpenAI({ modelName: "gpt-4" });
 
-// Create a new runnable, bind the function to the model, and pipe the output through the parser
+// 创建一个新的可运行对象，将函数绑定到模型，并将输出通过解析器进行处理
 const runnable = model
   .bind({
     functions: [extractionFunctionSchema],
@@ -41,7 +41,7 @@ const runnable = model
   })
   .pipe(parser);
 
-// Invoke the runnable with an input
+// 使用输入调用可运行实例
 const result = await runnable.invoke([
   new HumanMessage("What a beautiful day!"),
 ]);

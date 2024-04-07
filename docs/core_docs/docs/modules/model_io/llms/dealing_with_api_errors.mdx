@@ -1,6 +1,7 @@
-# Dealing with API Errors
+# 处理 API 错误
 
-If the model provider returns an error from their API, by default LangChain will retry up to 6 times on an exponential backoff. This enables error recovery without any additional effort from you. If you want to change this behavior, you can pass a `maxRetries` option when you instantiate the model. For example:
+如果模型提供商从其 API 返回错误，LangChain将进行指数回退的重试，最多重试6次。
+这样可以在不需要额外工作的情况下进行错误恢复。如果您想更改此行为，您可以在实例化模型时传递一个 `maxRetries` 选项。例如：
 
 import IntegrationInstallTooltip from "@mdx_components/integration_install_tooltip.mdx";
 

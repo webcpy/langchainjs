@@ -1,15 +1,11 @@
 ---
 sidebar_position: 0
 ---
+# 快速入门
 
-# Quickstart
+快速入门将介绍使用语言模型的基础知识。它将介绍两种不同类型的模型 - LLM和ChatModel。然后，它将介绍如何使用PromptTemplates来格式化这些模型的输入，以及如何使用 Output Parsers 处理输出。如果您想深入了解这些主题的概念，请参阅[此页面](/docs/modules/model_io/concepts)。
 
-The quick start will cover the basics of working with language models.
-It will introduce the two different types of models - LLMs and ChatModels.
-It will then cover how to use PromptTemplates to format the inputs to these models, and how to use Output Parsers to work with the outputs.
-For a deeper conceptual guide into these topics - please see [this page](/docs/modules/model_io/concepts).
-
-## Models
+## 模型
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -19,7 +15,7 @@ import IntegrationInstallTooltip from "@mdx_components/integration_install_toolt
 <Tabs groupId="preferredModel">
   <TabItem value="openai" label="OpenAI" default>
 
-First we'll need to install the LangChain OpenAI integration package:
+首先，我们需要安装 LangChain OpenAI 集成包：
 
 <IntegrationInstallTooltip></IntegrationInstallTooltip>
 
@@ -27,13 +23,13 @@ First we'll need to install the LangChain OpenAI integration package:
 npm install @langchain/openai
 ```
 
-Accessing the API requires an API key, which you can get by creating an account and heading [here](https://platform.openai.com/account/api-keys). Once we have a key we'll want to set it as an environment variable:
+访问 API 需要一个 API 密钥，您可以通过创建一个帐户并转到[此处](https://platform.openai.com/account/api-keys)来获取。一旦我们有了一个密钥，我们就希望将其设置为环境变量：
 
 ```shell
 OPENAI_API_KEY="..."
 ```
 
-We can then initialize the model:
+然后，我们可以初始化模型：
 
 ```typescript
 import { OpenAI, ChatOpenAI } from "@langchain/openai";
@@ -46,7 +42,7 @@ const chatModel = new ChatOpenAI({
 });
 ```
 
-If you can't or would prefer not to set an environment variable, you can pass the key in directly via the `openAIApiKey` named parameter when initiating the OpenAI LLM class:
+如果您不能或者更喜欢不设置环境变量，您可以通过在初始化 OpenAI LLM 类时通过 `openAIApiKey` 命名参数直接传递密钥：
 
 ```typescript
 const model = new ChatOpenAI({
@@ -55,16 +51,16 @@ const model = new ChatOpenAI({
 ```
 
   </TabItem>
-  <TabItem value="local" label="Local (using Ollama)">
+  <TabItem value="local" label="本地（使用 Ollama）">
 
-[Ollama](https://ollama.ai/) allows you to run open-source large language models, such as Llama 2 and Mistral, locally.
+[Ollama](https://ollama.ai/) 允许您在本地运行开源的大型语言模型，如 Llama 2 和 Mistral。
 
-First, follow [these instructions](https://github.com/jmorganca/ollama) to set up and run a local Ollama instance:
+首先，按照[这些说明](https://github.com/jmorganca/ollama)设置并运行一个本地 Ollama 实例：
 
-- [Download](https://ollama.ai/download)
-- Fetch a model via e.g. `ollama pull mistral`
+- [下载](https://ollama.ai/download)
+- 通过例如 `ollama pull mistral` 获取一个模型
 
-Then, make sure the Ollama server is running. Next, you'll need to install the LangChain community package:
+然后，确保 Ollama 服务器正在运行。接下来，您需要安装 LangChain 社区包：
 
 <IntegrationInstallTooltip></IntegrationInstallTooltip>
 
@@ -72,18 +68,18 @@ Then, make sure the Ollama server is running. Next, you'll need to install the L
 npm install @langchain/community
 ```
 
-And then you can do:
+然后您可以这样做：
 
 ```typescript
 import { Ollama } from "@langchain/community/llms/ollama";
 import { ChatOllama } from "@langchain/community/chat_models/ollama";
 
 const llm = new Ollama({
-  baseUrl: "http://localhost:11434", // Default value
+  baseUrl: "http://localhost:11434", // 默认值
   model: "mistral",
 });
 const chatModel = new ChatOllama({
-  baseUrl: "http://localhost:11434", // Default value
+  baseUrl: "http://localhost:11434", // 默认值
   model: "mistral",
 });
 ```
@@ -91,7 +87,7 @@ const chatModel = new ChatOllama({
   </TabItem>
   <TabItem value="anthropic" label="Anthropic" default>
 
-First we'll need to install the LangChain Anthropic integration package:
+首先，我们需要安装 LangChain Anthropic 集成包：
 
 <IntegrationInstallTooltip></IntegrationInstallTooltip>
 
@@ -99,13 +95,13 @@ First we'll need to install the LangChain Anthropic integration package:
 npm install @langchain/anthropic
 ```
 
-Accessing the API requires an API key, which you can get by creating an account [here](https://console.anthropic.com/). Once we have a key we'll want to set it as an environment variable:
+访问 API 需要一个 API 密钥，您可以通过在[这里](https://console.anthropic.com/)创建一个帐户来获取。一旦我们有了一个密钥，我们就希望将其设置为环境变量：：
 
 ```bash
 ANTHROPIC_API_KEY="..."
 ```
 
-We can then initialize the model:
+然后，我们可以初始化模型：
 
 ```typescript
 import { ChatAnthropic } from "@langchain/anthropic";
@@ -115,7 +111,7 @@ const chatModel = new ChatAnthropic({
 });
 ```
 
-If you can't or would prefer not to set an environment variable, you can pass the key in directly via the `anthropicApiKey` named parameter when initiating the ChatAnthropic class:
+如果您不能或宁愿不设置环境变量，您可以通过在初始化 ChatAnthropic 类时通过 `anthropicApiKey` 命名参数直接传递密钥：
 
 ```typescript
 const model = new ChatAnthropic({
@@ -126,7 +122,7 @@ const model = new ChatAnthropic({
   </TabItem>
   <TabItem value="google" label="Google GenAI" default>
 
-First we'll need to install the LangChain Google GenAI integration package:
+首先，我们需要安装 LangChain Google GenAI 集成包：
 
 <IntegrationInstallTooltip></IntegrationInstallTooltip>
 
@@ -134,13 +130,13 @@ First we'll need to install the LangChain Google GenAI integration package:
 npm install @langchain/google-genai
 ```
 
-Accessing the API requires an API key, which you can get by creating an account [here](https://ai.google.dev/tutorials/setup). Once we have a key we'll want to set it as an environment variable:
+访问 API 需要一个 API 密钥，您可以通过创建一个帐户[这里](https://ai.google.dev/tutorials/setup)来获取。一旦我们有了一个密钥，我们就希望将其设置为环境变量：：
 
 ```bash
 GOOGLE_API_KEY="..."
 ```
 
-We can then initialize the model:
+然后，我们可以初始化模型：
 
 ```typescript
 import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
@@ -150,27 +146,30 @@ const chatModel = new ChatGoogleGenerativeAI({
 });
 ```
 
-If you'd prefer not to set an environment variable you can pass the key in directly via the `apiKey` named parameter when initiating the `ChatGoogleGenerativeAI` class:
+
+如果您不想通过设置环境变量来提供API密钥，您可以在初始化 `ChatGoogleGenerativeAI` 类时，通过 `apiKey` 命名参数直接传递密钥：
 
 ```typescript
 const model = new ChatGoogleGenerativeAI({
-  apiKey: "<your key here>",
+  apiKey: "<在这里输入您的密钥>",
 });
 ```
 
   </TabItem>
 </Tabs>
 
-These classes represent configuration for a particular model.
-You can initialize them with parameters like `temperature` and others, and pass them around.
-The main difference between them is their input and output schemas.
+这些类表示特定模型的配置。
+您可以使用参数（如  `temperature`）对它们进行初始化，
+并在它们之间传递。它们之间的主要区别在于它们的输入和输出模式。
 
-- The LLM class takes a string as input and outputs a string.
-- The ChatModel class takes a list of messages as input and outputs a message.
 
-For a deeper conceptual explanation of this difference please see [this documentation](/docs/modules/model_io/concepts#models)
 
-We can see the difference between an LLM and a ChatModel when we invoke it.
+- LLM类将字符串作为输入，并输出一个字符串。
+- ChatModel类将消息列表作为输入，并输出一条消息。
+
+要深入了解这种差异，请参阅[此文档](/docs/modules/model_io/concepts#models)
+
+当我们调用它时，我们可以看到 LLM 和 ChatModel 之间的区别。
 
 ```ts
 import { HumanMessage } from "@langchain/core/messages";
@@ -191,17 +190,16 @@ await chatModel.invoke(messages);
 */
 ```
 
-The LLM returns a string, while the ChatModel returns a message.
+LLM 返回一个字符串，而 ChatModel 返回一个消息。
 
-## Prompt Templates
+## 提示模板
 
-Most LLM applications do not pass user input directly into an LLM. Usually they will add the user input to a larger piece of text, called a prompt template, that provides additional context on the specific task at hand.
 
-In the previous example, the text we passed to the model contained instructions to generate a company name. For our application, it would be great if the user only had to provide the description of a company/product without worrying about giving the model instructions.
+大多数LLM应用程序不会直接将用户输入传递到LLM中。通常，它们会将用户输入添加到一个更大的文本片段中，称为提示模板，该模板提供有关特定任务的额外上下文。
 
-PromptTemplates help with exactly this!
-They bundle up all the logic for going from user input into a fully formatted prompt.
-This can start off very simple - for example, a prompt to produce the above string would just be:
+在之前的示例中，我们传递给模型的文本包含生成公司名称的说明。对于我们的应用程序来说，，如果用户只需提供公司或产品的描述，而不必担心给模型提供具体指令，那将会更加便捷了。
+
+PromptTemplates正是为此而设计的！它们将从用户输入到完全格式化提示的所有逻辑捆绑在一起。这可以从非常简单的形式开始 - 例如，生成上述字符串的提示只需是：
 
 ```typescript
 import { PromptTemplate } from "@langchain/core/prompts";
@@ -214,16 +212,14 @@ await prompt.format({ product: "colorful socks" });
 // What is a good name for a company that makes colorful socks?
 ```
 
-However, the advantages of using these over raw string formatting are several.
-You can "partial" out variables - e.g. you can format only some of the variables at a time.
-You can compose them together, easily combining different templates into a single prompt.
-For explanations of these functionalities, see the [section on prompts](/docs/modules/model_io/prompts) for more detail.
+然而，使用这些模板而不是原始字符串格式化的优势有几点。您可以部分地提取变量 - 例如，您可以一次只格式化部分变量。您可以将它们组合在一起，轻松地将不同的模板组合成一个单独的提示。有关这些功能的解释，
+请参阅[有关提示的部分](/docs/modules/model_io/prompts)以获取更多详细信息。
 
-`PromptTemplate`s can also be used to produce a list of messages.
-In this case, the prompt not only contains information about the content, but also each message (its role, its position in the list, etc.).
-We can use a `ChatPromptTemplate` created from a list of `ChatMessageTemplates`.
-Each `ChatMessageTemplate` contains instructions for how to format that `ChatMessage` - its role, and then also its content.
-Let's take a look at this below:
+`PromptTemplates` 还可以用于生成消息列表。
+在这种情况下，提示不仅包含有关内容的信息，还包含每条消息的信息（其角色、其在列表中的位置等）。
+我们可以使用从一系列 `ChatMessageTemplates` 创建的 `ChatPromptTemplate`。
+每个 `ChatMessageTemplate` 包含有关如何格式化该 `ChatMessage` 的说明 - 其角色，然后还有其内容。让我们在下面看一下这个例子：
+
 
 ```typescript
 import { ChatPromptTemplate } from "@langchain/core/prompts";
@@ -255,18 +251,19 @@ await chatPrompt.formatMessages({
 ]
 ```
 
-ChatPromptTemplates can also be constructed in other ways - see the [section on prompts](/docs/modules/model_io/prompts) for more detail.
+ChatPromptTemplates 也可以以其他方式构建 - 请参阅[关于提示的部分](/docs/modules/model_io/prompts)以获取更多详细信息。
 
-## Output parsers
+## 输出解析器
 
-`OutputParser`s convert the raw output of a language model into a format that can be used downstream.
-There are a few main types of `OutputParser`s, including:
+`OutputParser`s将语言模型的原始输出转换为可以在下游使用的格式。
+其中几种主要类型的`OutputParser`s包括：
 
-- Convert text from `LLM` into structured information (e.g. JSON)
-- Convert a `ChatMessage` into just a string
-- Convert the extra information returned from a call besides the message (like OpenAI function invocation) into a string.
 
-For full information on this, see the [section on output parsers](/docs/modules/model_io/output_parsers).
+- 将来自 `LLM` 的文本转换为结构化信息（例如 JSON）
+- 将 `ChatMessage` 转换为仅字符串
+- 将除消息以外的调用返回的额外信息,（如 OpenAI 函数调用）转换为字符串。
+
+有关完整信息，请参阅[关于输出解析器的部分](/docs/modules/model_io/output_parsers)。
 
 ```typescript
 import { CommaSeparatedListOutputParser } from "langchain/output_parsers";
@@ -276,12 +273,10 @@ await parser.invoke("hi, bye");
 // ['hi', 'bye']
 ```
 
-## Composing with LCEL
+## 使用 LCEL 进行组合
 
-We can now combine all these into one chain.
-This chain will take input variables, pass those to a prompt template to create a prompt, pass the prompt to a language model, and then pass the output through an (optional) output parser.
-This is a convenient way to bundle up a modular piece of logic.
-Let's see it in action!
+现在我们可以将所有这些组合成一个链条。这个链条将接收输入变量，将其传递给一个提示模板以创建提示，然后将提示传递给语言模型，最后通过一个（可选的）输出解析器处理输出。这是将一个模块化逻辑打包起来的便捷方式。让我们看看它的实际应用！
+
 
 ```typescript
 const chain = chatPrompt.pipe(chatModel).pipe(parser);
@@ -289,16 +284,17 @@ await chain.invoke({ text: "colors" });
 // ['red', 'blue', 'green', 'yellow', 'orange']
 ```
 
-Note that we are using the `.pipe()` method to join these components together.
-This `.pipe()` method is powered by the LangChain Expression Language (LCEL) and relies on the universal `Runnable` interface that all of these objects implement.
-To learn more about LCEL, read the documentation [here](/docs/expression_language).
+请注意，我们使用 `.pipe()` 方法将这些组件连接在一起。
+这个 `.pipe()` 方法由 LangChain 表达式语言（LCEL）提供支持，并依赖于所有这些对象实现的通用 `Runnable` 接口。
+要了解更多关于 LCEL 的信息，请阅读[这里](/docs/expression_language)的文档。
 
-## Conclusion
+## 结论
 
-That's it for getting started with prompts, models, and output parsers! This just covered the surface of what there is to learn. For more information, check out:
+以上就是关于提示、模型和输出解析器的入门知识。这仅仅是学习的冰山一角。更多信息，请查看：
 
-- The [conceptual guide](/docs/modules/model_io/concepts) for information about the concepts presented here
-- The [prompt section](/docs/modules/model_io/prompts) for information on how to work with prompt templates
-- The [LLM section](/docs/modules/model_io/llms) for more information on the LLM interface
-- The [ChatModel section](/docs/modules/model_io/chat) for more information on the ChatModel interface
-- The [output parser section](/docs/modules/model_io/output_parsers) for information about the different types of output parsers.
+- [概念指南](/docs/modules/model_io/concepts)，了解这里介绍的概念
+- [提示部分](/docs/modules/model_io/prompts)，了解如何使用提示模板
+- [LLM 部分](/docs/modules/model_io/llms)，了解更多关于 LLM 接口的信息
+- [ChatModel 部分](/docs/modules/model_io/chat)，了解更多关于 ChatModel 接口的信息
+- [输出解析器部分](/docs/modules/model_io/output_parsers)，了解关于不同类型的输出解析器的信息。
+

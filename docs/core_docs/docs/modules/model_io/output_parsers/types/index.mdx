@@ -1,31 +1,31 @@
 ---
 hide_table_of_contents: true
 ---
+# 输出解析器类型
 
-# Output Parser Types
+以下是 LangChain 支持的最受欢迎的输出解析器列表。下表包含各种信息：
 
-This is a list of the most popular output parsers LangChain supports. The table below has various pieces of information:
+**名称**：输出解析器的名称
 
-**Name**: The name of the output parser
+**支持流式传输**：输出解析器是否支持流式传输。
 
-**Supports Streaming**: Whether the output parser supports streaming.
+**有格式指令**：输出解析器是否具有格式说明。通常情况下都有，除非（a）所需的模式未在提示中指定，而是在其他参数中指定（例如 OpenAI 函数调用），或者（b）输出解析器包装另一个输出解析器。
 
-**Has Format Instructions**: Whether the output parser has format instructions. This is generally available except when (a) the desired schema is not specified in the prompt but rather in other parameters (like OpenAI function calling), or (b) when the OutputParser wraps another OutputParser.
+**调用 LLM**：该输出解析器本身是否调用了LLM。这通常只由尝试纠正格式错误的输出解析器执行。
 
-**Calls LLM**: Whether this output parser itself calls an LLM. This is usually only done by output parsers that attempt to correct misformatted output.
+**输入类型**：预期输入类型。大多数输出解析器既适用于字符串也适用于消息，但有些（如 OpenAI Functions）需要一个带有特定关键字参数的消息。
 
-**Input Type**: Expected input type. Most output parsers work on both strings and messages, but some (like OpenAI Functions) need a message with specific kwargs.
+**输出类型**：解析器返回的对象的输出类型。
 
-**Output Type**: The output type of the object returned by the parser.
+**描述**：关于这个输出解析器的评论以及何时使用它。
 
-**Description**: Our commentary on this output parser and when to use it.
+| 名称                                                                          | 支持流式传输 | 有格式指令       | 调用 LLM | 输入类型                       | 输出类型              | 描述                                                                                                                                                                                                                      |
+| ----------------------------------------------------------------------------- | ------------- | ---------------- | -------- | ------------------------------ | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [String](/docs/modules/model_io/output_parsers/types/string)                  | ✅             |                  |          | `string` 或 `Message`          | `string`               | 接受语言模型的输出（可以是整个响应或作为流）并将其转换为字符串。这对于标准化聊天模型和LLM的输出非常有用，并且使得处理聊天模型输出更加方便。 |
+| [HTTPResponse](/docs/modules/model_io/output_parsers/types/http_response)     | ✅             |                  |          | `string` 或 `Message`          | `binary`               | 允许您将LLM输出以适当格式化的字节流式传输到Web [HTTP响应](https://developer.mozilla.org/en-US/docs/Web/API/Response)，以支持多种内容类型 的形式                                                      |
+| [OpenAIFunctions](/docs/modules/model_io/output_parsers/types/json_functions) | ✅             | （传递 `functions` 给模型） |          | `Message`（带有 `function_call`） | JSON 对象              | 允许您使用OpenAI的函数调用来构造返回输出。如果您正在使用支持函数调用的模型，则通常这是最可靠的方法。                                                   |
+| [CSV](/docs/modules/model_io/output_parsers/types/csv)                        |               | ✅                |          | `string` 或 `Message`          | `string[]`             | 返回逗号分隔值列表。                                                                                                                                                                                        |
+| [OutputFixing](/docs/modules/model_io/output_parsers/types/output_fixing)     |               |                  | ✅         | `string` 或 `Message`          |                        | 包装另一个输出解析器。如果该输出解析器出错，则将错误消息和错误输出传递给LLM，并要求它修复输出。                                                                  |
+| [Structured](/docs/modules/model_io/output_parsers/types/structured)          |               | ✅                |          | `string` 或 `Message`          | `Record<string, string>` | 一个输出解析器，返回结构化信息。它的功能不如其他输出解析器强大，因为它只允许字段为字符串。当您使用较小的LLMs时，这可能很有用。             |
+| [Datetime](/docs/modules/model_io/output_parsers/types/datetime)              |               | ✅                |          | `string` 或 `Message`          | `Date`                 | 将响应解析为 JavaScript 日期。                                                                                                                                                                                          |
 
-| Name                                                                          | Supports Streaming | Has Format Instructions       | Calls LLM | Input Type                       | Output Type              | Description                                                                                                                                                                                                                      |
-| ----------------------------------------------------------------------------- | ------------------ | ----------------------------- | --------- | -------------------------------- | ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [String](/docs/modules/model_io/output_parsers/types/string)                  | ✅                 |                               |           | `string` or `Message`            | `string`                 | Takes language model output (either an entire response or as a stream) and converts it into a string. This is useful for standardizing chat model and LLM output and makes working with chat model outputs much more convenient. |
-| [HTTPResponse](/docs/modules/model_io/output_parsers/types/http_response)     | ✅                 |                               |           | `string` or `Message`            | `binary`                 | Allows you to stream LLM output properly formatted bytes a web [HTTP response](https://developer.mozilla.org/en-US/docs/Web/API/Response) for a variety of content types.                                                        |
-| [OpenAIFunctions](/docs/modules/model_io/output_parsers/types/json_functions) | ✅                 | (Passes `functions` to model) |           | `Message` (with `function_call`) | JSON object              | Allows you to use OpenAI function calling to structure the return output. If you are using a model that supports function calling, this is generally the most reliable method.                                                   |
-| [CSV](/docs/modules/model_io/output_parsers/types/csv)                        |                    | ✅                            |           | `string` or `Message`            | `string[]`               | Returns a list of comma separated values.                                                                                                                                                                                        |
-| [OutputFixing](/docs/modules/model_io/output_parsers/types/output_fixing)     |                    |                               | ✅        | `string` or `Message`            |                          | Wraps another output parser. If that output parser errors, then this will pass the error message and the bad output to an LLM and ask it to fix the output.                                                                      |
-| [Structured](/docs/modules/model_io/output_parsers/types/structured)          |                    | ✅                            |           | `string` or `Message`            | `Record<string, string>` | An output parser that returns structured information. It is less powerful than other output parsers since it only allows for fields to be strings. This can be useful when you are working with smaller LLMs.                    |
-| [Datetime](/docs/modules/model_io/output_parsers/types/datetime)              |                    | ✅                            |           | `string` or `Message`            | `Date`                   | Parses response into a JavaScript date.                                                                                                                                                                                          |

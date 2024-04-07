@@ -196,10 +196,10 @@ export default function Feedback() {
     <div style={{ display: "flex", flexDirection: "column" }}>
       <hr />
       {feedbackSent ? (
-        <h4>Thanks for your feedback!</h4>
+        <h4>感谢您的反馈!</h4>
       ) : (
         <>
-          <h4>Help us out by providing feedback on this documentation page:</h4>
+          <h4>帮助我们通过提供对此文档页面的反馈来改进:</h4>
           <div style={{ display: "flex", gap: "5px" }}>
             <div
               {...defaultFields}

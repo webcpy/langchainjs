@@ -2,30 +2,29 @@
 sidebar_class_name: hidden
 hide_table_of_contents: true
 ---
-
 import CodeBlock from "@theme/CodeBlock";
-import Example from "@examples/guides/expression_language/runnable_history.ts";
-import ExampleConstructorConfig from "@examples/guides/expression_language/runnable_history_constructor_config.ts";
+import Example from "@examples/guides/expression\_language/runnable\_history.ts";
+import ExampleConstructorConfig from "@examples/guides/expression\_language/runnable\_history\_constructor\_config.ts";
 
-# Add message history (memory)
+# 添加消息历史记录（记忆）
 
-The `RunnableWithMessageHistory` let's us add message history to certain types of chains.
+`RunnableWithMessageHistory` 让我们能够向某些类型的链中添加消息历史记录。
 
-Specifically, it can be used for any Runnable that takes as input one of
+具体来说，它可以用于任何Runnable，其输入为以下之一
 
-- a list of `BaseMessage`
-- an object with a key that takes a list of `BaseMessage`
-- an object with a key that takes the latest message(s) as a string or list of `BaseMessage`, and a separate key that takes historical messages
+- 一个`BaseMessage`序列
+- 一个带有以`BaseMessage`序列为值的键的字典
+- 一个带有将最新消息（作为字符串或BaseMessage序列）和历史消息（作为BaseMessage序列）分别作为值的键的字典
 
-And returns as output one of
+输出为以下之一
 
-- a string that can be treated as the contents of an `AIMessage`
-- a list of `BaseMessage`
-- an object with a key that contains a list of `BaseMessage`
+- 可以视为 `AIMessage` 内容的字符串
+- `BaseMessage` 的列表
+- 一个带有键的对象，该键包含 `BaseMessage` 的列表
 
-Let's take a look at some examples to see how it works.
+让我们来看一些例子，了解它是如何工作的。
 
-import IntegrationInstallTooltip from "@mdx_components/integration_install_tooltip.mdx";
+import IntegrationInstallTooltip from "@mdx\_components/integration\_install\_tooltip.mdx";
 
 <IntegrationInstallTooltip></IntegrationInstallTooltip>
 
@@ -35,12 +34,14 @@ npm install @langchain/openai
 
 <CodeBlock language="typescript">{Example}</CodeBlock>
 
-## Pass config through the constructor
+## 通过构造函数传递配置
 
-You don't always have to pass the `config` object through the `invoke` method. `RunnableWithMessageHistory` supports passing it through the constructor as well.
+你不必总是通过 `invoke` 方法传递 `config` 对象。`RunnableWithMessageHistory` 也支持通过构造函数传递。
 
-To do this, the only change you need to make is remove the second arg (or just the `configurable` key from the second arg) from the `invoke` method, and add it in through the `config` key in the constructor.
+为此，你需要做的唯一改变是从 `invoke` 方法中删除第二个参数（或者只是从第二个参数中删除 `configurable` 键），并通过构造函数中的 `config` 键添加它。
 
-This is a simple example building on top of what we have above:
+这是一个基于我们上面内容的简单示例：
 
 <CodeBlock language="typescript">{ExampleConstructorConfig}</CodeBlock>
+
+

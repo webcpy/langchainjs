@@ -4,8 +4,8 @@ const chat = new ChatOpenAI({
   maxTokens: 25,
 });
 
-// Pass in a human message. Also accepts a raw string, which is automatically
-// inferred to be a human message.
+// 传入一个human message。还可以接受原始字符串，它会自动转换。
+// 被推断为human message.
 const stream = await chat.stream([["human", "Tell me a joke about bears."]]);
 
 for await (const chunk of stream) {

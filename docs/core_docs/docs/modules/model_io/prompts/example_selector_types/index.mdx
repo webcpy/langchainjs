@@ -1,10 +1,10 @@
-# Example selectors
+# 示例选择器
 
-If you have a large number of examples, you may need to select which ones to include in the prompt. The Example Selector is the class responsible for doing so.
+如果您有大量示例，可能需要选择包含在提示中的哪些示例。示例选择器（Example Selector）类负责执行此操作。
 
-The base interface is defined as below:
+基本的接口定义如下：
 
-If you have a large number of examples, you may need to programmatically select which ones to include in the prompt. The ExampleSelector is the class responsible for doing so. The base interface is defined as below.
+如果您有大量示例，您可能需要以编程方式选择要包含在提示中的哪些示例。`ExampleSelector` 类负责执行此操作。基本的接口定义如下。
 
 ```typescript
 class BaseExampleSelector {
@@ -14,4 +14,6 @@ class BaseExampleSelector {
 }
 ```
 
-It needs to expose a `selectExamples` - this takes in the input variables and then returns a list of examples method - and an `addExample` method, which saves an example for later selection. It is up to each specific implementation as to how those examples are saved and selected.
+它需要暴露一个 `selectExamples` 方法——该方法接收输入变量，然后返回一个示例列表，以及一个 `addExample` 方法，
+用于保存一个示例以备后用。每个具体的实现决定如何保存和选择这些示例。
+

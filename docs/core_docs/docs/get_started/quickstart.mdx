@@ -1,77 +1,70 @@
-# Quickstart
+# 快速入门
 
-In this quickstart we'll show you how to:
+在这个快速入门中，我们将向您展示如何：
 
-- Get setup with LangChain and LangSmith
-- Use the most basic and common components of LangChain: prompt templates, models, and output parsers
-- Use LangChain Expression Language, the protocol that LangChain is built on and which facilitates component chaining
-- Build a simple application with LangChain
-- Trace your application with LangSmith
+- 使用 LangChain 和 LangSmith 进行设置
+- 使用 LangChain 的最基本和常见的组件：提示模板、模型和输出解析器
+- 使用 LangChain 表达式语言，这是构建 LangChain 的协议，它促进了组件的链式调用
+- 使用 LangChain 构建一个简单应用程序
+- 使用 LangSmith 跟踪您的应用程序
 
-That's a fair amount to cover! Let's dive in.
+我们要介绍的内容很多！让我们开始吧。
 
-## Installation
+## 安装
 
-To install LangChain run:
-
-import Tabs from "@theme/Tabs";
-import TabItem from "@theme/TabItem";
+要安装 LangChain，请运行：
 
 ```bash npm2yarn
 npm install langchain
 ```
 
-For more details, see our [Installation guide](/docs/get_started/installation).
+有关更多详细信息，请参阅我们的[安装指南](/docs/get_started/installation)。
 
 ## LangSmith
 
-Many of the applications you build with LangChain will contain multiple steps with multiple invocations of LLM calls.
-As these applications get more and more complex, it becomes crucial to be able to inspect what exactly is going on inside your chain or agent.
-The best way to do this is with [LangSmith](https://smith.langchain.com/).
+您使用LangChain构建的许多应用程序，将包含多个步骤，其中包括多次调用LLM。随着这些应用程序变得越来越复杂，能够检查您的链或代理内部发生的情况变得至关重要。使用[LangSmith](https://smith.langchain.com/)是实现这一目标的最佳方式。
 
-Note that LangSmith is not needed, but it is helpful.
-If you do want to use LangSmith, after you sign up at the link above, make sure to set your environment variables to start logging traces:
+请注意，LangSmith并非必需，但它很有帮助。如果您确实想使用LangSmith，在上面的链接注册后，请确保设置您的环境变量以开始记录跟踪信息：
 
 ```bash
 export LANGCHAIN_TRACING_V2="true"
 export LANGCHAIN_API_KEY="..."
 ```
 
-## Building with LangChain
+## 使用 LangChain 构建
 
-LangChain enables building application that connect external sources of data and computation to LLMs.
+LangChain 使构建应用程序成为可能，这些应用程序将外部数据源和计算连接到 LLM。
 
-In this quickstart, we will walk through a few different ways of doing that:
+在这个快速入门中，我们将介绍几种不同的方法：
 
-- We will start with a simple LLM chain, which just relies on information in the prompt template to respond.
-- Next, we will build a retrieval chain, which fetches data from a separate database and passes that into the prompt template.
-- We will then add in chat history, to create a conversational retrieval chain. This allows you interact in a chat manner with this LLM, so it remembers previous questions.
-- Finally, we will build an agent - which utilizes an LLM to determine whether or not it needs to fetch data to answer questions.
+- 我们将从一个简单的LLM链开始，它仅依赖于提示模板中的信息来做出回应。
+- 接下来，我们将构建一个检索链，该链从一个单独的数据库中获取数据，并将其传递到提示模板中。
+- 然后，我们将添加聊天历史记录，以创建一个会话式检索链。这样可以让您以对话的方式与LLM交互，使其记住以前的问题。
+- 最后，我们将构建一个代理 - 它利用LLM来确定是否需要获取数据来回答问题。
 
-We will cover these at a high level, but keep in mind there is a lot more to each piece! We will link to more in-depth docs as appropriate.
+我们将以高层次的方式介绍这些内容，但请记住每个部分都涉及到更多的细节！我们会在适当的时候链接到更深入的文档。
 
-## LLM Chain
+## LLM 链
 
 import IntegrationInstallTooltip from "@mdx_components/integration_install_tooltip.mdx";
 
 <Tabs groupId="preferredModel">
   <TabItem value="openai" label="OpenAI" default>
 
-First we'll need to install the LangChain OpenAI integration package:
+首先，我们需要安装LangChain OpenAI集成包：
 
 <IntegrationInstallTooltip></IntegrationInstallTooltip>
 
 ```bash npm2yarn
 npm install @langchain/openai
 ```
-
-Accessing the API requires an API key, which you can get by creating an account [here](https://platform.openai.com/account/api-keys). Once we have a key we'll want to set it as an environment variable:
+访问API需要一个API密钥，您可以通过在[此处](https://platform.openai.com/account/api-keys)创建账户来获取。一旦我们有了密钥，我们就希望将其设置为环境变量：
 
 ```bash
 OPENAI_API_KEY="..."
 ```
 
-If you'd prefer not to set an environment variable you can pass the key in directly via the `openAIApiKey` named parameter when initiating the OpenAI Chat Model class:
+如果您不想设置环境变量，您可以直接通过在初始化OpenAI Chat Model类时传递`openAIApiKey`命名参数来传递密钥。
 
 ```typescript
 import { ChatOpenAI } from "@langchain/openai";
@@ -81,7 +74,7 @@ const chatModel = new ChatOpenAI({
 });
 ```
 
-Otherwise you can initialize without any params:
+如果您不想设置任何参数，可以按以下方式初始化：
 
 ```typescript
 import { ChatOpenAI } from "@langchain/openai";
@@ -90,16 +83,16 @@ const chatModel = new ChatOpenAI({});
 ```
 
   </TabItem>
-  <TabItem value="local" label="Local (using Ollama)">
+  <TabItem value="local" label="本地（使用 Ollama）">
 
-[Ollama](https://ollama.ai/) allows you to run open-source large language models, such as Llama 2 and Mistral, locally.
+[Ollama](https://ollama.ai/) 允许您在本地运行开源的大型语言模型，如 Llama 2 和 Mistral。
 
-First, follow [these instructions](https://github.com/jmorganca/ollama) to set up and run a local Ollama instance:
+首先，按照[这些说明](https://github.com/jmorganca/ollama)设置并运行本地 Ollama 实例：
 
-- [Download](https://ollama.ai/download)
-- Fetch a model via e.g. `ollama pull mistral`
+- [下载](https://ollama.ai/download)
+- 通过例如 `ollama pull mistral` 获取模型
 
-Then, make sure the Ollama server is running. Next, you'll need to install the LangChain community package:
+然后，确保 Ollama 服务器正在运行。接下来，您需要安装 LangChain 社区包：
 
 <IntegrationInstallTooltip></IntegrationInstallTooltip>
 
@@ -107,13 +100,13 @@ Then, make sure the Ollama server is running. Next, you'll need to install the L
 npm install @langchain/community
 ```
 
-And then you can do:
+然后您可以这样做：
 
 ```typescript
 import { ChatOllama } from "@langchain/community/chat_models/ollama";
 
 const chatModel = new ChatOllama({
-  baseUrl: "http://localhost:11434", // Default value
+  baseUrl: "http://localhost:11434", // 默认值
   model: "mistral",
 });
 ```
@@ -121,7 +114,7 @@ const chatModel = new ChatOllama({
   </TabItem>
   <TabItem value="anthropic" label="Anthropic">
 
-First we'll need to install the LangChain Anthropic integration package:
+首先我们需要安装 LangChain Anthropic 集成包：
 
 <IntegrationInstallTooltip></IntegrationInstallTooltip>
 
@@ -129,13 +122,13 @@ First we'll need to install the LangChain Anthropic integration package:
 npm install @langchain/anthropic
 ```
 
-Accessing the API requires an API key, which you can get by creating an account [here](https://console.anthropic.com/). Once we have a key we'll want to set it as an environment variable:
+访问 API 需要一个 API 密钥，您可以通过创建一个账户[这里](https://console.anthropic.com/)来获取。一旦我们有了一个密钥，我们希望将其设置为环境变量：
 
 ```bash
 ANTHROPIC_API_KEY="..."
 ```
 
-If you'd prefer not to set an environment variable you can pass the key in directly via the `anthropicApiKey` named parameter when initiating the Anthropic Chat Model class:
+如果您不想设置环境变量，您可以在初始化 Anthropic Chat Model 类时通过 `anthropicApiKey` 命名参数直接传递密钥：
 
 ```typescript
 import { ChatAnthropic } from "@langchain/anthropic";
@@ -145,7 +138,7 @@ const chatModel = new ChatAnthropic({
 });
 ```
 
-Otherwise you can initialize without any params:
+否则您可以不设置任何参数进行初始化：
 
 ```typescript
 import { ChatAnthropic } from "@langchain/anthropic";
@@ -156,8 +149,7 @@ const chatModel = new ChatAnthropic({});
   </TabItem>
 </Tabs>
 
-Once you've installed and initialized the LLM of your choice, we can try using it!
-Let's ask it what LangSmith is - this is something that wasn't present in the training data so it shouldn't have a very good response.
+一旦您安装并初始化了您选择的语言模型，我们可以尝试使用它！让我们问它 LangSmith 是什么 - 这是在训练数据中不存在的东西，所以它不应该有一个很好的回应。
 
 ```ts
 await chatModel.invoke("what is LangSmith?");
@@ -165,65 +157,66 @@ await chatModel.invoke("what is LangSmith?");
 
 ```
 AIMessage {
-  content: 'LangSmith refers to the combination of two surnames, Lang and Smith. It is most commonly used as a fictional or hypothetical name for a person or a company. This term may also refer to specific individuals or entities named LangSmith in certain contexts.',
+  content: 'LangSmith 是两个姓氏 Lang 和 Smith 的组合。它最常被用作一个人或公司的虚构或假设名称。这个术语也可能指在某些情况下名为 LangSmith 的特定个人或实体。',
   additional_kwargs: { function_call: undefined, tool_calls: undefined }
 }
 ```
 
-We can also guide it's response with a prompt template. Prompt templates are used to convert raw user input to a better input to the LLM.
+我们还可以通过提示模板来引导其响应。提示模板用于将原始用户输入转换为更好的LLM输入。
+
 
 ```ts
 import { ChatPromptTemplate } from "@langchain/core/prompts";
 
 const prompt = ChatPromptTemplate.fromMessages([
-  ["system", "You are a world class technical documentation writer."],
+  ["system", "您是一位世界级的技术文档撰写者。"],
   ["user", "{input}"],
 ]);
 ```
 
-We can now combine these into a simple LLM chain:
+现在我们可以将它们结合成一个简单的LLM链：
+
 
 ```ts
 const chain = prompt.pipe(chatModel);
 ```
 
-We can now invoke it and ask the same question:
+现在我们可以调用它并询问同样的问题：
 
 ```ts
 await chain.invoke({
-  input: "what is LangSmith?",
+  input: "LangSmith 是什么?",
 });
 ```
 
 ```
 AIMessage {
-  content: 'LangSmith is a powerful programming language created for high-performance software development. It is designed to be efficient, intuitive, and capable of handling complex computations and data manipulations. With its extensive set of features and libraries, LangSmith provides developers with the tools necessary to build robust and scalable applications.\n' +
+  content: 'LangSmith 是一种为高性能软件开发而创建的强大编程语言。它旨在高效、直观，并能够处理复杂的计算和数据操作。凭借其丰富的特性和库，LangSmith 为开发者提供了构建健壮和可扩展应用程序所需的工具。\n' +
     '\n' +
-    'Some key features of LangSmith include:\n' +
+    'LangSmith 的一些关键特性包括：\n' +
     '\n' +
-    '1. Strong typing: LangSmith enforces type safety, preventing common programming errors and ensuring code reliability.\n' +
+    '1. 强类型：LangSmith 强制类型安全，防止常见的编程错误，确保代码的可靠性。\n' +
     '\n' +
-    '2. Advanced memory management: The language provides built-in memory management mechanisms, such as automatic garbage collection, to optimize memory usage and reduce the risk of memory leaks.\n' +
+    '2. 高级内存管理：该语言提供了内置的内存管理机制，如自动垃圾回收，以优化内存使用并减少内存泄漏的风险。\n' +
     '\n' +
-    '3. Multi-paradigm support: LangSmith supports both procedural and object-oriented programming paradigms, giving developers the flexibility to choose the most suitable approach for their projects.\n' +
+    '3. 多范式支持：LangSmith 支持过程式和面向对象编程范式，给开发者提供了选择最适合其项目的灵活方法。\n' +
     '\n' +
-    '4. Modular design: The language promotes modular programming, allowing developers to organize their code into reusable components for easier maintenance and collaboration.\n' +
+    '4. 模块化设计：该语言促进模块化编程，允许开发者将代码组织成可重用的组件，以便于维护和协作。\n' +
     '\n' +
-    '5. High-performance libraries: LangSmith offers a rich set of libraries for various domains, including graphics, networking, database access, and more. These libraries enhance productivity by providing pre-built solutions for common tasks.\n' +
+    '5. 高性能库：LangSmith 提供了丰富的库集，涵盖图形、网络、数据库访问等多个领域。这些库通过为常见任务提供预构建的解决方案来提高生产力。\n' +
     '\n' +
-    '6. Interoperability: LangSmith enables seamless integration with other programming languages, allowing developers to leverage existing codebases and resources.\n' +
+    '6. 互操作性：LangSmith 使与其他编程语言的集成变得无缝，允许开发者利用现有的代码库和资源。\n' +
     '\n' +
-    "7. Extensibility: Developers can extend LangSmith's functionality through custom libraries and modules, allowing for the creation of domain-specific solutions.\n" +
+    "7. 可扩展性：开发者可以通过自定义库和模块来扩展 LangSmith 的功能，允许创建特定领域的解决方案。\n" +
     '\n' +
-    'Overall, LangSmith aims to provide a robust and efficient development environment for creating software applications across various domains, from scientific simulations to web development and beyond.',
+    '总的来说，LangSmith 旨在为创建跨各种领域（从科学模拟到网络开发等）的软件应用程序提供一个健壮且高效的开发环境。',
   additional_kwargs: { function_call: undefined, tool_calls: undefined }
 }
 ```
 
-The model hallucinated an incorrect answer this time, but it did respond in a more proper tone for a technical writer!
+这次模型产生了一个错误的答案，但它的回答确实以更适合技术写作的语气表达了出来。
 
-The output of a ChatModel (and therefore, of this chain) is a message.
-However, it's often much more convenient to work with strings. Let's add a simple output parser to convert the chat message to a string.
+ChatModel（因此也包括此链）的输出是一条消息。但是，使用字符串进行操作通常更加方便。让我们添加一个简单的输出解析器，将聊天消息转换为字符串。
 
 ```ts
 import { StringOutputParser } from "@langchain/core/output_parsers";
@@ -233,37 +226,37 @@ const outputParser = new StringOutputParser();
 const llmChain = prompt.pipe(chatModel).pipe(outputParser);
 
 await llmChain.invoke({
-  input: "what is LangSmith?",
+  input: "LangSmith 是什么?",
 });
 ```
 
 ```ts
-LangSmith is a sophisticated online language translation tool. It leverages artificial intelligence and machine learning algorithms to provide accurate and efficient translation services across multiple languages. Whether it's translating documents, websites, or text snippets, LangSmith offers a seamless, user-friendly experience while maintaining the integrity and nuances of the original content. Its advanced features include context-aware translations, language customization options, and quality assurance checks, making it an invaluable tool for businesses, individuals, and language professionals alike.
+LangSmith 是一款复杂的在线语言翻译工具。它利用人工智能和机器学习算法提供跨多种语言的准确和高效的翻译服务。无论是翻译文档、网站还是文本片段，LangSmith 都能提供无缝、用户友好的体验，同时保持原始内容的完整性和细微差别。其高级功能包括上下文感知翻译、语言自定义选项和质量保证检查，使其成为企业、个人和语言专业人士不可或缺的工具。
 ```
 
-### Diving deeper
+### 深入了解
+我们现在已经成功设置了一个基本的LLM链。
+我们只涉及了提示、模型和输出解析器的基础知识 - 要深入了解这里提到的所有内容，请[参阅文档](/docs/modules/model_io)的这一部分。
 
-We've now successfully set up a basic LLM chain.
-We only touched on the basics of prompts, models, and output parsers - for a deeper dive into everything mentioned here, see [this section of documentation](/docs/modules/model_io).
+## 检索链
 
-## Retrieval Chain
 
-In order to properly answer the original question ("what is LangSmith?") and avoid hallucinations, we need to provide additional context to the LLM.
-We can do this via retrieval. Retrieval is useful when you have too much data to pass to the LLM directly.
-You can then use a retriever to fetch only the most relevant pieces and pass those in.
+为了正确回答原始问题（“LangSmith是什么？”）并避免产生幻觉，我们需要为`LLM`提供额外的上下文。我们可以通过检索来实现这一点。当您有太多数据要直接传递给LLM时，
+检索非常有用。然后，您可以使用检索器仅获取最相关的部分并将其传递给LLM。
 
-In this process, we will look up relevant documents from a Retriever and then pass them into the prompt.
-A Retriever can be backed by anything - a SQL table, the internet, etc - but in this instance we will populate a vector store and use that as a retriever.
-For more information on vectorstores, see [this documentation](/docs/modules/data_connection/vectorstores).
+在此过程中，我们将从检索器中查找相关文档，然后将其传递给提示。
+检索器可以由任何东西支持 - SQL表、互联网等 - 但在这种情况下，
+我们将填充一个向量存储，并将其用作检索器。有关向量存储的更多信息，
+请参阅[此文档](/docs/modules/data_connection/vectorstores)。
 
-First, we need to load the data that we want to index. We'll use [a document loader](/docs/integrations/document_loaders/web_loaders/web_cheerio) that uses the popular
-[Cheerio npm package](https://www.npmjs.com/package/cheerio) as a peer dependency to parse data from webpages. Install it as shown below:
+首先，我们需要加载我们想要索引的数据。我们将使用[一个文档加载器](/docs/integrations/document_loaders/web_loaders/web_cheerio)，它使用流行的
+[Cheerio npm包](https://www.npmjs.com/package/cheerio)作为对等依赖项来解析网页数据。按如下方式安装它：
 
 ```bash npm2yarn
 npm install cheerio
 ```
 
-Then, use it like this:
+然后，像这样使用它：
 
 ```ts
 import { CheerioWebBaseLoader } from "langchain/document_loaders/web/cheerio";
@@ -282,9 +275,9 @@ console.log(docs[0].pageContent.length);
 45772
 ```
 
-Note that the size of the loaded document is large and may exceed the maximum amount of data we can pass in a single model call.
-We can split the document into more manageable chunks to get around this limitation and to reduce the amount of distraction
-to the model using a [text splitter](/docs/modules/data_connection/document_transformers/):
+请注意，加载的文档大小可能很大，可能会超出我们在单个模型调用中可以传递的最大数据量。
+我们可以使用[文本拆分器](/docs/modules/data_connection/document_transformers/)将文档拆分为更易于管理的部分，以绕过此限制，并减少对模型的干扰：
+
 
 ```ts
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
@@ -301,16 +294,16 @@ console.log(splitDocs[0].pageContent.length);
 60
 441
 ```
+接下来，我们需要将加载的文档索引到一个向量存储(vectorstore)中。
+这需要几个组件，即[嵌入模型](/docs/modules/data_connection/text_embedding)和[向量存储](/docs/modules/data_connection/vectorstores)。
 
-Next, we need to index the loaded documents into a vectorstore.
-This requires a few components, namely an [embedding model](/docs/modules/data_connection/text_embedding) and a [vectorstore](/docs/modules/data_connection/vectorstores).
+对于这两个组件，有许多选项。以下是一些示例，可以通过OpenAI或本地模型访问：
 
-There are many options for both components. Here are some examples for accessing via OpenAI and via local models:
 
 <Tabs groupId="preferredModel">
   <TabItem value="openai" label="OpenAI" default>
 
-Make sure you have the `@langchain/openai` package installed and the appropriate environment variables set (these are the same as needed for the model above).
+确保您已安装`@langchain/openai`包，并设置了适当的环境变量（这些与上述模型所需的环境变量相同）。
 
 ```ts
 import { OpenAIEmbeddings } from "@langchain/openai";
@@ -319,9 +312,9 @@ const embeddings = new OpenAIEmbeddings();
 ```
 
   </TabItem>
-  <TabItem value="local" label="Local (using Ollama)">
-  
-Make sure you have Ollama running (same set up as with the model).
+  <TabItem value="local" label="本地（使用Ollama）">
+
+确保您已运行Ollama（与模型的设置相同）。
 
 ```ts
 import { OllamaEmbeddings } from "@langchain/community/embeddings/ollama";
@@ -335,9 +328,9 @@ const embeddings = new OllamaEmbeddings({
   </TabItem>
 </Tabs>
 
-Now, we can use this embedding model to ingest documents into a vectorstore. We will use a [simple in-memory demo vectorstore](/docs/integrations/vectorstores/memory) for simplicity's sake:
+现在，我们可以使用这个嵌入模型将文档摄取到向量存储中。为了简单起见，我们将使用一个[简单的内存演示向量存储](/docs/integrations/vectorstores/memory)：
 
-**Note:** If you are using local embeddings, this ingestion process may take some time depending on your local hardware.
+**注意：**如果您使用的是本地嵌入，根据您的本地硬件，这个摄取过程可能需要一些时间。
 
 ```ts
 import { MemoryVectorStore } from "langchain/vectorstores/memory";
@@ -348,24 +341,24 @@ const vectorstore = await MemoryVectorStore.fromDocuments(
 );
 ```
 
-The LangChain vectorstore class will automatically prepare each raw document using the embeddings model.
+LangChain向量存储类将自动使用嵌入模型准备每个原始文档。
 
-Now that we have this data indexed in a vectorstore, we will create a retrieval chain. This chain will take an incoming question, look up relevant documents, then pass those documents along with the original question into an LLM and ask it to answer the original question.
+现在我们已经将这些数据索引到向量存储中，我们将创建一个检索链。这个链将接收一个传入的问题，查找相关的文档，然后将这些文档连同原始问题一起传递给LLM，并要求它回答原始问题。
 
-First, let's set up the chain that takes a question and the retrieved documents and generates an answer.
+首先，让我们设置一个链，它接收一个问题和解检索到的文档，并生成一个答案。
 
 ```ts
 import { createStuffDocumentsChain } from "langchain/chains/combine_documents";
 import { ChatPromptTemplate } from "@langchain/core/prompts";
 
 const prompt =
-  ChatPromptTemplate.fromTemplate(`Answer the following question based only on the provided context:
+  ChatPromptTemplate.fromTemplate(`仅根据提供的内容回答以下问题：
 
 <context>
 {context}
 </context>
 
-Question: {input}`);
+问题：{input}`);
 
 const documentChain = await createStuffDocumentsChain({
   llm: chatModel,
@@ -373,29 +366,28 @@ const documentChain = await createStuffDocumentsChain({
 });
 ```
 
-If we wanted to, we could run this ourselves by passing in documents directly:
+如果我们愿意，我们可以通过直接传入文档来自己运行这个过程：
 
 ```ts
 import { Document } from "@langchain/core/documents";
 
 await documentChain.invoke({
-  input: "what is LangSmith?",
+  input: "LangSmith是什么？",
   context: [
     new Document({
       pageContent:
-        "LangSmith is a platform for building production-grade LLM applications.",
+        "LangSmith是一个用于构建生产级LLM应用程序的平台。",
     }),
   ],
 });
 ```
 
 ```
- LangSmith is a platform for building production-grade Large Language Model (LLM) applications.
+ LangSmith是一个用于构建生产级大型语言模型(LLM)应用程序的平台。
 ```
 
-However, we want the documents to first come from the retriever we just set up.
-That way, for a given question we can use the retriever to dynamically select the most relevant documents and pass those in.
 
+然而，我们希望文档首先来自我们刚刚设置的检索器。这样，对于给定的问题，我们可以使用检索器动态选择最相关的文档并将其传递进去。
 ```ts
 import { createRetrievalChain } from "langchain/chains/retrieval";
 
@@ -406,43 +398,42 @@ const retrievalChain = await createRetrievalChain({
   retriever,
 });
 ```
-
-We can now invoke this chain. This returns an object - the response from the LLM is in the `answer` key:
+我们现在可以调用这个链。这将返回一个对象 - LLM 的响应在 `answer` 键中：
 
 ```ts
 const result = await retrievalChain.invoke({
-  input: "what is LangSmith?",
+  input: "LangSmith 是什么？",
 });
 
 console.log(result.answer);
 ```
 
 ```
- LangSmith is a tool developed by LangChain that is used for debugging and monitoring LLMs, chains, and agents in order to improve their performance and reliability for use in production.
+ LangSmith 是由 LangChain 开发的一个工具，用于调试和监控 LLMs、链和代理，以提高它们在生产中的性能和可靠性。
 ```
 
 :::tip
-Check out this public [LangSmith trace](https://smith.langchain.com/public/b4c3e7bd-d850-4cb2-9c44-2e8c2daed7ba/r) showing the steps of the retrieval chain.
+查看这个公开的 [LangSmith 跟踪](https://smith.langchain.com/public/b4c3e7bd-d850-4cb2-9c44-2e8c2daed7ba/r)，了解检索链的步骤。
 :::
 
-This answer should be much more accurate!
+这个答案应该要准确得多！
 
-### Diving Deeper
+### 深入了解
 
-We've now successfully set up a basic retrieval chain. We only touched on the basics of retrieval - for a deeper dive into everything mentioned here, see [this section of documentation](/docs/modules/data_connection).
+我们现在已经成功设置了一个基本的检索链。我们只是简单介绍了检索的内容 - 想要更深入地了解这里提到的所有内容，请参阅[文档的这部分](/docs/modules/data_connection)。
 
-## Conversational Retrieval Chain
+## 会话检索链
 
-The chain we've created so far can only answer single questions. One of the main types of LLM applications that people are building are chat bots. So how do we turn this chain into one that can answer follow up questions?
+我们到目前为止创建的链只能回答单个问题。人们正在构建的主要LLM应用类型之一是聊天机器人。那么我们如何将这个链转变为能够回答后续问题的链呢？
 
-We can still use the `createRetrievalChain` function, but we need to change two things:
+我们仍然可以使用 `createRetrievalChain` 函数，但我们需要改变两件事：
 
-1. The retrieval method should now not just work on the most recent input, but rather should take the whole history into account.
-2. The final LLM chain should likewise take the whole history into account.
+1. 检索方法现在不应仅适用于最近的输入，而应考虑整个历史。
+2. 最后的LLM链同样应该考虑整个历史。
 
-#### Updating Retrieval
+#### 更新检索
 
-In order to update retrieval, we will create a new chain. This chain will take in the most recent input (`input`) and the conversation history (`chat_history`) and use an LLM to generate a search query.
+为了更新检索，我们将创建一个新的链。这个链将接收最近的输入（`input`）和对话历史（`chat_history`），并使用LLM生成一个搜索查询。
 
 ```ts
 import { createHistoryAwareRetriever } from "langchain/chains/history_aware_retriever";
@@ -453,7 +444,7 @@ const historyAwarePrompt = ChatPromptTemplate.fromMessages([
   ["user", "{input}"],
   [
     "user",
-    "Given the above conversation, generate a search query to look up in order to get information relevant to the conversation",
+    "鉴于上述对话，生成一个搜索查询以查找与对话相关的信息。",
   ],
 ]);
 
@@ -464,35 +455,35 @@ const historyAwareRetrieverChain = await createHistoryAwareRetriever({
 });
 ```
 
-We can test this "history aware retriever" out by creating a situation where the user is asking a follow up question:
+我们可以通过创建一个用户提出跟进问题的情景来测试这个“历史感知的检索器”：
 
 ```ts
 import { HumanMessage, AIMessage } from "@langchain/core/messages";
 
 const chatHistory = [
-  new HumanMessage("Can LangSmith help test my LLM applications?"),
-  new AIMessage("Yes!"),
+  new HumanMessage("LangSmith可以帮助测试我的LLM应用程序吗？"),
+  new AIMessage("是的！"),
 ];
 
 await historyAwareRetrieverChain.invoke({
   chat_history: chatHistory,
-  input: "Tell me how!",
+  input: "告诉我怎么做！",
 });
 ```
 
 :::tip
-Here's a public [LangSmith trace](https://smith.langchain.com/public/0f4e5ff4-c640-4fe1-ae93-8eb5f32382fc/r) of the above run!
+这里有一个公开的 [LangSmith 跟踪](https://smith.langchain.com/public/0f4e5ff4-c640-4fe1-ae93-8eb5f32382fc/r) 上述运行的！
 :::
 
-The above trace illustrates that this returns documents about testing in LangSmith. This is because the LLM generated a new query, combining the chat history with the follow up question.
+上面的跟踪说明了这返回了有关LangSmith中测试的文档。这是因为LLM生成了一个新的查询，将聊天历史和跟进问题结合起来。
 
-Now that we have this new retriever, we can create a new chain to continue the conversation with these retrieved documents in mind:
+现在我们有了这个新的检索器，我们可以创建一个新的链，以考虑这些检索到的文档来继续对话：
 
 ```ts
 const historyAwareRetrievalPrompt = ChatPromptTemplate.fromMessages([
   [
     "system",
-    "Answer the user's questions based on the below context:\n\n{context}",
+    "根据以下上下文回答用户的问题：\n\n{context}",
   ],
   new MessagesPlaceholder("chat_history"),
   ["user", "{input}"],
@@ -508,53 +499,52 @@ const conversationalRetrievalChain = await createRetrievalChain({
   combineDocsChain: historyAwareCombineDocsChain,
 });
 ```
-
-Let's now test this out end-to-end!
+现在让我们来完整地测试一下！
 
 ```ts
 const result2 = await conversationalRetrievalChain.invoke({
   chat_history: [
-    new HumanMessage("Can LangSmith help test my LLM applications?"),
-    new AIMessage("Yes!"),
+    new HumanMessage("LangSmith可以帮助测试我的LLM应用程序吗？"),
+    new AIMessage("是的！"),
   ],
-  input: "tell me how",
+  input: "告诉我怎么做",
 });
 
 console.log(result2.answer);
 ```
 
 ```
-LangSmith can help test and debug your LLM (Language Model) applications in several ways:
+LangSmith可以通过以下几种方式帮助测试和调试您的LLM（语言模型）应用程序：
 
-1. Exact Input/Output Visualization: LangSmith provides a straightforward visualization of the exact inputs and outputs for all LLM calls. This helps you understand the specific inputs provided to the model and the corresponding output generated.
+1. 精确输入/输出可视化：LangSmith为所有LLM调用提供了直接的输入和输出可视化。这有助于您了解提供给模型的特定输入和相应的输出。
 
-2. Editing Prompts: If you encounter a bad output or want to experiment with different inputs, you can edit the prompts directly in LangSmith. By modifying the prompt, you can observe the resulting changes in the output. LangSmith includes a playground feature where you can modify prompts and re-run them multiple times to analyze the impact on the output.
+2. 编辑提示：如果您遇到不良输出或想尝试不同的输入，您可以直接在LangSmith中编辑提示。通过修改提示，您可以观察输出中的相应变化。LangSmith包括一个游乐场功能，您可以在其中修改提示并多次重新运行，以分析对输出的影响。
 
-3. Constructing Datasets: LangSmith simplifies the process of constructing datasets for testing changes in your application. You can quickly edit examples and add them to datasets, expanding your evaluation sets or fine-tuning your model for improved quality or reduced costs.
+3. 构建数据集：LangSmith简化了构建用于测试应用程序变更的数据集的过程。您可以快速编辑示例并将它们添加到数据集中，扩展您的评估集或微调您的模型以提高质量或降低成本。
 
-4. Monitoring and Troubleshooting: Once your application is ready for production, LangSmith can be used to monitor its performance. You can log all traces, visualize latency and token usage statistics, and troubleshoot specific issues as they arise. LangSmith also allows you to associate feedback programmatically with runs, enabling you to track performance over time and pinpoint underperforming data points.
+4. 监控和故障排除：一旦您的应用程序准备好投入生产，LangSmith可以用来监控其性能。您可以记录所有跟踪，可视化延迟和令牌使用统计信息，并在出现具体问题时进行故障排除。LangSmith还允许您以编程方式将反馈与运行关联，使您能够跟踪随时间的性能并精确定位表现不佳的数据点。
 
-In summary, LangSmith helps you test, debug, and monitor your LLM applications, providing tools to visualize inputs/outputs, edit prompts, construct datasets, and monitor performance.
+总之，LangSmith帮助您测试、调试和监控您的LLM应用程序，提供工具来可视化输入/输出、编辑提示、构建数据集和监控性能。
 ```
 
 :::tip
-Here's a public [LangSmith trace](https://smith.langchain.com/public/bd2cc487-cdab-4934-b1ee-fceec154992b/r) of the above run!
+这里有一个公开的[LangSmith跟踪](https://smith.langchain.com/public/bd2cc487-cdab-4934-b1ee-fceec154992b/r)上述运行的记录！
 :::
 
-We can see that this gives a coherent answer - we've successfully turned our retrieval chain into a chatbot!
+我们可以看到，这给出了一个连贯的回答 - 我们已经成功地将我们的检索链变成了一个聊天机器人！
 
-## Agent
+## 代理
 
-We've so far created examples of chains - where each step is known ahead of time. The final thing we will create is an agent - where the LLM decides what steps to take.
+到目前为止，我们已经创建了链的示例 - 每个步骤都是提前已知的。我们将要创建的最后一件事是一个代理 - LLM决定要采取的步骤。
 
-**NOTE: for this example we will only show how to create an agent using OpenAI models, as local models runnable on consumer hardware are not reliable enough yet.**
+**注意：在这个例子中，我们只会展示如何使用OpenAI模型创建一个代理，因为可在消费级硬件上运行的本地模型尚不够可靠。**
 
-One of the first things to do when building an agent is to decide what tools it should have access to. For this example, we will give the agent access two tools:
+在构建代理时，首先要做的事情之一是决定它应该访问哪些工具。在这个例子中，我们将为代理提供两个工具的访问权限：
 
-1. The retriever we just created. This will let it easily answer questions about LangSmith
-2. A search tool. This will let it easily answer questions that require up to date information.
+1. 我们刚刚创建的检索器。这将让它轻松回答关于LangSmith的问题
+2. 搜索工具。这将让它轻松回答需要最新信息的问题。
 
-First, let's set up a tool for the retriever we just created:
+首先，让我们为我们刚刚创建的检索器设置一个工具：
 
 ```ts
 import { createRetrieverTool } from "langchain/tools/retriever";
@@ -562,18 +552,18 @@ import { createRetrieverTool } from "langchain/tools/retriever";
 const retrieverTool = await createRetrieverTool(retriever, {
   name: "langsmith_search",
   description:
-    "Search for information about LangSmith. For any questions about LangSmith, you must use this tool!",
+    "搜索有关LangSmith的信息。对于有关LangSmith的任何问题，您必须使用此工具！",
 });
 ```
 
-The search tool that we will use is [Tavily](/docs/integrations/tools/tavily_search).
-This will require you to create an API key (they have generous free tier). After signing up and creating one [in their dashboard](https://app.tavily.com/), you need to set it as an environment variable:
+我们将使用的搜索工具是[Tavily](/docs/integrations/tools/tavily_search)。
+这将需要您创建一个API密钥（他们有慷慨的免费套餐）。在[他们的仪表板](https://app.tavily.com/)中注册并创建一个后，您需要将其设置为环境变量：
 
 ```bash
 export TAVILY_API_KEY=...
 ```
 
-If you do not want to set up an API key, you can skip creating this tool.
+如果您不想设置API密钥，您可以跳过创建此工具。
 
 ```ts
 import { TavilySearchResults } from "@langchain/community/tools/tavily_search";
@@ -581,21 +571,21 @@ import { TavilySearchResults } from "@langchain/community/tools/tavily_search";
 const searchTool = new TavilySearchResults();
 ```
 
-We can now create a list of the tools we want to work with:
+我们现在可以创建我们想要使用的工具列表：
 
 ```ts
 const tools = [retrieverTool, searchTool];
 ```
 
-Now that we have the tools, we can create an agent to use them and an executor to run the agent. We will go over this pretty quickly.
-For a deeper dive into what exactly is going on, check out the [agent documentation pages](/docs/modules/agents).
+现在我们有了工具，我们可以创建一个代理来使用它们和一个执行器来运行代理。我们将很快介绍这个。
+如果您想深入了解具体发生了什么，请查看[代理文档页面](/docs/modules/agents)。
 
 ```ts
 import { pull } from "langchain/hub";
 import { createOpenAIFunctionsAgent, AgentExecutor } from "langchain/agents";
 
-// Get the prompt to use - you can modify this!
-// If you want to see the prompt in full, you can at:
+// 获取要使用的提示 - 您可以修改这个！
+// 如果您想查看完整的提示，可以在以下位置查看：
 // https://smith.langchain.com/hub/hwchase17/openai-functions-agent
 const agentPrompt = await pull<ChatPromptTemplate>(
   "hwchase17/openai-functions-agent"
@@ -619,92 +609,87 @@ const agentExecutor = new AgentExecutor({
 });
 ```
 
-We can now invoke the agent and see how it responds! We can ask it questions about LangSmith:
+现在我们可以调用
 
 ```ts
-const agentResult = await agentExecutor.invoke({
-  input: "how can LangSmith help with testing?",
-});
+LangSmith 可以在以下方面帮助进行测试：
 
-console.log(agentResult.output);
-```
+1. 调试：LangSmith 帮助调试意外结果、代理循环、链缓慢和令牌使用。它提供了所有LLM调用的确切输入/输出可视化，使其更容易理解。
 
-```ts
-LangSmith can help with testing in the following ways:
+2. 修改提示：LangSmith 允许您修改提示并观察输出结果的变化。此功能支持 OpenAI 和 Anthropic 模型，适用于 LLM 和聊天模型调用。
 
-1. Debugging: LangSmith helps in debugging unexpected end results, agent looping, slow chains, and token usage. It provides a visualization of the exact inputs/outputs to all LLM calls, making it easier to understand them.
+3. 数据集构建：LangSmith 简化了用于测试更改的数据集构建。它为LLM调用提供了直观的输入/输出可视化，使您可以轻松理解。
 
-2. Modifying Prompts: LangSmith allows you to modify prompts and observe resulting changes to the output. This feature supports OpenAI and Anthropic models and works for LLM and Chat Model calls.
+4. 监控：LangSmith 可用于监控生产中的应用程序，通过记录所有跟踪、可视化延迟和令牌使用统计以及解决出现的问题。它还允许将反馈与运行程序化关联，以跟踪随时间的性能。
 
-3. Dataset Construction: LangSmith simplifies dataset construction for testing changes. It provides a straightforward visualization of inputs/outputs to LLM calls, allowing you to understand them easily.
+总体而言，LangSmith 是测试、调试和监控使用语言模型和代理的应用程序的有价值工具。
 
-4. Monitoring: LangSmith can be used to monitor applications in production by logging all traces, visualizing latency and token usage statistics, and troubleshooting specific issues as they arise. It also allows for programmatically associating feedback with runs to track performance over time.
-
-Overall, LangSmith is a valuable tool for testing, debugging, and monitoring applications that utilize language models and agents.
 ```
 
 :::tip
-Here's a public [LangSmith trace](https://smith.langchain.com/public/d87c5588-7edc-4378-800a-3cf741c7dc05/r) of the above run!
+这里有一个公共的 [LangSmith 追踪](https://smith.langchain.com/public/d87c5588-7edc-4378-800a-3cf741c7dc05/r) 上述运行的！
 :::
 
-We can ask it about the weather:
+我们可以询问它关于天气：
 
 ```ts
 const agentResult2 = await agentExecutor.invoke({
-  input: "what is the weather in SF?",
+  input: "旧金山 的天气怎么样?",
 });
 
 console.log(agentResult2.output);
 ```
 
 ```ts
-The weather in San Francisco, California for December 29, 2023 is expected to have average high temperatures of 50 to 65 °F and average low temperatures of 40 to 55 °F. There may be periods of rain with a high of 59°F and winds from the SSE at 10 to 20 mph. For more detailed information, you can visit [this link](https://www.weathertab.com/en/g/o/12/united-states/california/san-francisco/).
+2023年12月29日，加利福尼亚州旧金山的天气预报预计最高气温为50至65华氏度，最低气温为40至55华氏度。可能会有降雨，最高气温为59华氏度，风速为南南东10至20英里/小时。更多详细信息，您可以访问 [这个链接](https://www.weathertab.com/en/g/o/12/united-states/california/san-francisco/)。
 ```
 
+
 :::tip
-Here's a public [LangSmith trace](https://smith.langchain.com/public/94339def-8628-4335-ae7d-10776e528beb/r) of the above run!
+这里有一个公共的 [LangSmith 追踪](https://smith.langchain.com/public/94339def-8628-4335-ae7d-10776e528beb/r) 上述运行的
 :::
 
-We can have conversations with it:
+我们可以与它进行对话：
 
 ```ts
 const agentResult3 = await agentExecutor.invoke({
   chat_history: [
-    new HumanMessage("Can LangSmith help test my LLM applications?"),
-    new AIMessage("Yes!"),
+    new HumanMessage("LangSmith可以帮助测试我的LLM应用程序吗？"),
+    new AIMessage("是的！"),
   ],
-  input: "Tell me how",
+  input: "告诉我怎么做",
 });
 
 console.log(agentResult3.output);
 ```
 
 ```
-LangSmith can help test your LLM applications by providing the following features:
-1. Debugging: LangSmith helps in debugging LLMs, chains, and agents by providing a visualization of the exact inputs/outputs to all LLM calls, allowing you to understand them easily.
-2. Prompt Editing: You can modify the prompt and re-run it to observe the resulting changes to the output as many times as needed using LangSmith's playground feature.
-3. Monitoring: LangSmith can be used to monitor your application, log all traces, visualize latency and token usage statistics, and troubleshoot specific issues as they arise.
-4. Feedback and Dataset Expansion: You can associate feedback programmatically with runs, add examples to datasets, and fine-tune a model for improved quality or reduced costs.
-5. Failure Analysis: LangSmith allows you to identify how your chain can fail and monitor these failures, which can be valuable data points for testing future chain versions.
+LangSmith可以通过以下功能帮助测试您的LLM应用程序：
+1. 调试：LangSmith通过提供所有LLM调用的确切输入/输出可视化，帮助调试LLMs、链和代理，使您可以轻松理解它们。
+2. 提示编辑：您可以使用LangSmith的操场功能修改提示并重新运行，以观察输出结果的变化，需要多少次都可以。
+3. 监控：LangSmith可用于监控您的应用程序，记录所有跟踪，可视化延迟和令牌使用统计，并在出现问题时进行故障排除。
+4. 反馈和数据集扩展：您可以将反馈与运行程序化关联，向数据集中添加示例，并对模型进行微调以提高质量或降低成本。
+5. 故障分析：LangSmith允许您识别链可能失败的方式并监控这些失败，这些对于测试未来链版本可能是宝贵的数据点。
 
-These features make LangSmith a valuable tool for testing and improving LLM applications.
+这些功能使LangSmith成为测试和改进LLM应用程序的有价值工具。
 ```
 
 :::tip
-Here's a public [LangSmith trace](https://smith.langchain.com/public/e73f19b8-323c-41ce-ad75-d354c6f8b3aa/r) of the above run!
+这里有一个公共的 [LangSmith 追踪](https://smith.langchain.com/public/e73f19b8-323c-41ce-ad75-d354c6f8b3aa/r) 上述运行的！
 :::
 
-## Diving Deeper
+## 深入了解
 
-We've now successfully set up a basic agent. We only touched on the basics of agents - for a deeper dive into everything mentioned here, see this [section of documentation](/docs/modules/agents).
+现在我们已经成功设置了一个基本代理。我们只接触了代理的基础知识 - 要深入了解这里提到的所有内容，请参阅 [文档的这一部分](/docs/modules/agents)。
 
-## Next steps
+## 下一步
 
-We've touched on how to build an application with LangChain, and how to trace it with LangSmith. There are a lot more features than we can cover here. To continue on your journey, we recommend you read the following (in order):
+我们已经了解了如何使用 LangChain 构建应用程序，以及如何使用 LangSmith 进行跟踪。这里还有更多功能等待我们去探索。为了继续您的旅程，我们建议您按顺序阅读以下内容：
 
-- All of these features are backed by [LangChain Expression Language (LCEL)](/docs/expression_language) - a way to chain these components together. Check out that documentation to better understand how to create custom chains.
-- [Model I/O](/docs/modules/model_io) covers more details of prompts, LLMs, and output parsers.
-- [Retrieval](/docs/modules/data_connection/) covers more details of everything related to retrieval.
-- [Agents](/docs/modules/agents) covers details of everything related to agents.
-- Explore common [end-to-end use cases](/docs/use_cases).
-- [Read up on LangSmith](https://docs.smith.langchain.com/), the platform for debugging, testing, monitoring and more.
+- 所有这些功能都由 [LangChain 表达式语言 (LCEL)](/docs/expression_language) 支持 - 一种将这些组件链接在一起的方式。查看该文档以更好地了解如何创建自定义链。
+- [模型I/O](/docs/modules/model_io) 涵盖了有关提示、LLM和输出解析器的更多细节。
+- [检索](/docs/modules/data_connection/) 涵盖了与检索相关的一切细节。
+- [代理](/docs/modules/agents) 涵盖了与代理相关的一切细节。
+- 探索常见的 [端到端用例](/docs/use_cases)。
+- [阅读有关 LangSmith](https://docs.smith.langchain.com/) 的更多信息，该平台用于调试、测试、监视
+

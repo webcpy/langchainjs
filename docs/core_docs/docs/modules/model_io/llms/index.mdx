@@ -1,26 +1,25 @@
 ---
 sidebar_position: 3
 ---
+# 大型语言模型（LLMs）
 
-# LLMs
+大型语言模型（LLMs）是LangChain的核心组件。
+LangChain不提供自己的LLMs，而是提供了一个标准接口，用于与许多不同的LLMs进行交互。具体而言，这个接口接收一个字符串作为输入，并返回一个字符串。
 
-Large Language Models (LLMs) are a core component of LangChain.
-LangChain does not serve its own LLMs, but rather provides a standard interface for interacting with many different LLMs. To be specific, this interface is one that takes as input a string and returns a string.
+有许多LLM提供商（如OpenAI、Cohere、Hugging Face等），-`LLM`类的设计旨在为所有这些提供商提供一个标准接口。
 
-There are lots of LLM providers (OpenAI, Cohere, Hugging Face, etc) - the `LLM` class is designed to provide a standard interface for all of them.
+## [快速开始](/docs/modules/model_io/llms/quick_start)
 
-## [Quick Start](/docs/modules/model_io/llms/quick_start)
+查看[这个快速入门](/docs/modules/model_io/llms/quick_start)，了解如何使用LLMs，包括它们提供的所有不同方法。
 
-Check out [this quick start](/docs/modules/model_io/llms/quick_start) to get an overview of working with LLMs, including all the different methods they expose
+## [集成](/docs/integrations/llms/)
 
-## [Integrations](/docs/integrations/llms/)
+要查看LangChain提供的所有LLM集成的完整列表，请转到[集成页面](/docs/integrations/llms/)。
 
-For a full list of all LLM integrations that LangChain provides, please go to the [Integrations page](/docs/integrations/llms/)
+## 如何指南
 
-## How-To Guides
+我们提供了几个关于LLMs更高级用法的指南，包括：
 
-We have several how-to guides for more advanced usage of LLMs.
-This includes:
+- [如何缓存LLM响应](/docs/modules/model_io/llms/llm_caching)
+- [如何从LLM流式传输响应](/docs/modules/model_io/llms/streaming_llm)
 
-- [How to cache LLM responses](/docs/modules/model_io/llms/llm_caching)
-- [How to stream responses from an LLM](/docs/modules/model_io/llms/streaming_llm)

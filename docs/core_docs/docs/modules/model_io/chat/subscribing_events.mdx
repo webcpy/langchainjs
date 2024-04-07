@@ -1,11 +1,11 @@
-# Subscribing to events
+# 订阅事件
 
 import CodeBlock from "@theme/CodeBlock";
 import DebuggingExample from "@examples/models/chat/chat_debugging.ts";
 
-Especially when using an agent, there can be a lot of back-and-forth going on behind the scenes as a Chat Model processes a prompt. For agents, the response object contains an intermediateSteps object that you can print to see an overview of the steps it took to get there. If that's not enough and you want to see every exchange with the Chat Model, you can pass callbacks to the Chat Model for custom logging (or anything else you want to do) as the model goes through the steps:
+特别是使用代理时，在聊天模型处理提示的背后可能会有很多来回的交流。对于代理，响应对象包含一个 intermediateSteps 对象，您可以打印它以查看到达那里的步骤概览。如果这还不够，您想查看与聊天模型的每一次交流，您可以为自定义日志记录（或者您想做的任何事情）将回调传递给聊天模型，因为它会经历这些步骤：
 
-For more info on the events available see the [Callbacks](/docs/modules/callbacks) section of the docs.
+有关可用事件的信息，请参阅文档的 [回调](/docs/modules/callbacks) 部分。
 
 import IntegrationInstallTooltip from "@mdx_components/integration_install_tooltip.mdx";
 
@@ -16,3 +16,4 @@ npm install @langchain/openai @langchain/community
 ```
 
 <CodeBlock language="typescript">{DebuggingExample}</CodeBlock>
+

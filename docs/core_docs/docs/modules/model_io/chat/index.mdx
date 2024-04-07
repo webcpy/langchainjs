@@ -1,24 +1,24 @@
-# Chat Models
+# 聊天模型（Chat Models）
 
-ChatModels are a core component of LangChain.
+聊天模型（Chat Models）是LangChain的核心组件。
 
-LangChain does not serve its own ChatModels, but rather provides a standard interface for interacting with many different models. To be specific, this interface is one that takes as input a list of messages and returns a message.
+LangChain并不提供自己的ChatModels，而是提供了与许多不同模型进行交互的标准接口。具体来说，这个接口接受一个消息列表作为输入，并返回一个消息。
 
-There are lots of model providers (OpenAI, Cohere, Hugging Face, etc) - the `ChatModel` class is designed to provide a standard interface for all of them.
+有很多模型提供商（OpenAI、Cohere、Hugging Face等）- ChatModel类旨在为它们提供一个标准接口。
 
-## [Quick Start](/docs/modules/model_io/chat/quick_start)
+## [快速入门](/docs/modules/model_io/chat/quick_start)
 
-Check out [this quick start](/docs/modules/model_io/chat/quick_start) to get an overview of working with ChatModels, including all the different methods they expose
+查看[这个快速入门](/docs/modules/model_io/chat/quick_start)，了解如何使用ChatModels，并了解它们提供的所有不同方法。
 
-## [Integrations](/docs/integrations/chat/)
+## [集成](/docs/integrations/chat/)
 
-For a full list of all LLM integrations that LangChain provides, please go to the [Integrations page](/docs/integrations/chat/)
+要查看LangChain提供的所有LLM集成的完整列表，请转到[集成页面](/docs/integrations/chat/)。
 
-## How-To Guides
+## 操作指南
 
-We have several how-to guides for more advanced usage of LLMs.
-This includes:
+我们提供了几个关于LLM更高级用法的指南，包括：
 
-- [How to cache ChatModel responses](/docs/modules/model_io/chat/caching)
-- [How to stream responses from a ChatModel](/docs/modules/model_io/chat/streaming)
-- [How to do function calling](/docs/modules/model_io/chat/function_calling)
+- [如何缓存ChatModel响应](/docs/modules/model_io/chat/caching)
+- [如何从ChatModel流式传输响应](/docs/modules/model_io/chat/streaming)
+- [如何进行函数调用](/docs/modules/model_io/chat/function_calling)
+

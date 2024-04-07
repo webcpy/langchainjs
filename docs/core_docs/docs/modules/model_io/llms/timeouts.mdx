@@ -1,11 +1,11 @@
 import CodeBlock from "@theme/CodeBlock";
-import TimeoutExample from "@examples/models/llm/llm_timeout.ts";
+import TimeoutExample from "@examples/models/llm/llm\_timeout.ts";
 
-# Adding a timeout
+# 添加超时限制
 
-By default, LangChain will wait indefinitely for a response from the model provider. If you want to add a timeout, you can pass a `timeout` option, in milliseconds, when you call the model. For example, for OpenAI:
+默认情况下，LangChain 将无限期地等待模型提供商的响应。如果您想添加超时限制，可以在调用模型时传递一个 `timeout` 选项，单位为毫秒。例如，对于 OpenAI：
 
-import IntegrationInstallTooltip from "@mdx_components/integration_install_tooltip.mdx";
+import IntegrationInstallTooltip from "@mdx\_components/integration\_install\_tooltip.mdx";
 
 <IntegrationInstallTooltip></IntegrationInstallTooltip>
 
@@ -14,3 +14,5 @@ npm install @langchain/openai
 ```
 
 <CodeBlock language="typescript">{TimeoutExample}</CodeBlock>
+```
+

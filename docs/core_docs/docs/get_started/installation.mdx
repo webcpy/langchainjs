@@ -1,26 +1,25 @@
 ---
 sidebar_position: 1
 ---
+# 安装
 
-# Installation
+## 支持的环境
 
-## Supported Environments
+LangChain 是用 TypeScript 编写的，可以在以下环境中使用：
 
-LangChain is written in TypeScript and can be used in:
-
-- Node.js (ESM and CommonJS) - 18.x, 19.x, 20.x
+- Node.js (ESM 和 CommonJS) - 18.x, 19.x, 20.x
 - Cloudflare Workers
-- Vercel / Next.js (Browser, Serverless and Edge functions)
+- Vercel / Next.js (浏览器、无服务器和边缘函数)
 - Supabase Edge Functions
-- Browser
+- 浏览器
 - Deno
 - Bun
 
-However, note that individual integrations may not be supported in all environments.
+然而，请注意，并非所有环境都支持单个集成。
 
-## Installation
+## 安装
 
-To get started, install LangChain with the following command:
+首先，使用以下命令安装 LangChain：
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -40,25 +39,24 @@ import CodeBlock from "@theme/CodeBlock";
 
 ### TypeScript
 
-LangChain is written in TypeScript and provides type definitions for all of its public APIs.
+LangChain 是用 TypeScript 编写的，并为其所有公共 API 提供了类型定义。
 
-## Installing integration packages
+## 安装集成包
 
-LangChain supports packages that contain specific module integrations with third-party providers.
-They can be as specific as [`@langchain/google-genai`](/docs/integrations/platforms/google#chatgooglegenerativeai), which contains integrations just for Google AI Studio models,
-or as broad as [`@langchain/community`](https://www.npmjs.com/package/@langchain/community), which contains broader variety of community contributed integrations.
+LangChain 支持包含特定模块集成的第三方提供商的包。
+它们可以像只包含 Google AI Studio 模型集成的 [`@langchain/google-genai`](/docs/integrations/platforms/google#chatgooglegenerativeai) 那样具体，
+也可以像包含更广泛社区贡献集成的 [`@langchain/community`](https://www.npmjs.com/package/@langchain/community) 那样广泛。
 
-These packages, as well as the main LangChain package, all depend on [`@langchain/core`](https://www.npmjs.com/package/@langchain/core), which contains the base abstractions
-that these integration packages extend.
+这些包以及主要的 LangChain 包都依赖于 [`@langchain/core`](https://www.npmjs.com/package/@langchain/core)，后者包含这些集成包扩展的基本抽象。
 
-To ensure that all integrations and their types interact with each other properly, it is important that they all use the same version of `@langchain/core`.
-The best way to guarantee this is to add a `"resolutions"` or `"overrides"` field like the following in your project's `package.json`. The name will depend on your package manager:
+为了确保所有的集成及其类型能够正确地相互交互，它们都必须使用相同版本的 `@langchain/core`。
+确保这一点的最佳方法是在项目的 `package.json` 中添加一个 `"resolutions"` 或 `"overrides"` 字段。名称将取决于您的包管理器：
 
 :::tip
-The `resolutions` or `pnpm.overrides` fields for `yarn` or `pnpm` must be set in the root `package.json` file.
+对于 `yarn` 或 `pnpm` 的 `resolutions` 或 `pnpm.overrides` 字段必须设置在根 `package.json` 文件中。
 :::
 
-If you are using `yarn`:
+如果您使用 `yarn`：
 
 ```json title="yarn package.json"
 {
@@ -78,7 +76,7 @@ If you are using `yarn`:
 }
 ```
 
-Or for `npm`:
+或者对于 `npm`：
 
 ```json title="npm package.json"
 {
@@ -98,7 +96,7 @@ Or for `npm`:
 }
 ```
 
-Or for `pnpm`:
+或者对于 `pnpm`：
 
 ```json title="pnpm package.json"
 {
@@ -122,8 +120,8 @@ Or for `pnpm`:
 
 ### @langchain/community
 
-The [@langchain/community](https://www.npmjs.com/package/@langchain/community) package contains third-party integrations.
-It is automatically installed along with `langchain`, but can also be used separately with just `@langchain/core`. Install with:
+[@langchain/community](https://www.npmjs.com/package/@langchain/community) 包含第三方集成。
+它会在安装 `langchain` 时自动安装，但也可以单独与 `@langchain/core` 一起使用。安装方式如下：
 
 ```bash npm2yarn
 npm install @langchain/community
@@ -131,22 +129,22 @@ npm install @langchain/community
 
 ### @langchain/core
 
-The [@langchain/core](https://www.npmjs.com/package/@langchain/core) package contains base abstractions that the rest of the LangChain ecosystem uses, along with the LangChain Expression Language.
-It is automatically installed along with `langchain`, but can also be used separately. Install with:
+[@langchain/core](https://www.npmjs.com/package/@langchain/core) 包含了 LangChain 生态系统使用的基础抽象以及 LangChain 表达式语言。
+它会在安装 `langchain` 时自动安装，但也可以单独使用。安装方式如下：
 
 ```bash npm2yarn
 npm install @langchain/core
 ```
 
-import IntegrationInstallTooltip from "@mdx_components/integration_install_tooltip.mdx";
+导入 IntegrationInstallTooltip from "@mdx\_components/integration\_install\_tooltip.mdx";
 
 <IntegrationInstallTooltip></IntegrationInstallTooltip>
 
-## Loading the library
+## 加载库
 
 ### ESM
 
-LangChain provides an ESM build targeting Node.js environments. You can import it using the following syntax:
+LangChain 为 Node.js 环境提供了 ESM 构建版本。您可以使用以下语法导入它：
 
 ```bash npm2yarn
 npm install @langchain/openai
@@ -156,13 +154,13 @@ npm install @langchain/openai
 import { OpenAI } from "@langchain/openai";
 ```
 
-If you are using TypeScript in an ESM project we suggest updating your `tsconfig.json` to include the following:
+如果您在 ESM 项目中使用 TypeScript，我们建议您更新 `tsconfig.json` 以包含以下内容：
 
 ```json title="tsconfig.json"
 {
   "compilerOptions": {
     ...
-    "target": "ES2020", // or higher
+    "target": "ES2020", // 或更高
     "module": "nodenext",
   }
 }
@@ -170,7 +168,7 @@ If you are using TypeScript in an ESM project we suggest updating your `tsconfig
 
 ### CommonJS
 
-LangChain provides a CommonJS build targeting Node.js environments. You can import it using the following syntax:
+LangChain 为 Node.js 环境提供了 CommonJS 构建版本。您可以使用以下语法导入它：
 
 ```typescript
 const { OpenAI } = require("@langchain/openai");
@@ -178,7 +176,7 @@ const { OpenAI } = require("@langchain/openai");
 
 ### Cloudflare Workers
 
-LangChain can be used in Cloudflare Workers. You can import it using the following syntax:
+LangChain 可以在 Cloudflare Workers 中使用。您可以使用以下语法导入它：
 
 ```typescript
 import { OpenAI } from "@langchain/openai";
@@ -186,7 +184,7 @@ import { OpenAI } from "@langchain/openai";
 
 ### Vercel / Next.js
 
-LangChain can be used in Vercel / Next.js. We support using LangChain in frontend components, in Serverless functions and in Edge functions. You can import it using the following syntax:
+LangChain 可以在 Vercel / Next.js 中使用。我们支持在前端组件、无服务器函数和边缘函数中使用 LangChain。您可以使用以下语法导入它：
 
 ```typescript
 import { OpenAI } from "@langchain/openai";
@@ -194,49 +192,52 @@ import { OpenAI } from "@langchain/openai";
 
 ### Deno / Supabase Edge Functions
 
-LangChain can be used in Deno / Supabase Edge Functions. You can import it using the following syntax:
+LangChain 可以在 Deno / Supabase Edge Functions 中使用。您可以使用以下语法导入它：
 
 ```typescript
 import { OpenAI } from "https://esm.sh/@langchain/openai";
 ```
 
-or
+或
 
 ```typescript
 import { OpenAI } from "npm:@langchain/openai";
 ```
 
-We recommend looking at our [Supabase Template](https://github.com/langchain-ai/langchain-template-supabase) for an example of how to use LangChain in Supabase Edge Functions.
+我们建议查看我们的 [Supabase 模板](https://github.com/langchain-ai/langchain-template-supabase)，了解如何在 Supabase Edge Functions 中使用 LangChain 的示例。
 
-### Browser
+### 浏览器
 
-LangChain can be used in the browser. In our CI we test bundling LangChain with Webpack and Vite, but other bundlers should work too. You can import it using the following syntax:
+LangChain 可以在浏览器中使用。在我们的 CI 中，我们测试使用 Webpack 和 Vite 打包 LangChain，但其他打包工具也应该有效。您可以使用以下语法导入它：
 
 ```typescript
 import { OpenAI } from "@langchain/openai";
 ```
 
-## Unsupported: Node.js 16
+## 不支持：Node.js 16
 
-We do not support Node.js 16, but if you still want to run LangChain on Node.js 16, you will need to follow the instructions in this section. We do not guarantee that these instructions will continue to work in the future.
+我们不支持 Node.js 16，但如果你仍然想在 Node.js 16 上运行 LangChain，你需要遵循本节的说明。我们不保证这些说明在未来仍然有效。
 
-You will have to make `fetch` available globally, either:
+您需要将 `fetch` 全局可用，要么：
 
-- run your application with `NODE_OPTIONS='--experimental-fetch' node ...`, or
-- install `node-fetch` and follow the instructions [here](https://github.com/node-fetch/node-fetch#providing-global-access)
+- 使用 `NODE_OPTIONS='--experimental-fetch' node ...` 运行你的应用程序，或
+- 安装 `node-fetch` 并遵循[这里](https://github.com/node-fetch/node-fetch#providing-global-access)的说明
 
-You'll also need to [polyfill `ReadableStream`](https://www.npmjs.com/package/web-streams-polyfill) by installing:
+你还需要[填充 `ReadableStream`](https://www.npmjs.com/package/web-streams-polyfill)：
 
 ```bash npm2yarn
 npm i web-streams-polyfill
 ```
 
-And then adding it to the global namespace in your main entrypoint:
+然后在你的主入口点将其添加到全局命名空间：
 
 ```typescript
 import "web-streams-polyfill/es6";
 ```
 
-Additionally you'll have to polyfill `structuredClone`, eg. by installing `core-js` and following the instructions [here](https://github.com/zloirock/core-js).
+此外，你还需要填充 `structuredClone`，例如通过安装 `core-js` 并遵循[这里](https://github.com/zloirock/core-js)的说明。
 
-If you are running Node.js 18+, you do not need to do anything.
+如果你运行的是 Node.js 18+，则不需要做任何事情。
+
+
+

@@ -1,17 +1,15 @@
 ---
 sidebar_position: 1
-title: Multiple chains
+title: 多链操作
 hide_table_of_contents: true
 ---
+# 多链操作
 
-# Multiple chains
-
-Runnables can be used to combine multiple Chains together:
+可运行对象（Runnable） 可以用来组合多个 Chain：
 
 <details>
-  <summary>Interactive tutorial</summary>
-  The screencast below interactively walks through an example. You can update and
-  run the code as it's being written in the video!
+  <summary>交互式教程</summary>
+  下面的视频交互式地讲解了一个示例。你可以在视频中编写和运行代码！
   <iframe
     src="https://scrimba.com/scrim/co14344c29595bfb29c41f12a?embed=langchain,mini-header"
     width="100%"
@@ -21,9 +19,9 @@ Runnables can be used to combine multiple Chains together:
 
 import CodeBlock from "@theme/CodeBlock";
 
-import MultipleChainExample from "@examples/guides/expression_language/cookbook_multiple_chains.ts";
+import MultipleChainExample from "@examples/guides/expression\_language/cookbook\_multiple\_chains.ts";
 
-import IntegrationInstallTooltip from "@mdx_components/integration_install_tooltip.mdx";
+import IntegrationInstallTooltip from "@mdx\_components/integration\_install\_tooltip.mdx";
 
 <IntegrationInstallTooltip></IntegrationInstallTooltip>
 
@@ -33,15 +31,15 @@ npm install @langchain/anthropic
 
 <CodeBlock language="typescript">{MultipleChainExample}</CodeBlock>
 
-The `RunnableSequence` above coerces the object into a `RunnableMap`.
-Each property in the map receives the same parameters. The runnable or function set as the value of that property
-is invoked with those parameters, and the return value populates an object which is then passed onto the next runnable in the sequence.
+上面的 `RunnableSequence` 将对象强制转换为一个 `RunnableMap`。映射中的每个属性都接收相同的参数。将作为该属性值的 runnable 或函数使用这些参数调用，并返回的值填充一个对象，然后将该对象传递给序列中的下一个 runnable。
 
 ## Passthroughs
 
-In the example above, we use a passthrough in a runnable map to pass along original input variables to future steps in the chain.
+在上面的示例中，我们使用一个 Runnable Map 中的 passthrough 将原始输入变量传递给链中的后续步骤。
 
-In general, how exactly you do this depends on what exactly the input is:
+一般来说，如何做取决于输入的具体情况：
 
-- If the original input was a string, then you likely just want to pass along the string. This can be done with `RunnablePassthrough`. For an example of this, see the retrieval chain in the [RAG section](/docs/expression_language/cookbook/retrieval) of this cookbook.
-- If the original input was an object, then you likely want to pass along specific keys. For this, you can use an arrow function that takes the object as input and extracts the desired key, as shown above.
+- 如果原始输入是一个字符串，那么你可能只想传递字符串本身。这可以通过 `RunnablePassthrough` 实现。关于此的示例，请参阅本手册中 [RAG 部分](/docs/expression_language/cookbook/retrieval) 的检索链。
+- 如果原始输入是一个对象，那么你可能想要传递特定的键。为此，你可以使用一个箭头函数，该函数以对象作为输入并提取所需的键，就像上面的示例一样。
+
+

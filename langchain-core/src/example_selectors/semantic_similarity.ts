@@ -22,21 +22,21 @@ export type SemanticSimilarityExampleSelectorInput<
   V extends VectorStoreInterface = VectorStoreInterface
 > =
   | {
-      vectorStore: V;
-      k?: number;
-      filter?: V["FilterType"];
-      exampleKeys?: string[];
-      inputKeys?: string[];
-      vectorStoreRetriever?: never;
-    }
+    vectorStore: V;
+    k?: number;
+    filter?: V["FilterType"];
+    exampleKeys?: string[];
+    inputKeys?: string[];
+    vectorStoreRetriever?: never;
+  }
   | {
-      vectorStoreRetriever: VectorStoreRetrieverInterface<V>;
-      exampleKeys?: string[];
-      inputKeys?: string[];
-      vectorStore?: never;
-      k?: never;
-      filter?: never;
-    };
+    vectorStoreRetriever: VectorStoreRetrieverInterface<V>;
+    exampleKeys?: string[];
+    inputKeys?: string[];
+    vectorStore?: never;
+    k?: never;
+    filter?: never;
+  };
 
 /**
  * Class that selects examples based on semantic similarity. It extends
@@ -178,9 +178,9 @@ export class SemanticSimilarityExampleSelector<
       sortedValues(
         inputKeys
           ? inputKeys.reduce(
-              (acc, key) => ({ ...acc, [key]: example[key] }),
-              {} as Record<string, string>
-            )
+            (acc, key) => ({ ...acc, [key]: example[key] }),
+            {} as Record<string, string>
+          )
           : example
       ).join(" ")
     );

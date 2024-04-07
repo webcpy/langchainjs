@@ -1,13 +1,15 @@
 import CodeBlock from "@theme/CodeBlock";
-import DebuggingExample from "@examples/models/llm/llm_debugging.ts";
+import DebuggingExample from "@examples/models/llm/llm\_debugging.ts";
 
-# Subscribing to events
+# 订阅事件
 
-Especially when using an agent, there can be a lot of back-and-forth going on behind the scenes as a LLM processes a prompt. For agents, the response object contains an intermediateSteps object that you can print to see an overview of the steps it took to get there. If that's not enough and you want to see every exchange with the LLM, you can pass callbacks to the LLM for custom logging (or anything else you want to do) as the model goes through the steps:
 
-For more info on the events available see the [Callbacks](/docs/modules/callbacks/) section of the docs.
+尤其是在使用代理时，LLM处理提示时可能会有很多来回交互。
+对于代理，响应对象包含一个 intermediateSteps 对象，您可以打印它以查看它所采取的步骤概述。如果这还不够，并且您想要查看与LLM的每次交互，您可以在LLM中传递回调函数进行自定义日志记录（或任何其他您想要执行的操作）：
 
-import IntegrationInstallTooltip from "@mdx_components/integration_install_tooltip.mdx";
+有关可用事件的更多信息，请参阅文档的 [回调](/docs/modules/callbacks/) 部分。
+
+import IntegrationInstallTooltip from "@mdx\_components/integration\_install\_tooltip.mdx";
 
 <IntegrationInstallTooltip></IntegrationInstallTooltip>
 
@@ -16,3 +18,5 @@ npm install @langchain/openai @langchain/community
 ```
 
 <CodeBlock language="typescript">{DebuggingExample}</CodeBlock>
+
+

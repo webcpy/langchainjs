@@ -1,12 +1,15 @@
-# Select by similarity
+# 根据相似度选择
 
-This object selects examples based on similarity to the inputs. It does this by finding the examples with the embeddings that have the greatest cosine similarity with the inputs.
+该对象根据与输入的相似性选择示例。它通过找到具有与输入的嵌入向量之间最大余弦相似度的示例来实现这一点。
 
 import CodeBlock from "@theme/CodeBlock";
 import ExampleSimilarity from "@examples/prompts/semantic_similarity_example_selector.ts";
 
-The fields of the examples object will be used as parameters to format the `examplePrompt` passed to the `FewShotPromptTemplate`.
-Each example should therefore contain all required fields for the example prompt you are using.
+
+示例对象的字段将用作格式化传递给 `FewShotPromptTemplate` 的 `examplePrompt` 的参数。
+因此，每个示例应包含您正在使用的示例提示所需的所有字段。
+
+
 
 import IntegrationInstallTooltip from "@mdx_components/integration_install_tooltip.mdx";
 
@@ -18,26 +21,22 @@ npm install @langchain/openai @langchain/community
 
 <CodeBlock language="typescript">{ExampleSimilarity}</CodeBlock>
 
-By default, each field in the examples object is concatenated together, embedded, and stored in the vectorstore for
-later similarity search against user queries.
+默认情况下，示例对象中的每个字段都会被连接在一起，嵌入，并存储在向量存储中，
+以便稍后对用户查询进行相似度搜索。
 
-If you only want to embed specific keys
-(e.g., you only want to search for examples that have a similar query to the one the user provides), you can pass an `inputKeys`
-array in the final `options` parameter.
+如果您只想嵌入特定的键
+（例如，您只想搜索与用户提供的查询相似的示例），您可以在最后的 `options` 参数中传递一个 `inputKeys` 数组。
 
-## Loading from an existing vectorstore
+## 从现有的向量存储中加载
 
-You can also use a pre-initialized vector store by passing an instance to the `SemanticSimilarityExampleSelector` constructor
-directly, as shown below. You can also add more examples via the `addExample` method:
+您还可以通过直接将实例传递给 `SemanticSimilarityExampleSelector` 构造函数来使用预先初始化的向量存储，如下所示。您还可以通过 `addExample` 方法添加更多示例：
 
 import ExampleSimilarityFromExisting from "@examples/prompts/semantic_similarity_example_selector_from_existing.ts";
 
 <CodeBlock language="typescript">{ExampleSimilarityFromExisting}</CodeBlock>
 
-## Metadata filtering
-
-When adding examples, each field is available as metadata in the produced document. If you would like further control over your
-search space, you can add extra fields to your examples and pass a `filter` parameter when initializing your selector:
+## 元数据过滤
+在添加示例时，每个字段都作为生成的文档中的元数据可用。如果您希望进一步控制搜索空间，您可以向示例添加额外的字段，并在初始化选择器时传递一个`filter`器参数：
 
 import ExampleSimilarityMetadataFiltering from "@examples/prompts/semantic_similarity_example_selector_metadata_filtering.ts";
 
@@ -45,11 +44,11 @@ import ExampleSimilarityMetadataFiltering from "@examples/prompts/semantic_simil
   {ExampleSimilarityMetadataFiltering}
 </CodeBlock>
 
-## Custom vectorstore retrievers
+## 自定义向量存储检索器
+您还可以传递一个向量存储检索器而不是向量存储。这样做的一种方式是，如果您想要使用除相似性搜索之外的检索，比如最大边际相关性：
 
-You can also pass a vectorstore retriever instead of a vectorstore. One way this could be useful is if you want to use retrieval
-besides similarity search such as maximal marginal relevance:
 
 import ExampleSimilarityCustomRetriever from "@examples/prompts/semantic_similarity_example_selector_custom_retriever.ts";
 
 <CodeBlock language="typescript">{ExampleSimilarityCustomRetriever}</CodeBlock>
+

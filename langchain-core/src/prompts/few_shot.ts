@@ -106,8 +106,7 @@ export interface FewShotPromptTemplateInput
  */
 export class FewShotPromptTemplate
   extends BaseStringPromptTemplate
-  implements FewShotPromptTemplateInput
-{
+  implements FewShotPromptTemplateInput {
   lc_serializable = false;
 
   examples?: InputValues[];
@@ -333,14 +332,13 @@ export interface FewShotChatMessagePromptTemplateInput
  * @augments FewShotChatMessagePromptTemplateInput
  */
 export class FewShotChatMessagePromptTemplate<
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    RunInput extends InputValues = any,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    PartialVariableName extends string = any
-  >
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  RunInput extends InputValues = any,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  PartialVariableName extends string = any
+>
   extends BaseChatPromptTemplate
-  implements FewShotChatMessagePromptTemplateInput
-{
+  implements FewShotChatMessagePromptTemplateInput {
   lc_serializable = true;
 
   examples?: InputValues[];

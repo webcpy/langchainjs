@@ -35,7 +35,7 @@ const stream = await chain.stream({
   foo: "bears",
 });
 
-// Stream a diff as JSON patch operations
+// 流式传输一个 JSON 补丁操作的差异
 for await (const chunk of stream) {
   console.log(chunk);
 }

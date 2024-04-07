@@ -1,18 +1,37 @@
-# Cancelling requests
+# 取消请求
 
-You can cancel a LCEL request by binding a `signal`.
-
-import CodeBlock from "@theme/CodeBlock";
-import CancellationExample from "@examples/guides/expression_language/how_to_cancellation.ts";
-
-import IntegrationInstallTooltip from "@mdx_components/integration_install_tooltip.mdx";
-
-<IntegrationInstallTooltip></IntegrationInstallTooltip>
+您可以通过绑定一个 `signal` 来取消一个 LCEL 请求。
 
 ```bash npm2yarn
 npm install @langchain/openai
 ```
 
-<CodeBlock language="typescript">{CancellationExample}</CodeBlock>
+```typescript
+import { OpenAI } from '@langchain/openai';
+import { CancelController } from '@langchain/core';
 
-Note, this will only cancel the outgoing request if the underlying provider exposes that option. LangChain will cancel the underlying request if possible, otherwise it will cancel the processing of the response.
+const controller = new CancelController();
+const openai = new OpenAI({ cancelToken: controller.signal });
+
+const run = async () => {
+  const response = await openai.call(
+    'completions.create',
+    'The quick brown fox jumps'
+  );
+  console.log(response);
+
+  // 取消请求
+  controller.abort();
+};
+
+run().catch(console.error);
+```
+
+请注意，这仅在基础提供者暴露了该选项时才会取消输出请求。如果可能，LangChain将取消基础请求，否则将取消响应的处理。
+
+
+
+
+
+
+

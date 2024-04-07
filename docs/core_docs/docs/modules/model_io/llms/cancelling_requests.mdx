@@ -1,9 +1,9 @@
 import CodeBlock from "@theme/CodeBlock";
 import CancellationExample from "@examples/models/llm/llm_cancellation.ts";
 
-# Cancelling requests
+# 取消请求
 
-You can cancel a request by passing a `signal` option when you call the model. For example, for OpenAI:
+在调用模型时，通过传递一个 `signal` 选项，您可以取消一个请求。例如，对于 OpenAI：
 
 import IntegrationInstallTooltip from "@mdx_components/integration_install_tooltip.mdx";
 
@@ -15,4 +15,6 @@ npm install @langchain/openai
 
 <CodeBlock language="typescript">{CancellationExample}</CodeBlock>
 
-Note, this will only cancel the outgoing request if the underlying provider exposes that option. LangChain will cancel the underlying request if possible, otherwise it will cancel the processing of the response.
+注意，这只会在底层提供程序暴露该选项时取消传出请求。LangChain会尽可能取消底层请求，否则它将取消响应的处理。
+
+

@@ -1,20 +1,17 @@
 ---
 sidebar_position: 0
 ---
+# 字符串输出解析器
 
-# String output parser
+`StringOutputParser` 将语言模型的输出（可以是整个响应或流式传输）转换为字符串。这对于标准化聊天模型和LLM输出非常有用。
 
-The `StringOutputParser` takes language model output (either an entire response or as a stream) and converts
-it into a string. This is useful for standardizing chat model and LLM output.
+此输出解析器可以作为转换流，与模型的流式响应块一起工作。
 
-This output parser can act as a transform stream and work with streamed response chunks from a model.
 
-## Usage
+## 使用方法
 
 import CodeBlock from "@theme/CodeBlock";
 import StringExample from "@examples/prompts/string_output_parser.ts";
-
-import IntegrationInstallTooltip from "@mdx_components/integration_install_tooltip.mdx";
 
 <IntegrationInstallTooltip></IntegrationInstallTooltip>
 
@@ -23,3 +20,5 @@ npm install @langchain/openai
 ```
 
 <CodeBlock language="typescript">{StringExample}</CodeBlock>
+
+

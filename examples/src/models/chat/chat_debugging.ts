@@ -3,7 +3,7 @@ import { ChatOpenAI } from "@langchain/openai";
 import { HumanMessage } from "@langchain/core/messages";
 import { Serialized } from "@langchain/core/load/serializable";
 
-// We can pass in a list of CallbackHandlers to the LLM constructor to get callbacks for various events.
+// 我们可以将一系列 CallbackHandlers 传递给 LLM 构造函数，以获取各种事件的回调。
 const model = new ChatOpenAI({
   callbacks: [
     {

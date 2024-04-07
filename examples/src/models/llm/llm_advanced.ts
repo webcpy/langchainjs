@@ -1,20 +1,19 @@
 import { OpenAI } from "@langchain/openai";
 
 const model = new OpenAI({
-  // customize openai model that's used, `gpt-3.5-turbo-instruct` is the default
-  modelName: "gpt-3.5-turbo-instruct",
+  // 定制用于的OpenAI模型，默认为 gpt-3.5-turbo-instruct`  modelName: "gpt-3.5-turbo-instruct",
 
-  // `max_tokens` supports a magic -1 param where the max token length for the specified modelName
-  //  is calculated and included in the request to OpenAI as the `max_tokens` param
+  // `max_tokens支持一个特殊的参数-1，其中指定modelName的最大标记长度将被计算
+  //  并包含在请求到OpenAI的max_tokens参数中
   maxTokens: -1,
 
-  // use `modelKwargs` to pass params directly to the openai call
-  // note that OpenAI uses snake_case instead of camelCase
+  // 使用modelKwargs直接传递参数到openai调用
+  // 注意，OpenAI使用snake_case而不是camelCase
   modelKwargs: {
     user: "me",
   },
 
-  // for additional logging for debugging purposes
+  // 用于调试目的的额外日志记录
   verbose: true,
 });
 

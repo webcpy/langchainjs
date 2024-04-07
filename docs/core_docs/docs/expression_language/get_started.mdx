@@ -1,25 +1,24 @@
 ---
 sidebar_position: 0
-title: Get started
+title: 开始使用
 ---
-
 import CodeBlock from "@theme/CodeBlock";
-import BasicExample from "@examples/guides/expression_language/get_started/basic.ts";
-import BasicPromptExample from "@examples/guides/expression_language/get_started/prompt.ts";
-import BasicChatModelExample from "@examples/guides/expression_language/get_started/chat_model.ts";
-import BasicLLMModelExample from "@examples/guides/expression_language/get_started/llm_model.ts";
-import BasicOutputParserExample from "@examples/guides/expression_language/get_started/output_parser.ts";
-import BasicRagExample from "@examples/guides/expression_language/get_started/rag.ts";
+import BasicExample from "@examples/guides/expression\_language/get\_started/basic.ts";
+import BasicPromptExample from "@examples/guides/expression\_language/get\_started/prompt.ts";
+import BasicChatModelExample from "@examples/guides/expression\_language/get\_started/chat\_model.ts";
+import BasicLLMModelExample from "@examples/guides/expression\_language/get\_started/llm\_model.ts";
+import BasicOutputParserExample from "@examples/guides/expression\_language/get\_started/output\_parser.ts";
+import BasicRagExample from "@examples/guides/expression\_language/get\_started/rag.ts";
 
-# Get started
+# 开始使用
 
-LCEL makes it easy to build complex chains from basic components, and supports out of the box functionality such as streaming, parallelism, and logging.
+LCEL使得从基本组件构建复杂链条变得容易，并支持开箱即用的功能，例如流式处理、并行处理和日志记录。
 
-## Basic example: prompt + model + output parser
+## 基本示例：提示 + 模型 + 输出解析器
 
-The most basic and common use case is chaining a prompt template and a model together. To see how this works, let's create a chain that takes a topic and generates a joke:
+最基本和最常见的用例是将提示模板和模型链接在一起。为了了解它是如何工作的，让我们创建一个链条，它接受一个主题并生成一个笑话：
 
-import IntegrationInstallTooltip from "@mdx_components/integration_install_tooltip.mdx";
+import IntegrationInstallTooltip from "@mdx\_components/integration\_install\_tooltip.mdx";
 
 <IntegrationInstallTooltip></IntegrationInstallTooltip>
 
@@ -31,70 +30,72 @@ npm install @langchain/openai @langchain/community
 
 :::tip
 
-[LangSmith trace](https://smith.langchain.com/public/dcac6d79-5254-4889-a974-4b3abaf605b4/r)
+[LangSmith 跟踪](https://smith.langchain.com/public/dcac6d79-5254-4889-a974-4b3abaf605b4/r)
 
 :::
 
-Notice in this line we're chaining our prompt, LLM model and output parser together:
+注意在这一行中，我们将提示、LLM 模型和输出解析器串联在一起：
 
 ```typescript
 const chain = prompt.pipe(model).pipe(outputParser);
 ```
 
-The `.pipe()` method allows for chaining together any number of runnables. It will pass the output of one through to the input of the next.
+`.pipe()` 方法允许将任意数量的可运行对象串联起来。它将一个的输出传递给下一个的输入。
 
-Here, the prompt is passed a `topic` and when invoked it returns a formatted string with the `{topic}` input variable replaced with the string we passed to the invoke call.
-That string is then passed as the input to the LLM which returns a `BaseMessage` object. Finally, the output parser takes that `BaseMessage` object and returns the content of that object as a string.
+在这里，提示接收一个 `topic`，当被调用时，它返回一个格式化的字符串，其中的 `{topic}` 输入变量被替换为我们传递给调用调用的字符串。
+该字符串然后作为输入传递给 LLM，后者返回一个 `BaseMessage` 对象。最后，输出解析器取这个 `BaseMessage` 对象并返回该对象的内容作为一个字符串。
 
-### 1. Prompt
+### 1. 提示
 
-`prompt` is a `BasePromptTemplate`, which means it takes in an object of template variables and produces a `PromptValue`.
-A `PromptValue` is a wrapper around a completed prompt that can be passed to either an `LLM` (which takes a string as input) or `ChatModel` (which takes a sequence of messages as input).
-It can work with either language model type because it defines logic both for producing BaseMessages and for producing a string.
+`prompt` 是一个 `BasePromptTemplate`，这意味着它接收一个模板变量对象并产生一个 `PromptValue`。
+`PromptValue` 是一个完成的提示的包装器，可以传递给 `LLM`（它接收字符串作为输入）或 `ChatModel`（它接收一系列消息作为输入）。
+它可以与任一种语言模型类型一起工作，因为它定义了产生 BaseMessages 和产生字符串的逻辑。
 
 <CodeBlock language="typescript">{BasicPromptExample}</CodeBlock>
 
-### 2. Model
+### 2. 模型
 
-The `PromptValue` is then passed to `model`. In this case our `model` is a `ChatModel`, meaning it will output a `BaseMessage`.
+然后将 `PromptValue` 传递给 `model`。在这个例子中，我们的 `model` 是一个 `ChatModel`，这意味着它将输出一个 `BaseMessage`。
 
 <CodeBlock language="typescript">{BasicChatModelExample}</CodeBlock>
 
-If our model was an LLM, it would output a string.
+如果我们的模型是 LLM，它将输出一个字符串。
 
 <CodeBlock language="typescript">{BasicLLMModelExample}</CodeBlock>
 
-### 3. Output parser
+### 3. 输出解析器
 
-And lastly we pass our `model` output to the `outputParser`, which is a `BaseOutputParser` meaning it takes either a string or a `BaseMessage` as input. The `StringOutputParser` specifically simple converts any input into a string.
+最后，我们将 `model` 输出传递给 `outputParser`，它是一个 `BaseOutputParser`，意味着它可以接收字符串或 `BaseMessage` 作为输入。`StringOutputParser` 特殊地将任何输入转换为字符串。
 
 <CodeBlock language="typescript">{BasicOutputParserExample}</CodeBlock>
 
-## RAG Search Example
+## RAG 搜索示例
 
-For our next example, we want to run a retrieval-augmented generation chain to add some context when responding to questions.
+对于我们的下一个示例，我们想要运行一个检索增强生成链，以便在回答问题时添加一些上下文。
 
 <CodeBlock language="typescript">{BasicRagExample}</CodeBlock>
 
 :::tip
 
-[LangSmith trace](https://smith.langchain.com/public/f0205e20-c46f-47cd-a3a4-6a95451f8a25/r)
+[LangSmith 跟踪](https://smith.langchain.com/public/f0205e20-c46f-47cd-a3a4-6a95451f8a25/r)
 
 :::
 
-In this chain we add some extra logic around retrieving context from a vector store.
+在这个链中，我们在从向量存储检索上下文时添加了一些额外的逻辑。
 
-We first instantiated our model, vector store and output parser. Then we defined our prompt, which takes in two input variables:
+我们首先实例化了我们的模型、向量存储和输出解析器。然后我们定义了我们的提示，它接收两个输入变量：
 
-- `context` -> this is a string which is returned from our vector store based on a semantic search from the input.
-- `question` -> this is the question we want to ask.
+- `context` -> 这是从我们的向量存储基于语义搜索返回的字符串。
+- `question` -> 这是我们想要问的问题。
 
-Next we created a `setupAndRetriever` runnable. This has two components which return the values required by our prompt:
+下来我们创建了一个 `setupAndRetriever` 可运行对象。它包含两个组件，分别返回我们的提示所需的价值：
 
-- `context` -> this is a `RunnableLambda` which takes the input from the `.invoke()` call, makes a request to our vector store, and returns the first result.
-- `question` -> this uses a `RunnablePassthrough` which simply passes whatever the input was through to the next step, and in our case it returns it to the key in the object we defined.
+- `context` -> 这是一个 `RunnableLambda`，它接收来自 `.invoke()` 调用的输入，向我们的向量存储发出请求，并返回第一个结果。
+- `question` -> 这使用了一个 `RunnablePassthrough`，它只是简单地将输入传递到下一步，在我们的例子中，它将其返回到我们定义的对象中的键。
 
-Both of these are wrapped inside a `RunnableMap`. This is a special type of runnable that takes an object of runnables and executes them all in parallel.
-It then returns an object with the same keys as the input object, but with the values replaced with the output of the runnables.
+这两个组件都被包裹在一个 `RunnableMap` 中。这是一种特殊的可运行类型，它接受一个可运行对象集合，并并行执行它们。
+然后它返回一个与输入对象具有相同键的对象，但将值替换为可运行对象的输出。
 
-Finally, we pass the output of the `setupAndRetriever` to our `prompt` and then to our `model` and `outputParser` as before.
+最后，我们将 `setupAndRetriever` 的输出传递给我们的 `prompt`，然后像之前一样传递给 `model` 和 `outputParser`。
+
+

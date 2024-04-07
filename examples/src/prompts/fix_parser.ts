@@ -14,7 +14,7 @@ export const run = async () => {
         .describe("sources used to answer the question, should be websites."),
     })
   );
-  /** This is a bad output because sources is a string, not a list */
+  /** 这是一个不好的输出，因为 sources 是一个字符串，而不是一个列表。 */
   const badOutput = `\`\`\`json
   {
     "answer": "foo",
